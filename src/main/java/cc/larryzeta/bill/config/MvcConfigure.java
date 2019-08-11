@@ -1,6 +1,9 @@
 package cc.larryzeta.bill.config;
 
+import cc.larryzeta.bill.compoment.LoginHandlerInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -17,4 +20,18 @@ public class MvcConfigure implements WebMvcConfigurer {
         registry.addViewController("/register").setViewName("register");
         registry.addViewController("/register.html").setViewName("register");
     }
+
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+
+        return new WebMvcConfigurer() {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/login.html", "/register.html", "/user/login", "/static/**", "/webjars/**");
+            }
+
+        };
+
+    }
+
 }

@@ -19,7 +19,7 @@ public class LoginController {
             session.setAttribute("loginUser", username);
             return "redirect:/index.html";
         } else {
-            map.put("msg", "Invalid username or password");
+            map.put("msg", "Invalid username or password.");
             return "login";
         }
     }
