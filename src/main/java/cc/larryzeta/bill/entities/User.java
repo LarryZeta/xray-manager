@@ -1,5 +1,8 @@
 package cc.larryzeta.bill.entities;
 
+import lombok.Data;
+
+@Data
 public class User {
 
     private Integer uid;

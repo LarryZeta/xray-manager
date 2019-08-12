@@ -12,7 +12,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         Object user = request.getSession().getAttribute("loginUser");
         if(user == null) {
             request.setAttribute("msg", "Permission denied, log in first please.");
-            request.getRequestDispatcher("/login.html").forward(request, response);
+            response.sendRedirect("/login");
             return false;
         } else {
             return true;
