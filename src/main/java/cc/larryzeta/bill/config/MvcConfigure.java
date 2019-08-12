@@ -1,6 +1,7 @@
 package cc.larryzeta.bill.config;
 
 import cc.larryzeta.bill.compoment.LoginHandlerInterceptor;
+import cc.larryzeta.bill.compoment.SessionHandlerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -27,7 +28,10 @@ public class MvcConfigure implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
+                // before login
                 registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/user/login", "/css/**", "/js/**", "/webjars/**");
+                // after login
+                registry.addInterceptor(new SessionHandlerInterceptor()).addPathPatterns("/login", "/register", "/user/login");
             }
 
         };
