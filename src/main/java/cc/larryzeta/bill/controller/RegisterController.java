@@ -19,14 +19,22 @@ public class RegisterController {
     public String register(@RequestParam("username") String username,
                            @RequestParam("email") String email,
                            @RequestParam("password") String password,
+                           @RequestParam("retype-password")String retype,
                            Map<String, Object> map) {
-        User user = userService.getUserByEmail(email);
-        if (user == null) {
-
-            return "redirect:/login";
-        } else {
+        User exist = userService.getUserByEmail(email);
+        if (exist != null) {
             map.put("msg", "The email has been registered.");
             return "register";
+        } else if (!password.equals(retype)) {
+            map.put("msg", "Inconsistent password.");
+            return "register";
+        } else {
+            User user = new User();
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setPassword(password);
+            userService.registerUser(user);
+            return "redirect:/login";
         }
     }
 

@@ -6,4 +6,6 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
+    Integer registerUser(User user);
+
 }

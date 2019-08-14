@@ -5,8 +5,10 @@ import cc.larryzeta.bill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -29,6 +31,12 @@ public class LoginController {
             map.put("msg", "Invalid email or password.");
             return "login";
         }
+    }
+
+    @GetMapping(value = "/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("loginUser");
+        return "redirect:/login";
     }
 
 }
