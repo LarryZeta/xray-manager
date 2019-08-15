@@ -26,7 +26,7 @@ public class LoginController {
         User user = userService.getUserByEmail(email);
         if (!StringUtils.isEmpty(email) && user != null && user.getPassword().equals(password)) {
             session.setAttribute("loginUser", user.getUsername());
-            return "redirect:/index.html";
+            return "redirect:/pricing";
         } else {
             map.put("msg", "Invalid email or password.");
             return "login";
