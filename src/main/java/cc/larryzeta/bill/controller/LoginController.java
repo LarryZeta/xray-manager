@@ -1,14 +1,11 @@
 package cc.larryzeta.bill.controller;
 
-import cc.larryzeta.bill.entities.User;
 import cc.larryzeta.bill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -23,19 +20,16 @@ public class LoginController {
     public String login(@RequestParam("email") String email,
                         @RequestParam("password") String password,
                         Map<String, Object> map, HttpSession session) {
-        User user = userService.getUserByEmail(email);
-        if (!StringUtils.isEmpty(email) && user != null && user.getPassword().equals(password)) {
-            session.setAttribute("loginUser", user.getUsername());
+        if (userService.login(email, password, map, session)) {
             return "redirect:/pricing";
         } else {
-            map.put("msg", "Invalid email or password.");
             return "login";
         }
     }
 
     @GetMapping(value = "/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("loginUser");
+        userService.logout(session);
         return "redirect:/login";
     }
 

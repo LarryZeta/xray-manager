@@ -1,5 +1,6 @@
 package cc.larryzeta.bill.entities;
 
+import com.google.gson.Gson;
 import lombok.Data;
 
 @Data
@@ -13,13 +14,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "uid=" + uid +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isMember=" + isMember +
-                '}';
+        return new Gson().toJson(this);
     }
 
     public Integer getUid() {
