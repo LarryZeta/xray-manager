@@ -65,19 +65,19 @@ body {
 .layout-top-nav .main-footer {
   margin-left: 0;
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .content-wrapper,
   .main-footer {
     margin-left: 0;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .sidebar-collapse .content-wrapper,
   .sidebar-collapse .main-footer {
     margin-left: 0;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .sidebar-open .content-wrapper,
   .sidebar-open .main-footer {
     -webkit-transform: translate(230px, 0);
@@ -91,7 +91,7 @@ body {
   background-color: #ecf0f5;
   z-index: 800;
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .content-wrapper {
     min-height: calc(100vh - 151px);
   }
@@ -117,7 +117,7 @@ body {
 .fixed .right-side {
   padding-top: 50px;
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .fixed .content-wrapper,
   .fixed .right-side {
     padding-top: 100px;
@@ -239,7 +239,7 @@ a:focus {
     background: transparent;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .main-header .navbar-right {
     float: none;
   }
@@ -418,7 +418,7 @@ a:focus {
     line-height: 20px;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .main-header {
     position: relative;
   }
@@ -462,12 +462,12 @@ a:focus {
   -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .main-sidebar {
     padding-top: 100px;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .main-sidebar {
     -webkit-transform: translate(-230px, 0);
     -ms-transform: translate(-230px, 0);
@@ -475,7 +475,7 @@ a:focus {
     transform: translate(-230px, 0);
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .sidebar-collapse .main-sidebar {
     -webkit-transform: translate(-230px, 0);
     -ms-transform: translate(-230px, 0);
@@ -483,7 +483,7 @@ a:focus {
     transform: translate(-230px, 0);
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .sidebar-open .main-sidebar {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
@@ -596,7 +596,7 @@ a:focus {
 /*
  * Component: Sidebar Mini
  */
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .sidebar-mini.sidebar-collapse .content-wrapper,
   .sidebar-mini.sidebar-collapse .right-side,
   .sidebar-mini.sidebar-collapse .main-footer {
@@ -654,7 +654,7 @@ a:focus {
     margin-left: 50px;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right),
   .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
     display: block !important;
@@ -736,7 +736,7 @@ a:focus {
   padding-top: 50px;
   z-index: 1010;
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .control-sidebar {
     padding-top: 100px;
   }
@@ -752,7 +752,7 @@ a:focus {
 .control-sidebar-open .control-sidebar {
   right: 0;
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .control-sidebar-open .content-wrapper,
   .control-sidebar-open .right-side,
   .control-sidebar-open .main-footer {
@@ -791,7 +791,7 @@ a:focus {
   border-right: none;
   border-bottom: none;
 }
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .nav-tabs.control-sidebar-tabs {
     display: table;
   }
@@ -1190,7 +1190,7 @@ a:focus {
   margin-right: 10px;
   margin-top: -2px;
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .navbar-nav > .user-menu .user-image {
     float: none;
     margin-right: 0;
@@ -1555,7 +1555,7 @@ a:focus {
 .small-box:hover .icon {
   font-size: 95px;
 }
-@media (max-width: 767px) {
+@media (max-width: 575px) {
   .small-box {
     text-align: center;
   }
@@ -3016,7 +3016,7 @@ table.text-center th {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
   border: 0;
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .modal-content {
     -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
@@ -3308,7 +3308,7 @@ table.text-center th {
   width: 360px;
   margin: 7% auto;
 }
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .login-box,
   .register-box {
     width: 90%;

@@ -37,13 +37,37 @@
 </head>
 <body>
 
-    <div th:replace="commons/topbar::#topbar"></div>
+    <div th:replace="commons/topbar::#navbar1"></div>
 
+    <div class="container">
+        <h1>HTML5 Speedtest</h1>
 
-    <iframe src="https://www.spectrum.com/internet/speed-test.html" height="1000px" width="1500px"></iframe>
+        <h4>IP Address</h4>
+        <p id="ip"></p>
 
+        <h4>Download</h4>
+        <p id="download"></p>
 
-</div>
+        <h4>Upload</h4>
+        <p id="upload"></p>
+
+        <h4>Latency</h4>
+        <p id="ping"></p>
+
+        <script type="text/javascript">
+            var s=new Speedtest();
+            s.onupdate = function (data) { // when status is received, put the values in the appropriate fields
+                document.getElementById('download').textContent = data.dlStatus + ' Mbit/s'
+                document.getElementById('upload').textContent = data.ulStatus + ' Mbit/s'
+                document.getElementById('ping').textContent = data.pingStatus + ' ms, ' + data.jitterStatus + ' ms jitter'
+                document.getElementById('ip').textContent = data.clientIp
+            }
+            s.start(); // start the speedtest with default settings
+        </script>
+
+        <a href="https://github.com/adolfintel/speedtest">Source code</a>
+
+    </div>
 
 
 </body>
