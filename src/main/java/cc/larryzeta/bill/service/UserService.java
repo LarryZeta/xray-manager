@@ -1,7 +1,5 @@
 package cc.larryzeta.bill.service;
 
-import cc.larryzeta.bill.entities.User;
-
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 

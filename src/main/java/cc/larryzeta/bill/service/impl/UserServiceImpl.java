@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.getUserByEmail(email);
         if (!StringUtils.isEmpty(email) && user != null && user.getPassword().equals(password)) {
             session.setAttribute("loginUser", user.getUsername());
-            System.out.println(user);
             return true;
         } else {
             map.put("msg", "Invalid email or password.");

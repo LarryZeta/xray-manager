@@ -8,7 +8,7 @@ import java.util.Map;
 public class V2rayConfig {
 
     private Map<String, String> log;
-    private List<Object> inbounds;
+    private List<Map<String, Object>> inbounds;
     private List<Object> outbounds;
     private Map<String, Object> dns;
     private Map<String, Object> routing;
@@ -22,11 +22,11 @@ public class V2rayConfig {
         this.log = log;
     }
 
-    public List<Object> getInbounds() {
+    public List<Map<String, Object>> getInbounds() {
         return inbounds;
     }
 
-    public void setInbounds(List<Object> inbounds) {
+    public void setInbounds(List<Map<String, Object>> inbounds) {
         this.inbounds = inbounds;
     }
 
