@@ -37,38 +37,17 @@
 </head>
 <body>
 
-    <div th:replace="commons/topbar::#navbar1"></div>
+    <div th:replace="commons/topbar::#navbar"></div>
 
     <div class="container">
-        <h1>HTML5 Speedtest</h1>
 
-        <h4>IP Address</h4>
-        <p id="ip"></p>
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-4">Comming Soon</h1>
+        </div>
 
-        <h4>Download</h4>
-        <p id="download"></p>
-
-        <h4>Upload</h4>
-        <p id="upload"></p>
-
-        <h4>Latency</h4>
-        <p id="ping"></p>
-
-        <script type="text/javascript">
-            var s=new Speedtest();
-            s.onupdate = function (data) { // when status is received, put the values in the appropriate fields
-                document.getElementById('download').textContent = data.dlStatus + ' Mbit/s'
-                document.getElementById('upload').textContent = data.ulStatus + ' Mbit/s'
-                document.getElementById('ping').textContent = data.pingStatus + ' ms, ' + data.jitterStatus + ' ms jitter'
-                document.getElementById('ip').textContent = data.clientIp
-            }
-            s.start(); // start the speedtest with default settings
-        </script>
-
-        <a href="https://github.com/adolfintel/speedtest">Source code</a>
+        <div th:replace="commons/footer::#footer"></div>
 
     </div>
-
 
 </body>
 </html>

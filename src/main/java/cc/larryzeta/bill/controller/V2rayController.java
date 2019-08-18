@@ -14,8 +14,20 @@ public class V2rayController {
 
     @GetMapping(value = "/orders")
     public String getClients(Model model) {
-        v2rayService.getAllClients(model);
+        model.addAttribute("clients", v2rayService.getAllClients());
         return "orders";
+    }
+
+    @GetMapping(value = "/addClient")
+    public String addClient() {
+        v2rayService.addClient();
+        return "redirect:/orders";
+    }
+
+    @GetMapping(value = "/deleteClient")
+    public String deleteClient() {
+        v2rayService.deleteClient();
+        return "redirect:/orders";
     }
 
 }

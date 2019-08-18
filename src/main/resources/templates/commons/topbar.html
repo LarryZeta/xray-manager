@@ -17,32 +17,7 @@
         <a class="text-primary" href="https://getbootstrap.com/docs/4.3/examples/pricing/#" th:text="${session.loginUser}"></a>
     </div>
 
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" id="navbar">
-        <a class="navbar-brand" href="https://getbootstrap.com/docs/4.3/examples/navbars/#">Bill System</a>
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="navbar-collapse collapse" id="navbarsExample03" style="">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://getbootstrap.com/docs/4.3/examples/navbars/#" th:href="@{/pricing}">Pricing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://getbootstrap.com/docs/4.3/examples/navbars/#" th:href="@{/account}">Account <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://getbootstrap.com/docs/4.3/examples/navbars/#" th:href="@{/speedtest}">Speedtest</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://getbootstrap.com/docs/4.3/examples/navbars/#" th:href="@{/orders}">Orders</a>
-                </li>
-            </ul>
-            <a class="text-light" href="https://getbootstrap.com/docs/4.3/examples/pricing/#" th:text="${session.loginUser}"></a>
-        </div>
-    </nav>
-
-    <nav class="navbar navbar-expand-lg navbar-light shadow-sm" id="navbar1">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm" id="navbar">
         <div class="container">
             <a class="navbar-brand" href="#">Bill System</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">

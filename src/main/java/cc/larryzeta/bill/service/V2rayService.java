@@ -1,10 +1,16 @@
 package cc.larryzeta.bill.service;
 
 
-import org.springframework.ui.Model;
+import cc.larryzeta.bill.entities.Client;
+
+import java.util.List;
 
 public interface V2rayService {
 
-    Boolean getAllClients(Model model);
+    List<Client> getAllClients();
+
+    Boolean addClient();
+
+    Boolean deleteClient();
 
 }
