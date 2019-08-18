@@ -19,20 +19,20 @@
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm" id="navbar">
         <div class="container">
-            <a class="navbar-brand" href="#">Bill System</a>
+            <a class="navbar-brand" href="/">Bill System</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExample07">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" th:href="@{/pricing}">Pricing</a>
+                    <li class="nav-item active" th:class="${activeUri == 'pricing' ? 'nav-item active' : 'nav-item'}">
+                        <a class="nav-link" href="#" th:href="@{/pricing}">Pricing </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:class="${activeUri == 'speedtest' ? 'nav-item active' : 'nav-item'}">
                         <a class="nav-link" href="#" th:href="@{/speedtest}">Speedtest <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:class="${activeUri == 'orders' ? 'nav-item active' : 'nav-item'}">
                         <a class="nav-link" href="#" th:href="@{/orders}">Orders </a>
                     </li>
                 </ul>

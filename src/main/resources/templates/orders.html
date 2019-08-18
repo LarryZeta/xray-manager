@@ -37,7 +37,7 @@
 </head>
 <body>
 
-    <div th:replace="commons/topbar::#navbar"></div>
+    <div th:replace="commons/topbar::#navbar(activeUri='orders')"></div>
 
     <div class="container">
         <h2>
@@ -65,7 +65,6 @@
                     <td>[[${client.alterId}]]</td>
                     <td>[[${client.email}]]</td>
                     <td>
-                        <button class="btn btn-sm btn-primary">Edit</button>
                         <button class="btn btn-sm btn-danger">Delete</button>
                     </td>
                 </tr>
