@@ -20,6 +20,7 @@ public class MvcConfigure implements WebMvcConfigurer {
         registry.addViewController("/register.html").setViewName("register");
         registry.addViewController("/pricing").setViewName("pricing");
         registry.addViewController("/speedtest").setViewName("speedtest");
+        registry.addViewController("/pay").setViewName("pay");
     }
 
     @Bean
@@ -29,9 +30,9 @@ public class MvcConfigure implements WebMvcConfigurer {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
                 // before login
-//                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/user/login", "/user/register", "/css/**", "/js/**", "/webjars/**");
+                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/user/login", "/user/register", "/css/**", "/js/**", "/webjars/**");
                 // after login
-//                registry.addInterceptor(new SessionHandlerInterceptor()).addPathPatterns("/login", "/register", "/user/login");
+                registry.addInterceptor(new SessionHandlerInterceptor()).addPathPatterns("/login", "/register", "/user/login");
             }
 
         };

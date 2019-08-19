@@ -23,8 +23,8 @@ public class V2rayServiceImpl implements V2rayService {
     }
 
     @Override
-    public Boolean deleteClient() {
-        return v2rayDAO.deleteClient("zly949173445@gmail.com");
+    public Boolean deleteClient(String email) {
+        return v2rayDAO.deleteClient(email);
     }
 
 

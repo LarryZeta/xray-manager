@@ -4,7 +4,9 @@ import cc.larryzeta.bill.service.V2rayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class V2rayController {
@@ -24,9 +26,9 @@ public class V2rayController {
         return "redirect:/orders";
     }
 
-    @GetMapping(value = "/deleteClient")
-    public String deleteClient() {
-        v2rayService.deleteClient();
+    @DeleteMapping(value = "/client/{email}")
+    public String deleteClient(@PathVariable("email")String email) {
+        v2rayService.deleteClient(email);
         return "redirect:/orders";
     }
 

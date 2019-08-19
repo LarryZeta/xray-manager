@@ -47,7 +47,7 @@
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">Month</h4>
                 </div>
-                <div class="card-body">
+                <form class="card-body" th:action="@{/pay}">
                     <h1 class="card-title pricing-card-title">￥10 <small class="text-muted">/ mo</small></h1>
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>us line</li>
@@ -55,14 +55,14 @@
                         <li>Email support</li>
                         <li>Help center access</li>
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Get Started</button>
-                </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Get Started</button>
+                </form>
             </div>
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">Half Year</h4>
                 </div>
-                <div class="card-body">
+                <form class="card-body" th:action="@{/pay}">
                     <h1 class="card-title pricing-card-title">￥50 <small class="text-muted">/ hy</small></h1>
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>20 users included</li>
@@ -70,14 +70,14 @@
                         <li>Priority email support</li>
                         <li>Help center access</li>
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-                </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Get started</button>
+                </form>
             </div>
             <div class="card mb-4 shadow-sm">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">Year</h4>
                 </div>
-                <div class="card-body">
+                <form class="card-body" th:action="@{/pay}">
                     <h1 class="card-title pricing-card-title">￥90 <small class="text-muted">/ yr</small></h1>
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>30 users included</li>
@@ -85,8 +85,8 @@
                         <li>Phone and email support</li>
                         <li>Help center access</li>
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-                </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">Get started</button>
+                </form>
             </div>
         </div>
 

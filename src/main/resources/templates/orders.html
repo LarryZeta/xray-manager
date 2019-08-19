@@ -42,7 +42,6 @@
     <div class="container">
         <h2>
             <a class="btn btn-sm btn-success" href="#" th:href="@{/addClient}">Add Client</a>
-            <a class="btn btn-sm btn-danger" href="#" th:href="@{/deleteClient}">Delete Client</a>
         </h2>
 
         <div class="table-responsive">
@@ -65,7 +64,11 @@
                     <td>[[${client.alterId}]]</td>
                     <td>[[${client.email}]]</td>
                     <td>
-                        <button class="btn btn-sm btn-danger">Delete</button>
+                        <form th:action="@{/client/}+${client.email}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                        </form>
+
                     </td>
                 </tr>
                 </tbody>
