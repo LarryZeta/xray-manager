@@ -22,7 +22,7 @@ public class V2rayController {
 
     @GetMapping(value = "/addClient")
     public String addClient() {
-        v2rayService.addClient();
+        v2rayService.addClient("zly949173445@gmail.com");
         return "redirect:/orders";
     }
 

@@ -3,6 +3,7 @@ package cc.larryzeta.bill.service.impl;
 import cc.larryzeta.bill.dao.V2rayDAO;
 import cc.larryzeta.bill.entities.Client;
 import cc.larryzeta.bill.service.V2rayService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,12 @@ public class V2rayServiceImpl implements V2rayService {
     }
 
     @Override
-    public Boolean addClient() {
-        return v2rayDAO.addClient("zly949173445@gmail.com");
+    public Boolean addClient(String email) {
+        if (v2rayDAO.findClient(email)) {
+            return false;
+        } else {
+            return v2rayDAO.addClient(email);
+        }
     }
 
     @Override

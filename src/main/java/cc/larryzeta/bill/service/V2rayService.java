@@ -9,7 +9,7 @@ public interface V2rayService {
 
     List<Client> getAllClients();
 
-    Boolean addClient();
+    Boolean addClient(String email);
 
     Boolean deleteClient(String email);
 

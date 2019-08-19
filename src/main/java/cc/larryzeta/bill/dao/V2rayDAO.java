@@ -3,6 +3,11 @@ package cc.larryzeta.bill.dao;
 import cc.larryzeta.bill.entities.Client;
 import cc.larryzeta.bill.entities.V2rayConfig;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,10 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
 public class V2rayDAO {
 
-    private static final String path = "C:/Users/zly/Desktop/config.json";
+    private static final String path = "C:/Users/zhanglingyu/Desktop/test/config.json";
 
     public V2rayConfig getV2rayConfig() {
 
@@ -61,6 +65,20 @@ public class V2rayDAO {
 
         return clients;
 
+    }
+
+    public Boolean findClient(String email) {
+
+        V2rayConfig v2rayConfig = getV2rayConfig();
+        Map<String, List<Map<String, Object>>> settings = (Map<String, List<Map<String, Object>>>) v2rayConfig.getInbounds().get(0).get("settings");
+        List<Map<String, Object>> list = settings.get("clients");
+        for (Map<String, Object> map : list) {
+            if (email.equals(map.get("email"))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Boolean addClient(String email) {
