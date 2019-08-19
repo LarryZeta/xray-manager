@@ -5,6 +5,7 @@ import cc.larryzeta.bill.entities.Client;
 import cc.larryzeta.bill.service.V2rayService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -22,13 +23,30 @@ public class V2rayServiceImpl implements V2rayService {
         if (v2rayDAO.findClient(email)) {
             return false;
         } else {
-            return v2rayDAO.addClient(email);
+            try {
+                v2rayDAO.addClient(email);
+                Process process = Runtime.getRuntime().exec("service v2ray restart");
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 
     @Override
     public Boolean deleteClient(String email) {
-        return v2rayDAO.deleteClient(email);
+
+        try {
+            if(v2rayDAO.deleteClient(email)) {
+                Process process = Runtime.getRuntime().exec("service v2ray restart");
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
 

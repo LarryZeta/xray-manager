@@ -82,8 +82,8 @@ public class V2rayDAO {
         String uuid = UUID.randomUUID().toString();
         Map<String, Object> map = new HashMap<>();
         map.put("id", uuid);
-        map.put("level", 1.0);
-        map.put("alterId", 16.0);
+        map.put("level", 1);
+        map.put("alterId", 16);
         map.put("email", email);
         Map<String, List<Map<String, Object>>> settings = (Map<String, List<Map<String, Object>>>) v2rayConfig.getInbounds().get(0).get("settings");
         settings.get("clients").add(map);

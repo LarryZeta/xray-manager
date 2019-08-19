@@ -9,8 +9,8 @@ import java.util.Map;
 public class Client {
 
     private String id;
-    private Double level;
-    private Double alterId;
+    private Integer level;
+    private Integer alterId;
     private String email;
 
     @Override
@@ -20,8 +20,10 @@ public class Client {
 
     public Client(Map<String, Object> map) {
         this.id = (String) map.get("id");
-        this.level = (Double) map.get("level");
-        this.alterId = (Double) map.get("alterId");
+        Double level = (Double) map.get("level");
+        this.level = level.intValue();
+        Double alterId = (Double) map.get("alterId");
+        this.alterId = alterId.intValue();
         this.email = (String) map.get("email");
     }
 
