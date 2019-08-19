@@ -1,6 +1,5 @@
 package cc.larryzeta.bill.service;
 
-
 import cc.larryzeta.bill.entities.Client;
 
 import java.util.List;

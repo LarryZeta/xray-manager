@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.getUserByEmail(email);
         if (!StringUtils.isEmpty(email) && user != null && user.getPassword().equals(password)) {
             session.setAttribute("loginUser", user.getUsername());
+            session.setAttribute("uid", user.getUid());
             return true;
         } else {
             map.put("msg", "Invalid email or password.");
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void logout(HttpSession session) {
         session.removeAttribute("loginUser");
+        session.removeAttribute("uid");
     }
 
     @Override

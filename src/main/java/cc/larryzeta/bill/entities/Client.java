@@ -1,47 +1,17 @@
 package cc.larryzeta.bill.entities;
 
 import com.google.gson.Gson;
+import lombok.Data;
 
 import java.util.Map;
 
+@Data
 public class Client {
 
     private String id;
     private Double level;
     private Double alterId;
     private String email;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Double getLevel() {
-        return level;
-    }
-
-    public void setLevel(Double level) {
-        this.level = level;
-    }
-
-    public Double getAlterId() {
-        return alterId;
-    }
-
-    public void setAlterId(Double alterId) {
-        this.alterId = alterId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     @Override
     public String toString() {

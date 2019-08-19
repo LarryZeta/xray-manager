@@ -3,11 +3,6 @@ package cc.larryzeta.bill.dao;
 import cc.larryzeta.bill.entities.Client;
 import cc.larryzeta.bill.entities.V2rayConfig;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

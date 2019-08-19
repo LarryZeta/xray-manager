@@ -3,14 +3,15 @@ package cc.larryzeta.bill.entities;
 import com.google.gson.Gson;
 import lombok.Data;
 
+import java.sql.Date;
+
 @Data
-public class User {
+public class Order {
 
     private Integer uid;
-    private String username;
-    private String email;
-    private String password;
-    private Boolean isAdmin;
+    private Boolean isActivated;
+    private Date activationDate;
+    private Date expireDate;
 
     @Override
     public String toString() {

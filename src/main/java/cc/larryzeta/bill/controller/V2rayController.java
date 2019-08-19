@@ -14,22 +14,22 @@ public class V2rayController {
     @Autowired
     V2rayService v2rayService;
 
-    @GetMapping(value = "/orders")
+    @GetMapping(value = "/clients")
     public String getClients(Model model) {
         model.addAttribute("clients", v2rayService.getAllClients());
-        return "orders";
+        return "clients";
     }
 
     @GetMapping(value = "/addClient")
     public String addClient() {
         v2rayService.addClient("zly949173445@gmail.com");
-        return "redirect:/orders";
+        return "redirect:/clients";
     }
 
     @DeleteMapping(value = "/client/{email}")
     public String deleteClient(@PathVariable("email")String email) {
         v2rayService.deleteClient(email);
-        return "redirect:/orders";
+        return "redirect:/clients";
     }
 
 }

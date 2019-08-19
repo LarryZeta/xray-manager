@@ -3,7 +3,6 @@ package cc.larryzeta.bill.service.impl;
 import cc.larryzeta.bill.dao.V2rayDAO;
 import cc.larryzeta.bill.entities.Client;
 import cc.larryzeta.bill.service.V2rayService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

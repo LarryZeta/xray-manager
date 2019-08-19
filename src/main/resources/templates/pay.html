@@ -35,16 +35,20 @@
 <body>
     <div th:replace="commons/topbar::#navbar(activeUri='pricing')"></div>
 
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <img th:src="@{/images/alipay.jpg}">
+    <form class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" th:action="@{/order/}+${session.uid}" method="post">
+        <button type="submit">
+            <img th:src="@{/images/alipay.jpg}">
+        </button>
+    </form>
 
-    </div>
-
+<!--    TODO 调整样式 点击那条居中  -->
     <div class="container">
+        <div class="card-deck mb-3 text-center">
+            <h3 class="display-5">点击二维码确认提交订单</h3>
+        </div>
         <div class="card-deck mb-3 text-center">
             <h3 class="display-5">支付宝拿API太麻烦了所以就简单搞了个收款码，我手动确认后订单生效</h3>
         </div>
-
         <div th:replace="commons/footer::#footer"></div>
     </div>
 
