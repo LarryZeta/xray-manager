@@ -13,17 +13,11 @@ public class Client {
     private Integer alterId;
     private String email;
 
-    @Override
-    public String toString() {
-        return new Gson().toJson(this);
-    }
 
     public Client(Map<String, Object> map) {
         this.id = (String) map.get("id");
-        Double level = (Double) map.get("level");
-        this.level = level.intValue();
-        Double alterId = (Double) map.get("alterId");
-        this.alterId = alterId.intValue();
+        this.level = (Integer) map.get("level");
+        this.alterId = (Integer) map.get("alterId");
         this.email = (String) map.get("email");
     }
 

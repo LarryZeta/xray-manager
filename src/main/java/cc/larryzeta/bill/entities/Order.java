@@ -13,9 +13,4 @@ public class Order {
     private Date activationDate;
     private Date expireDate;
 
-    @Override
-    public String toString() {
-        return new Gson().toJson(this);
-    }
-
 }

@@ -12,9 +12,4 @@ public class User {
     private String password;
     private Boolean isAdmin;
 
-    @Override
-    public String toString() {
-        return new Gson().toJson(this);
-    }
-
 }

@@ -16,10 +16,5 @@ public class V2rayConfig {
     private Map<String, Object> routing;
     private Map<String, Object> transport;
 
-    @Override
-    public String toString() {
-        return new Gson().toJson(this);
-    }
-
 
 }
