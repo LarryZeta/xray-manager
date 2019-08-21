@@ -6,8 +6,8 @@ import cc.larryzeta.bill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -23,17 +23,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Boolean addOrder(Integer uid, Integer days) {
-
-        Order order = orderDAO.findOrderByUid(uid);
-        if (order == null) {
-            order = new Order();
-            order.setExpireDate(new Date(System.currentTimeMillis()));
-        } else {
-
-        }
-        order.setIsActivated(false);
-        return true;
+    public List<Order> getNotActiveOrders() {
+        return orderDAO.getNotActiveOrders();
     }
+
+    @Override
+    public Integer addOrder(Integer uid, Integer days) {
+        return orderDAO.addOrder(UUID.randomUUID().toString(), uid, days);
+    }
+
+
 
 }

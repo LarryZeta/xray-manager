@@ -8,6 +8,8 @@ public interface OrderService {
 
     List<Order> getAllOrders();
 
-    Boolean addOrder(Integer uid, Integer dayes);
+    List<Order> getNotActiveOrders();
+
+    Integer addOrder(Integer uid, Integer dayes);
 
 }

@@ -11,13 +11,13 @@ import java.util.List;
 @Mapper
 public interface UserDAO {
 
-    @Select(value = "SELECT * FROM user")
+    @Select(value = "SELECT * FROM `user`")
     List<User> getAllUsers();
 
-    @Select(value = "SELECT * FROM user WHERE user.email = #{email}")
-    User getUserByEmail(@Param("email")String email);
+    @Select(value = "SELECT * FROM `user` WHERE user.email = #{email}")
+    User getUserByEmail(@Param("email") String email);
 
-    @Insert(value = "INSERT INTO user (user.`username`, user.`email`, user.`password` ) VALUE (#{username}, #{email}, #{password})")
+    @Insert(value = "INSERT INTO `user` (username, email, password) VALUE (#{username}, #{email}, #{password})")
     Integer registerUser(User user);
 
 }

@@ -35,6 +35,9 @@
                     <li class="nav-item" th:class="${activeUri == 'clients' ? 'nav-item active' : 'nav-item'}">
                         <a class="nav-link" href="#" th:href="@{/clients}">Clients </a>
                     </li>
+                    <li class="nav-item" th:class="${activeUri == 'orders' ? 'nav-item active' : 'nav-item'}">
+                        <a class="nav-link" href="#" th:href="@{/orders}">Orders </a>
+                    </li>
                 </ul>
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${session.loginUser}"></a>

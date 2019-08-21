@@ -1,16 +1,14 @@
 package cc.larryzeta.bill.entities;
 
-import com.google.gson.Gson;
 import lombok.Data;
 
-import java.sql.Date;
 
 @Data
 public class Order {
 
+    private String oid;
     private Integer uid;
+    private Integer days;
     private Boolean isActivated;
-    private Date activationDate;
-    private Date expireDate;
 
 }

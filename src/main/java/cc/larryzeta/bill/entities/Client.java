@@ -1,6 +1,5 @@
 package cc.larryzeta.bill.entities;
 
-import com.google.gson.Gson;
 import lombok.Data;
 
 import java.util.Map;
