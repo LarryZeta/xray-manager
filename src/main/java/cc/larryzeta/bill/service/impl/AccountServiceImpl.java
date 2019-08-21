@@ -1,6 +1,7 @@
 package cc.larryzeta.bill.service.impl;
 
 import cc.larryzeta.bill.dao.AccountDAO;
+import cc.larryzeta.bill.dao.OrderDAO;
 import cc.larryzeta.bill.entities.Account;
 import cc.larryzeta.bill.entities.Order;
 import cc.larryzeta.bill.service.AccountService;
@@ -18,6 +19,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     AccountDAO accountDAO;
+    @Autowired
+    OrderDAO orderDAO;
 
     @Override
     public Integer activeOrder(Order order) {
@@ -34,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
             calendar.setTime(currentDate);
             calendar.add(calendar.DATE, order.getDays());
             account.setExpireDate(new Date(calendar.getTimeInMillis()));
-            order.setIsActivated(true);
+            orderDAO.setActiveated(order.getOid());
             return accountDAO.addAccount(account);
         } else {
             Date expireDate = account.getExpireDate();
@@ -42,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
             calendar.setTime(expireDate);
             calendar.add(calendar.DATE, order.getDays());
             account.setExpireDate(new Date(calendar.getTimeInMillis()));
-            order.setIsActivated(true);
+            orderDAO.setActiveated(order.getOid());
             return accountDAO.updateAccount(account);
         }
 

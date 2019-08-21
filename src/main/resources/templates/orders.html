@@ -62,13 +62,7 @@
                     <td>[[${order.uid}]]</td>
                     <td>[[${order.days}]]</td>
                     <td>
-<!--                        有问题  -->
-                        <form th:action="@{/order}" method="post">
-                            <input type="hidden" name="uid" value="${order.uid}">
-                            <input type="hidden" name="days" value="${order.days}">
-                            <button class="btn btn-sm btn-success" type="submit">Active</button>
-                        </form>
-
+                        <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}">Active</a>
                     </td>
                 </tr>
                 </tbody>

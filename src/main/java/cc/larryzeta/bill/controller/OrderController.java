@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.websocket.server.PathParam;
 
+
 @Controller
 public class OrderController {
 
@@ -28,11 +29,9 @@ public class OrderController {
         return "orders";
     }
 
-    @PostMapping(value = "/order")
-    public String activeOrder(@RequestParam("uid")String uid, @RequestParam("days")String days) {
-        Order order = new Order();
-        order.setUid(Integer.parseInt(uid));
-        order.setDays(Integer.parseInt(days));
+    @GetMapping(value = "/order/{oid}")
+    public String activeOrder(@PathVariable("oid")String oid) {
+        Order order = orderService.getOrderByOid(oid);
         accountService.activeOrder(order);
         return "redirect:/orders";
     }

@@ -28,6 +28,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getOrderByOid(String oid) {
+        return orderDAO.getOrderByOid(oid);
+    }
+
+    @Override
     public Integer addOrder(Integer uid, Integer days) {
         return orderDAO.addOrder(UUID.randomUUID().toString(), uid, days);
     }
