@@ -30,12 +30,18 @@ public class OrderController {
 
     @GetMapping(value = "/orders")
     public String toOrders(Model model) {
-        model.addAttribute("orders", orderService.getNotActiveOrders());
+        model.addAttribute("orders", orderService.getAllOrders());
+        return "orders";
+    }
+
+    @GetMapping(value = "/orders/{uid}")
+    public String toUserOrders(Model model, @PathVariable("uid") Integer uid) {
+        model.addAttribute("orders", orderService.getOrdersByUid(uid));
         return "orders";
     }
 
     @GetMapping(value = "/order/{oid}")
-    public String activeOrder(@PathVariable("oid")String oid) {
+    public String activeOrder(@PathVariable("oid") String oid) {
         Order order = orderService.getOrderByOid(oid);
         Integer uid = order.getUid();
         accountService.activeOrder(order);
@@ -51,10 +57,10 @@ public class OrderController {
     }
 
     @PostMapping(value = "/order")
-    public String addOrder(@RequestParam("uid")Integer uid,
+    public String addOrder(@RequestParam("uid") Integer uid,
                            @RequestParam("days") Integer days) {
         orderService.addOrder(uid, days);
-        return "redirect:/orders";
+        return "redirect:/orders/" + uid;
     }
 
 }

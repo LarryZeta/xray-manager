@@ -40,9 +40,9 @@
     <div th:replace="commons/topbar::#navbar(activeUri='orders')"></div>
 
     <div class="container">
-        <h2>
-            <a class="btn btn-sm btn-success" href="#" th:href="@{/addClient}">Add Client</a>
-        </h2>
+<!--        <h2>-->
+<!--            <span class="text">Orders</span>-->
+<!--        </h2>-->
 
         <div class="table-responsive">
             <table class="table table-striped table-sm">
@@ -52,7 +52,7 @@
                     <th>oid</th>
                     <th>uid</th>
                     <th>days</th>
-                    <th>action</th>
+                    <th>state</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,7 +62,9 @@
                     <td>[[${order.uid}]]</td>
                     <td>[[${order.days}]]</td>
                     <td>
-                        <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}">Active</a>
+                        <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}" th:if="${session.loginUser == 'admin' && !order.isActivated}">Active</a>
+                        <span class="text text-warning" th:if="${session.loginUser != 'admin' && !order.isActivated}">Inactivated</span>
+                        <span class="text text-success" th:if="${order.isActivated}">Activated</span>
                     </td>
                 </tr>
                 </tbody>

@@ -28,6 +28,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrdersByUid(Integer uid) {
+        return orderDAO.getOrdersByUid(uid);
+    }
+
+    @Override
     public Order getOrderByOid(String oid) {
         return orderDAO.getOrderByOid(oid);
     }

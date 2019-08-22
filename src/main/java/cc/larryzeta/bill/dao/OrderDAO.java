@@ -19,7 +19,7 @@ public interface OrderDAO {
     Order getOrderByOid(@Param("oid") String oid);
 
     @Select(value = "SELECT * FROM `order` WHERE uid = #{uid}")
-    Order getOrderByUid(@Param("uid") Integer uid);
+    List<Order> getOrdersByUid(@Param("uid") Integer uid);
 
     @Insert(value = "INSERT INTO `order` (oid, uid, days) VALUE (#{oid}, #{uid}, #{days})")
     Integer addOrder(@PathParam("oid") String oid, @PathParam("uid") Integer uid,@PathParam("days") Integer days);

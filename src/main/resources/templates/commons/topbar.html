@@ -32,11 +32,12 @@
                     <li class="nav-item" th:class="${activeUri == 'speedtest' ? 'nav-item active' : 'nav-item'}">
                         <a class="nav-link" href="#" th:href="@{/speedtest}">Speedtest <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item" th:class="${activeUri == 'clients' ? 'nav-item active' : 'nav-item'}">
+                    <li class="nav-item" th:class="${activeUri == 'clients' ? 'nav-item active' : 'nav-item'}" th:if="${session.loginUser == 'admin'}">
                         <a class="nav-link" href="#" th:href="@{/clients}">Clients </a>
                     </li>
                     <li class="nav-item" th:class="${activeUri == 'orders' ? 'nav-item active' : 'nav-item'}">
-                        <a class="nav-link" href="#" th:href="@{/orders}">Orders </a>
+                        <a class="nav-link" href="#" th:href="@{/orders}" th:if="${session.loginUser == 'admin'}">Orders </a>
+                        <a class="nav-link" href="#" th:href="@{/orders/}+${session.uid}" th:if="${session.loginUser != 'admin'}">Orders </a>
                     </li>
                 </ul>
                 <div class="dropdown">

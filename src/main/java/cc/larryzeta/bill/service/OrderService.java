@@ -10,6 +10,8 @@ public interface OrderService {
 
     List<Order> getNotActiveOrders();
 
+    List<Order> getOrdersByUid(Integer uid);
+
     Order getOrderByOid(String oid);
 
     Integer addOrder(Integer uid, Integer dayes);
