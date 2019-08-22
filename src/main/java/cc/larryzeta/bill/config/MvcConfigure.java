@@ -1,5 +1,6 @@
 package cc.larryzeta.bill.config;
 
+import cc.larryzeta.bill.compoment.AdminHandlerInterceptor;
 import cc.larryzeta.bill.compoment.LoginHandlerInterceptor;
 import cc.larryzeta.bill.compoment.SessionHandlerInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,9 @@ public class MvcConfigure implements WebMvcConfigurer {
                 registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/user/login", "/user/register", "/css/**", "/js/**", "/webjars/**");
                 // after login
                 registry.addInterceptor(new SessionHandlerInterceptor()).addPathPatterns("/login", "/register", "/user/login");
+                // isAdmin
+                registry.addInterceptor(new AdminHandlerInterceptor()).addPathPatterns("/orders", "/clients", "/addClient");
+
             }
 
         };

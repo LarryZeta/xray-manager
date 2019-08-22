@@ -11,4 +11,6 @@ public interface UserService {
 
     Boolean register(String username, String email, String password, String retype, Map<String, Object> map);
 
+    Boolean isAdmin(Integer uid);
+
 }

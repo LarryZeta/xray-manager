@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
             return true;
         }
     }
+
+    @Override
+    public Boolean isAdmin(Integer uid) {
+        return userDAO.getUserByUid(uid).getIsAdmin();
+    }
 }
