@@ -34,7 +34,7 @@ public class MvcConfigure implements WebMvcConfigurer {
                 // after login
                 registry.addInterceptor(new SessionHandlerInterceptor()).addPathPatterns("/login", "/register", "/user/login");
                 // isAdmin
-                registry.addInterceptor(new AdminHandlerInterceptor()).addPathPatterns("/orders", "/clients", "/addClient");
+                registry.addInterceptor(new AdminHandlerInterceptor()).addPathPatterns("/orders", "/clients", "/addClient", "/users");
 
             }
 

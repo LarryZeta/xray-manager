@@ -37,13 +37,16 @@
                     </li>
                     <li class="nav-item" th:class="${activeUri == 'orders' ? 'nav-item active' : 'nav-item'}">
                         <a class="nav-link" href="#" th:href="@{/orders}" th:if="${session.loginUser == 'admin'}">Orders </a>
-                        <a class="nav-link" href="#" th:href="@{/orders/}+${session.uid}" th:if="${session.loginUser != 'admin'}">Orders </a>
+                        <a class="nav-link" href="#" th:href="@{/user/orders}" th:if="${session.loginUser != 'admin'}">Orders </a>
+                    </li>
+                    <li class="nav-item" th:class="${activeUri == 'users' ? 'nav-item active' : 'nav-item'}" th:if="${session.loginUser == 'admin'}">
+                        <a class="nav-link" href="#" th:href="@{/users}">Users </a>
                     </li>
                 </ul>
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${session.loginUser}"></a>
                     <div class="dropdown-menu" aria-labelledby="dropdown07">
-                        <a class="dropdown-item" href="#">Account</a>
+                        <a class="dropdown-item" href="#" th:href="@{/account}">Account</a>
                         <a class="dropdown-item" href="#" th:href="@{/logout}">Sign out</a>
                     </div>
                 </div>

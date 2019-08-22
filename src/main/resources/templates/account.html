@@ -37,36 +37,52 @@
 </head>
 <body>
 
-    <div th:replace="commons/topbar::#navbar(activeUri='clients')"></div>
+    <div th:replace="commons/topbar::#navbar(activeUri='orders')"></div>
 
     <div class="container">
 
         <div class="table-responsive">
-            <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>id</th>
-                        <th>level</th>
-                        <th>alterId</th>
-                        <th>email</th>
-                        <th>action</th>
-                    </tr>
-                </thead>
+            <table class="table table-striped">
                 <tbody>
-                    <tr th:each="client:${clients}">
-                        <td></td>
-                        <td th:text="${client.id}"></td>
-                        <td>[[${client.level}]]</td>
-                        <td>[[${client.alterId}]]</td>
-                        <td>[[${client.email}]]</td>
-                        <td>
-                            <form th:action="@{/client/}+${client.email}" method="post">
-                                <input type="hidden" name="_method" value="delete" />
-                                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
-                            </form>
-
-                        </td>
+                    <tr>
+                        <td>address</td>
+                        <td>jp.larryzeta.cc</td>
+                    </tr>
+                    <tr>
+                        <td>port</td>
+                        <td>443</td>
+                    </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>[[${account.aid}]]</td>
+                    </tr>
+                    <tr>
+                        <td>alterId</td>
+                        <td>16</td>
+                    </tr>
+                    <tr>
+                        <td>security</td>
+                        <td>auto</td>
+                    </tr>
+                    <tr>
+                        <td>network</td>
+                        <td>ws</td>
+                    </tr>
+                    <tr>
+                        <td>path</td>
+                        <td>/ray</td>
+                    </tr>
+                    <tr>
+                        <td>tls</td>
+                        <td>tls</td>
+                    </tr>
+                    <tr>
+                        <td>activationDate</td>
+                        <td>[[${account.activationDate}]]</td>
+                    </tr>
+                    <tr>
+                        <td>expireDate</td>
+                        <td>[[${account.expireDate}]]</td>
                     </tr>
                 </tbody>
             </table>

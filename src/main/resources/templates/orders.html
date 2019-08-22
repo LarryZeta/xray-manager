@@ -47,26 +47,26 @@
         <div class="table-responsive">
             <table class="table table-striped table-sm">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>oid</th>
-                    <th>uid</th>
-                    <th>days</th>
-                    <th>state</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>oid</th>
+                        <th>uid</th>
+                        <th>days</th>
+                        <th>state</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr th:each="order:${orders}">
-                    <td></td>
-                    <td>[[${order.oid}]]</td>
-                    <td>[[${order.uid}]]</td>
-                    <td>[[${order.days}]]</td>
-                    <td>
-                        <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}" th:if="${session.loginUser == 'admin' && !order.isActivated}">Active</a>
-                        <span class="text text-warning" th:if="${session.loginUser != 'admin' && !order.isActivated}">Inactivated</span>
-                        <span class="text text-success" th:if="${order.isActivated}">Activated</span>
-                    </td>
-                </tr>
+                    <tr th:each="order:${orders}">
+                        <td></td>
+                        <td>[[${order.oid}]]</td>
+                        <td>[[${order.uid}]]</td>
+                        <td>[[${order.days}]]</td>
+                        <td>
+                            <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}" th:if="${session.loginUser == 'admin' && !order.isActivated}">Active</a>
+                            <span class="text text-warning" th:if="${session.loginUser != 'admin' && !order.isActivated}">Inactivated</span>
+                            <span class="text text-success" th:if="${order.isActivated}">Activated</span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

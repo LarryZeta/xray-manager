@@ -37,37 +37,32 @@
 </head>
 <body>
 
-    <div th:replace="commons/topbar::#navbar(activeUri='clients')"></div>
+    <div th:replace="commons/topbar::#navbar(activeUri='orders')"></div>
 
     <div class="container">
+<!--        <h2>-->
+<!--            <span class="text">Orders</span>-->
+<!--        </h2>-->
 
         <div class="table-responsive">
             <table class="table table-striped table-sm">
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>id</th>
-                        <th>level</th>
-                        <th>alterId</th>
-                        <th>email</th>
-                        <th>action</th>
-                    </tr>
+                <tr>
+                    <th>uid</th>
+                    <th>username</th>
+                    <th>email</th>
+                    <th>password</th>
+                    <th>isAdmin</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="client:${clients}">
-                        <td></td>
-                        <td th:text="${client.id}"></td>
-                        <td>[[${client.level}]]</td>
-                        <td>[[${client.alterId}]]</td>
-                        <td>[[${client.email}]]</td>
-                        <td>
-                            <form th:action="@{/client/}+${client.email}" method="post">
-                                <input type="hidden" name="_method" value="delete" />
-                                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
-                            </form>
-
-                        </td>
-                    </tr>
+                <tr th:each="user:${users}">
+                    <td>[[${user.uid}]]</td>
+                    <td>[[${user.username}]]</td>
+                    <td>[[${user.email}]]</td>
+                    <td>[[${user.password}]]</td>
+                    <td>[[${user.isAdmin}]]</td>
+                </tr>
                 </tbody>
             </table>
         </div>

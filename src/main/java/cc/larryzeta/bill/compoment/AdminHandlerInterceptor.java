@@ -1,9 +1,5 @@
 package cc.larryzeta.bill.compoment;
 
-import cc.larryzeta.bill.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

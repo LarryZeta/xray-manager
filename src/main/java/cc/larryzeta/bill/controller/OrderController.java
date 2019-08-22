@@ -2,11 +2,9 @@ package cc.larryzeta.bill.controller;
 
 import cc.larryzeta.bill.entities.Account;
 import cc.larryzeta.bill.entities.Order;
-import cc.larryzeta.bill.entities.User;
 import cc.larryzeta.bill.service.AccountService;
 import cc.larryzeta.bill.service.OrderService;
 import cc.larryzeta.bill.service.V2rayService;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.websocket.server.PathParam;
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -34,8 +32,9 @@ public class OrderController {
         return "orders";
     }
 
-    @GetMapping(value = "/orders/{uid}")
-    public String toUserOrders(Model model, @PathVariable("uid") Integer uid) {
+    @GetMapping(value = "/user/orders")
+    public String toUserOrders(HttpSession session, Model model) {
+        Integer uid = (Integer) session.getAttribute("uid");
         model.addAttribute("orders", orderService.getOrdersByUid(uid));
         return "orders";
     }
@@ -60,7 +59,7 @@ public class OrderController {
     public String addOrder(@RequestParam("uid") Integer uid,
                            @RequestParam("days") Integer days) {
         orderService.addOrder(uid, days);
-        return "redirect:/orders/" + uid;
+        return "redirect:/user/orders";
     }
 
 }

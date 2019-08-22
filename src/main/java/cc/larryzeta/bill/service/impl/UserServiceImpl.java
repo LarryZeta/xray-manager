@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -45,6 +46,9 @@ public class UserServiceImpl implements UserService {
         } else if (!password.equals(retype)) {
             map.put("msg", "Inconsistent password.");
             return false;
+        } else if (username.equals("admin")) {
+            map.put("msg", "Username cannot be admin.");
+            return false;
         } else {
             User user = new User();
             user.setUsername(username);
@@ -58,5 +62,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean isAdmin(Integer uid) {
         return userDAO.getUserByUid(uid).getIsAdmin();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
     }
 }
