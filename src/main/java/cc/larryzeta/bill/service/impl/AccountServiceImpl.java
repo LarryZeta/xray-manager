@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -55,6 +53,16 @@ public class AccountServiceImpl implements AccountService {
             orderDAO.setActiveated(order.getOid());
             return accountDAO.updateAccount(account);
         }
+
+    }
+
+    @Override
+    public List<Integer> deleteExpiredAccounts() {
+
+        Date currentDate = new Date(System.currentTimeMillis());
+        List<Integer> list = accountDAO.getExpiredAccounts(currentDate);
+        accountDAO.deleteExpiredAccounts(currentDate);
+        return list;
 
     }
 

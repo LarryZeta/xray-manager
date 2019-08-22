@@ -54,5 +54,11 @@ public class V2rayServiceImpl implements V2rayService {
         return false;
     }
 
+    @Override
+    public Boolean deleteClient(Integer uid) {
+        String email = userDAO.getUserByUid(uid).getEmail();
+        return deleteClient(email);
+    }
+
 
 }

@@ -12,4 +12,6 @@ public interface V2rayService {
 
     Boolean deleteClient(String email);
 
+    Boolean deleteClient(Integer uid);
+
 }
