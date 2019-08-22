@@ -14,6 +14,9 @@ public interface UserDAO {
     @Select(value = "SELECT * FROM `user`")
     List<User> getAllUsers();
 
+    @Select(value = "SELECT * FROM `user` WHERE user.uid = #{uid}")
+    User getUserByUid(@Param("uid") Integer uid);
+
     @Select(value = "SELECT * FROM `user` WHERE user.email = #{email}")
     User getUserByEmail(@Param("email") String email);
 

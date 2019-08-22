@@ -8,7 +8,7 @@ public interface V2rayService {
 
     List<Client> getAllClients();
 
-    Boolean addClient(String email);
+    Boolean addClient(Integer uid, String uuid);
 
     Boolean deleteClient(String email);
 

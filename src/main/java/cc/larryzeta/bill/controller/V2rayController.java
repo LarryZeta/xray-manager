@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.UUID;
+
 @Controller
 public class V2rayController {
 
@@ -22,7 +24,7 @@ public class V2rayController {
 
     @GetMapping(value = "/addClient")
     public String addClient() {
-        v2rayService.addClient("zly949173445@gmail.com");
+        v2rayService.addClient(0, UUID.randomUUID().toString());
         return "redirect:/clients";
     }
 

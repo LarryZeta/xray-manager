@@ -1,8 +1,11 @@
 package cc.larryzeta.bill.controller;
 
+import cc.larryzeta.bill.entities.Account;
 import cc.larryzeta.bill.entities.Order;
+import cc.larryzeta.bill.entities.User;
 import cc.larryzeta.bill.service.AccountService;
 import cc.larryzeta.bill.service.OrderService;
+import cc.larryzeta.bill.service.V2rayService;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +25,11 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    V2rayService v2rayService;
 
     @GetMapping(value = "/orders")
-    public String getClients(Model model) {
+    public String toOrders(Model model) {
         model.addAttribute("orders", orderService.getNotActiveOrders());
         return "orders";
     }
@@ -32,15 +37,24 @@ public class OrderController {
     @GetMapping(value = "/order/{oid}")
     public String activeOrder(@PathVariable("oid")String oid) {
         Order order = orderService.getOrderByOid(oid);
+        Integer uid = order.getUid();
         accountService.activeOrder(order);
+        Account account = accountService.getAccount(uid);
+        v2rayService.addClient(uid, account.getAid());
         return "redirect:/orders";
     }
 
-    @PostMapping(value = "/order/{uid}")
-    public String addOrder(@PathVariable("uid")Integer uid) {
-//        TODO 添加订单，订单分类还没实现
-        orderService.addOrder(uid, 30);
-        return "redirect:/clients";
+    @PostMapping(value = "/pay")
+    public String toPayPage(Model model, @RequestParam("days") Integer days) {
+        model.addAttribute("days", days);
+        return "pay";
+    }
+
+    @PostMapping(value = "/order")
+    public String addOrder(@RequestParam("uid")Integer uid,
+                           @RequestParam("days") Integer days) {
+        orderService.addOrder(uid, days);
+        return "redirect:/orders";
     }
 
 }

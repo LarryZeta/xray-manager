@@ -2,6 +2,7 @@ package cc.larryzeta.bill.service.impl;
 
 import cc.larryzeta.bill.dao.AccountDAO;
 import cc.larryzeta.bill.dao.OrderDAO;
+import cc.larryzeta.bill.dao.V2rayDAO;
 import cc.larryzeta.bill.entities.Account;
 import cc.larryzeta.bill.entities.Order;
 import cc.larryzeta.bill.service.AccountService;
@@ -21,6 +22,12 @@ public class AccountServiceImpl implements AccountService {
     AccountDAO accountDAO;
     @Autowired
     OrderDAO orderDAO;
+    V2rayDAO v2rayDAO = new V2rayDAO();
+
+    @Override
+    public Account getAccount(Integer uid) {
+        return accountDAO.getAccountByUid(uid);
+    }
 
     @Override
     public Integer activeOrder(Order order) {

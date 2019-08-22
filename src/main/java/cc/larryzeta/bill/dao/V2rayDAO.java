@@ -84,9 +84,8 @@ public class V2rayDAO {
         return false;
     }
 
-    public Boolean addClient(String email) {
+    public Boolean addClient(String email, String uuid) {
 
-        String uuid = UUID.randomUUID().toString();
         Map<String, Object> map = new HashMap<>();
         map.put("id", uuid);
         map.put("level", 1);

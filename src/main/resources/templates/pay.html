@@ -35,7 +35,9 @@
 <body>
     <div th:replace="commons/topbar::#navbar(activeUri='pricing')"></div>
 
-    <form class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" th:action="@{/order/}+${session.uid}" method="post">
+    <form class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" th:action="@{/order}" method="post">
+        <input th:value="${session.uid}" name="uid" type="hidden">
+        <input th:value="${days}" name = "days" type="hidden">
         <button type="submit">
             <img th:src="@{/images/alipay.jpg}">
         </button>
