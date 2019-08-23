@@ -70,4 +70,16 @@ public class AccountServiceImpl implements AccountService {
 
     }
 
+    // 当前日期 + days 超过过期时间的账号
+    @Override
+    public List<Integer> getWarnedAccounts(Integer days) {
+        Date currentDate = new Date(System.currentTimeMillis());
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(currentDate);
+        calendar.add(calendar.DATE, days);
+        Date warnedDate = new Date(calendar.getTimeInMillis());
+        List<Integer> list = accountDAO.getExpiredAccounts(warnedDate);
+        return list;
+    }
+
 }

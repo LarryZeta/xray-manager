@@ -1,5 +1,7 @@
 package cc.larryzeta.bill.compoment;
 
+import cc.larryzeta.bill.dao.UserDAO;
+import cc.larryzeta.bill.entities.User;
 import cc.larryzeta.bill.service.AccountService;
 import cc.larryzeta.bill.service.V2rayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,31 +22,52 @@ public class ScheduledTasks {
     private V2rayService v2rayService;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private UserDAO userDAO;
 
-    @Scheduled(cron = "0 59 13 * * ?")
+    @Scheduled(cron = "0 0 15 * * ?")
     public void checkClient() {
         List<Integer> uids = accountService.deleteExpiredAccounts();
-        System.out.println(uids);
+        if (!uids.isEmpty()) {
+            System.out.println("ExpiredAccounts:" + uids);
+        }
         for (Integer uid : uids) {
+            User user = userDAO.getUserByUid(uid);
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setFrom("i@larryzeta.cc");
+            msg.setBcc();
+            msg.setTo(user.getEmail());
+            msg.setSubject("jp.larryzeta.cc");
+            msg.setText("您的账号已被删除");
+            try {
+                mailSender.send(msg);
+            } catch (MailException ex) {
+                System.err.println(ex.getMessage());
+            }
             v2rayService.deleteClient(uid);
         }
     }
 
     @Scheduled(cron = "0 0 14 * * ?")
-    public Boolean sendEmail() {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom("i@larryzeta.cc");
-        msg.setBcc();
-        msg.setTo("i@larryzeta.cc");
-        msg.setSubject("jp.larryzeta.cc");
-        msg.setText("测试邮件");
-        try {
-            mailSender.send(msg);
-        } catch (MailException ex) {
-            System.err.println(ex.getMessage());
-            return false;
+    public void sendWarnEmail() {
+        Integer days = 7;
+        List<Integer> uids = accountService.getWarnedAccounts(days);
+        if (!uids.isEmpty()) {
+            for (Integer uid : uids) {
+                User user = userDAO.getUserByUid(uid);
+                SimpleMailMessage msg = new SimpleMailMessage();
+                msg.setFrom("i@larryzeta.cc");
+                msg.setBcc();
+                msg.setTo(user.getEmail());
+                msg.setSubject("jp.larryzeta.cc");
+                msg.setText("您的账号有效期已不足" + days + "天");
+                try {
+                    mailSender.send(msg);
+                } catch (MailException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }
         }
-        return true;
     }
 
 }
