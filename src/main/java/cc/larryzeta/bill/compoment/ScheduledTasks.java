@@ -11,6 +11,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 @Component
@@ -24,6 +26,16 @@ public class ScheduledTasks {
     private JavaMailSender mailSender;
     @Autowired
     private UserDAO userDAO;
+    private String hostname;
+    {
+        try {
+            hostname = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException ex) {
+            ex.printStackTrace();
+            hostname = "larryzeta.cc";
+        }
+    }
+
 
     @Scheduled(cron = "0 0 15 * * ?")
     public void checkClient() {
@@ -37,7 +49,7 @@ public class ScheduledTasks {
             msg.setFrom("i@larryzeta.cc");
             msg.setBcc();
             msg.setTo(user.getEmail());
-            msg.setSubject("jp.larryzeta.cc");
+            msg.setSubject(hostname);
             msg.setText("您的账号已被删除");
             try {
                 mailSender.send(msg);
@@ -59,7 +71,7 @@ public class ScheduledTasks {
                 msg.setFrom("i@larryzeta.cc");
                 msg.setBcc();
                 msg.setTo(user.getEmail());
-                msg.setSubject("jp.larryzeta.cc");
+                msg.setSubject(hostname);
                 msg.setText("您的账号有效期已不足" + days + "天");
                 try {
                     mailSender.send(msg);
