@@ -16,9 +16,9 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @GetMapping(value = "/account")
     public String toAccount(HttpSession session, Model model) {

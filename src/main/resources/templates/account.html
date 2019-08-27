@@ -46,7 +46,7 @@
                 <tbody>
                     <tr>
                         <td>address</td>
-                        <td>us.larryzeta.cc</td>
+                        <td id="address">us.larryzeta.cc</td>
                     </tr>
                     <tr>
                         <td>port</td>
@@ -90,7 +90,9 @@
 
         <div th:replace="commons/footer::#footer"></div>
     </div>
-
+    <script>
+        document.getElementById("address").innerHTML = window.location.host;
+    </script>
 
 </body>
 </html>
