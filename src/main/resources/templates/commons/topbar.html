@@ -8,13 +8,13 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm" id="topbar">
         <h5 class="my-0 mr-md-auto font-weight-normal">Bill System</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="https://getbootstrap.com/docs/4.3/examples/pricing/#" th:href="@{/pricing}">Pricing</a>
-            <a class="p-2 text-dark" href="https://getbootstrap.com/docs/4.3/examples/pricing/#" th:href="@{/account}">Account</a>
-            <a class="p-2 text-dark" href="https://getbootstrap.com/docs/4.3/examples/pricing/#" th:href="@{/speedtest}">Speedtest</a>
-            <a class="p-2 text-dark" href="https://getbootstrap.com/docs/4.3/examples/pricing/#" th:href="@{orders}">Orders</a>
+            <a class="p-2 text-dark" href="../pricing.html" th:href="@{/pricing}">Pricing</a>
+            <a class="p-2 text-dark" href="../account.html" th:href="@{/account}">Account</a>
+            <a class="p-2 text-dark" href="../speedtest.html" th:href="@{/speedtest}">Speedtest</a>
+            <a class="p-2 text-dark" href="../orders.html" th:href="@{orders}">Orders</a>
         </nav>
 
-        <a class="text-primary" href="https://getbootstrap.com/docs/4.3/examples/pricing/#" th:text="${session.loginUser}"></a>
+        <a class="text-primary" href="#" th:text="${session.loginUser}"></a>
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm" id="navbar">
@@ -52,8 +52,8 @@
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     </nav>
 
 </body>

@@ -1,0 +1,19 @@
+/*!
+ * OptimizeAdminLTEForIpad
+ *
+ *   Author:  LarryZeta
+ *
+ * ---------------
+ */
+
+/*
+ * The login-box and register-box looks too wide on the iPad,
+ * so I use a fixed width.
+ */
+@media (min-width: 577px) {
+    .login-box,
+    .register-box {
+        width: 360px;
+        margin: 7% auto;
+    }
+}
