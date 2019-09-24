@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.isEmpty(email) && user != null && user.getPassword().equals(password)) {
             session.setAttribute("loginUser", user.getUsername());
             session.setAttribute("uid", user.getUid());
+            session.setAttribute("isAdmin", user.getIsAdmin());
             return true;
         } else {
             map.put("msg", "Invalid email or password.");
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
     public void logout(HttpSession session) {
         session.removeAttribute("loginUser");
         session.removeAttribute("uid");
+        session.removeAttribute("isAdmin");
     }
 
     @Override

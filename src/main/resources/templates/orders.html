@@ -49,7 +49,7 @@
                         <th>uid</th>
                         <th>days</th>
                         <th>state</th>
-                        <th th:if="${session.loginUser == 'admin'}">action</th>
+                        <th th:if="${session.isAdmin}">action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +62,7 @@
                             <span class="text text-warning" th:if="${!order.isActivated}">Inactivated</span>
                             <span class="text text-success" th:if="${order.isActivated}">Activated</span>
                         </td>
-                        <td th:if="${session.loginUser == 'admin'}">
+                        <td th:if="${session.isAdmin}">
                             <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}" th:if="${!order.isActivated}">Active</a>
                             <button class="btn btn-sm btn-danger delete-btn" th:attr="del_uri=@{/order/}+${order.oid}" th:if="${!order.isActivated}">Delete</button>
                         </td>
