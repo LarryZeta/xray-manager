@@ -16,4 +16,6 @@ public interface OrderService {
 
     Integer addOrder(Integer uid, Integer dayes);
 
+    Boolean deleteOrder(String oid);
+
 }

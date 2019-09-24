@@ -8,6 +8,7 @@ import cc.larryzeta.bill.service.V2rayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,12 @@ public class OrderController {
         accountService.activeOrder(order);
         Account account = accountService.getAccount(uid);
         v2rayService.addClient(uid, account.getAid());
+        return "redirect:/orders";
+    }
+
+    @DeleteMapping(value = "order/{oid}")
+    public String deleteOrder(@PathVariable("oid") String oid) {
+        orderService.deleteOrder(oid);
         return "redirect:/orders";
     }
 

@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+  mail:
+    host: smtp.qiye.aliyun.com
+    username: v@larryzeta.cc
+    password: \********
+  jpa:
+    database: mariadb
+
+mybatis:
+  type-aliases-package: cc.larryzeta.bill.entities
+  mapper-locations: classpath*:mapper/*.xml
+
+---
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mariadb://localhost:3306/bill
+    username: root
+    password: 2Jg3P7LVZtfuErje
+  thymeleaf:
+    cache: false
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mariadb://localhost:3306/bill
+    username: root
+    password: \**********
+
+
+

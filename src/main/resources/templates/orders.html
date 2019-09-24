@@ -29,7 +29,7 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="css/BillSystem.css" th:href="@{/static/css/BillSystem.css}" rel="stylesheet">
+    <link href="css/BillSystem.css" th:href="@{/css/BillSystem.css}" rel="stylesheet">
 </head>
 <body>
 
@@ -49,6 +49,7 @@
                         <th>uid</th>
                         <th>days</th>
                         <th>state</th>
+                        <th th:if="${session.loginUser == 'admin'}">action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,18 +59,28 @@
                         <td>[[${order.uid}]]</td>
                         <td>[[${order.days}]]</td>
                         <td>
-                            <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}" th:if="${session.loginUser == 'admin' && !order.isActivated}">Active</a>
-                            <span class="text text-warning" th:if="${session.loginUser != 'admin' && !order.isActivated}">Inactivated</span>
+                            <span class="text text-warning" th:if="${!order.isActivated}">Inactivated</span>
                             <span class="text text-success" th:if="${order.isActivated}">Activated</span>
+                        </td>
+                        <td th:if="${session.loginUser == 'admin'}">
+                            <a class="btn btn-sm btn-success" th:href="@{/order/}+${order.oid}" th:if="${!order.isActivated}">Active</a>
+                            <button class="btn btn-sm btn-danger delete-btn" th:attr="del_uri=@{/order/}+${order.oid}" th:if="${!order.isActivated}">Delete</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
+        <form id="delete-client-form" method="post">
+            <input type="hidden" name="_method" value="delete" />
+        </form>
         <div th:replace="commons/footer::#footer"></div>
     </div>
-
+    <script>
+        $(".delete-btn").click(function () {
+            $("#delete-client-form").attr("action", $(this).attr("del_uri")).submit();
+            return false;
+        })
+    </script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 package cc.larryzeta.bill.dao;
 
 import cc.larryzeta.bill.entities.Order;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -31,5 +32,8 @@ public interface OrderDAO {
 
     @Update(value = "UPDATE `order` SET isActivated = 1 WHERE oid = #{oid}")
     Integer setActiveated(@PathParam("oid") String oid);
+
+    @Delete(value = "DELETE FROM `order` WHERE oid= #{oid}")
+    Boolean deleteOrderByOid(@Param("oid") String oid);
 
 }

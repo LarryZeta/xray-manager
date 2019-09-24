@@ -46,7 +46,7 @@ public class ScheduledTasks {
         for (Integer uid : uids) {
             User user = userDAO.getUserByUid(uid);
             SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setFrom("i@larryzeta.cc");
+            msg.setFrom("v@larryzeta.cc");
             msg.setBcc();
             msg.setTo(user.getEmail());
             msg.setSubject(hostname);
@@ -68,7 +68,7 @@ public class ScheduledTasks {
             for (Integer uid : uids) {
                 User user = userDAO.getUserByUid(uid);
                 SimpleMailMessage msg = new SimpleMailMessage();
-                msg.setFrom("i@larryzeta.cc");
+                msg.setFrom("v@larryzeta.cc");
                 msg.setBcc();
                 msg.setTo(user.getEmail());
                 msg.setSubject(hostname);

@@ -24,4 +24,4 @@ CREATE TABLE `account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user` VALUES (1, 'admin', 'i@larryzeta.cc', 'password', 1);
-INSERT INTO `user` VALUES (2, '18612380079', '981558469@qq.com', 'Quyi1998.0125', 0);
+

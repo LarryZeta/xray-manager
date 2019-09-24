@@ -71,6 +71,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>in.zhaoj</groupId>
+            <artifactId>v2ray</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

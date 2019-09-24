@@ -29,7 +29,7 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="css/BillSystem.css" th:href="@{/static/css/BillSystem.css}" rel="stylesheet">
+    <link href="css/BillSystem.css" th:href="@{/css/BillSystem.css}" rel="stylesheet">
 </head>
 <body>
 
@@ -57,20 +57,23 @@
                         <td>[[${client.alterId}]]</td>
                         <td>[[${client.email}]]</td>
                         <td>
-                            <form th:action="@{/client/}+${client.email}" method="post">
-                                <input type="hidden" name="_method" value="delete" />
-                                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
-                            </form>
-
+                            <button th:attr="del_uri=@{/client/}+${client.email}" class="btn btn-sm btn-danger delete-btn">Delete</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
+        <form id="delete-client-form" method="post">
+            <input type="hidden" name="_method" value="delete" />
+        </form>
         <div th:replace="commons/footer::#footer"></div>
     </div>
-
+    <script>
+        $(".delete-btn").click(function () {
+            $("#delete-client-form").attr("action", $(this).attr("del_uri")).submit();
+            return false;
+        })
+    </script>
 
 </body>
 </html>

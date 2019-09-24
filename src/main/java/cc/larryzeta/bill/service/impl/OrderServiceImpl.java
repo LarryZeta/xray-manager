@@ -42,6 +42,10 @@ public class OrderServiceImpl implements OrderService {
         return orderDAO.addOrder(UUID.randomUUID().toString(), uid, days);
     }
 
+    @Override
+    public Boolean deleteOrder(String oid) {
+        return orderDAO.deleteOrderByOid(oid);
+    }
 
 
 }

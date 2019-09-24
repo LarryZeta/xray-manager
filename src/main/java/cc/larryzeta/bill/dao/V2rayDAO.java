@@ -1,5 +1,9 @@
 package cc.larryzeta.bill.dao;
 
+/**
+ * TODO 用 V2ray API 重写
+ */
+
 import cc.larryzeta.bill.entities.Client;
 import cc.larryzeta.bill.entities.V2rayConfig;
 import cc.larryzeta.bill.util.GsonTypeAdapter;
@@ -30,7 +34,7 @@ public class V2rayDAO {
 
     private Map<String, List<Map<String, Object>>> settings = (Map<String, List<Map<String, Object>>>) v2rayConfig.getInbounds().get(0).get("settings");
 
-    public V2rayConfig getV2rayConfig() {
+    private V2rayConfig getV2rayConfig() {
 
         V2rayConfig v2rayConfig = null;
         try {
@@ -44,7 +48,7 @@ public class V2rayDAO {
 
     }
 
-    public Boolean writeV2rayConfig(V2rayConfig v2rayConfig) {
+    private void writeV2rayConfig(V2rayConfig v2rayConfig) {
 
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
@@ -52,9 +56,7 @@ public class V2rayDAO {
             bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
 
     }
 
