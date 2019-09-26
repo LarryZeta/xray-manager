@@ -1,26 +1,26 @@
 package cc.larryzeta.bill.controller;
 
 import cc.larryzeta.bill.entities.Account;
-import cc.larryzeta.bill.entities.User;
 import cc.larryzeta.bill.service.AccountService;
-import cc.larryzeta.bill.service.UserService;
+import cc.larryzeta.bill.service.V2rayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class AccountController {
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private AccountService accountService;
+    @Autowired
+    V2rayService v2rayService;
 
-    @GetMapping(value = "/account")
+    @GetMapping(value = "/user/account")
     public String toAccount(HttpSession session, Model model) {
         Integer uid = (Integer) session.getAttribute("uid");
         Account account = accountService.getAccount(uid);
@@ -32,11 +32,17 @@ public class AccountController {
         }
     }
 
-    @GetMapping(value = "/users")
-    public String toUsers(Model model) {
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "users";
+    @GetMapping(value = "/accounts")
+    public String toAccounts(Model model) {
+        model.addAttribute("accounts", accountService.getAllAccount());
+        return "accounts";
+    }
+
+    @DeleteMapping(value = "/account/{aid}")
+    public String deleteAccount(@PathVariable("aid") String aid) {
+        Integer uid = accountService.deleteAccount(aid);
+        v2rayService.deleteClient(uid);
+        return "redirect:/accounts";
     }
 
 }

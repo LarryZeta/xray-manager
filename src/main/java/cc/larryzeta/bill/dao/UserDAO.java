@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Delete;
 
 import java.util.List;
 
@@ -22,5 +23,8 @@ public interface UserDAO {
 
     @Insert(value = "INSERT INTO `user` (username, email, password) VALUE (#{username}, #{email}, #{password})")
     Integer registerUser(User user);
+
+    @Delete(value = "DELETE FROM `user` WHERE uid= #{uid}")
+    Integer deleteUser(@Param("uid") Integer uid);
 
 }

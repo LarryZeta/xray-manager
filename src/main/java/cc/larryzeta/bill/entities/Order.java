@@ -4,10 +4,9 @@ import lombok.Data;
 
 
 @Data
-public class Order {
+public class Order extends User{
 
     private String oid;
-    private Integer uid;
     private Integer days;
     private Boolean isActivated;
 

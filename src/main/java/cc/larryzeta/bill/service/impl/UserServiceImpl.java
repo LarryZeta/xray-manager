@@ -56,19 +56,18 @@ public class UserServiceImpl implements UserService {
             user.setUsername(username);
             user.setEmail(email);
             user.setPassword(password);
-            userDAO.registerUser(user);
-            return true;
+            return userDAO.registerUser(user) == 1;
         }
-    }
-
-    @Override
-    public Boolean isAdmin(Integer uid) {
-        return userDAO.getUserByUid(uid).getIsAdmin();
     }
 
     @Override
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
+    }
+
+    @Override
+    public Integer deleteUser(Integer uid) {
+        return userDAO.deleteUser(uid);
     }
 
 }

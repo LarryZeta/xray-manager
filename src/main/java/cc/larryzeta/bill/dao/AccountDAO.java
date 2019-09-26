@@ -1,10 +1,15 @@
 package cc.larryzeta.bill.dao;
 
 import cc.larryzeta.bill.entities.Account;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import javax.websocket.server.PathParam;
 import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Mapper
@@ -12,6 +17,12 @@ public interface AccountDAO {
 
     @Select(value = "SELECT * FROM `account` WHERE uid = #{uid}")
     Account getAccountByUid(@PathParam("uid") Integer uid);
+
+    @Select(value = "SELECT * FROM `account` WHERE aid = #{aid}")
+    Account getAccountByAid(@PathParam("aid") String aid);
+
+    @Select(value = "SELECT `account`.aid, `account`.uid, `account`.activationDate, `account`.expireDate, `user`.username, `user`.email FROM `account` INNER JOIN `user` WHERE `account`.uid = `user`.uid")
+    List<Account> getAllAccount();
 
     @Select(value = "SELECT uid FROM `account` WHERE expireDate < #{currentDate}")
     List<Integer> getExpiredAccounts(@PathParam("currentDate") Date currentDate);
@@ -24,4 +35,8 @@ public interface AccountDAO {
 
     @Delete(value = "DELETE FROM `account` WHERE expireDate < #{currentDate}")
     Integer deleteExpiredAccounts(@PathParam("currentDate") Date currentDate);
+
+    @Delete(value = "DELETE FROM `account` WHERE aid = #{aid}")
+    Integer deleteAccount(@PathParam("aid") String aid);
+
 }

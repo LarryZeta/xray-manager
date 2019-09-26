@@ -9,7 +9,7 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Bill System</h5>
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="../pricing.html" th:href="@{/pricing}">Pricing</a>
-            <a class="p-2 text-dark" href="../account.html" th:href="@{/account}">Account</a>
+            <a class="p-2 text-dark" href="../account.html" th:href="@{/user/account}">Account</a>
             <a class="p-2 text-dark" href="../speedtest.html" th:href="@{/speedtest}">Speedtest</a>
             <a class="p-2 text-dark" href="../orders.html" th:href="@{orders}">Orders</a>
         </nav>
@@ -42,11 +42,14 @@
                     <li class="nav-item" th:class="${activeUri == 'users' ? 'nav-item active' : 'nav-item'}" th:if="${session.isAdmin}">
                         <a class="nav-link" href="#" th:href="@{/users}">Users </a>
                     </li>
+                    <li class="nav-item" th:class="${activeUri == 'accounts' ? 'nav-item active' : 'nav-item'}" th:if="${session.isAdmin}">
+                        <a class="nav-link" href="#" th:href="@{/accounts}">Accounts </a>
+                    </li>
                 </ul>
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${session.loginUser}"></a>
                     <div class="dropdown-menu" aria-labelledby="dropdown07">
-                        <a class="dropdown-item" href="#" th:href="@{/account}">Account</a>
+                        <a class="dropdown-item" href="#" th:href="@{/user/account}">Account</a>
                         <a class="dropdown-item" href="#" th:href="@{/logout}">Sign out</a>
                     </div>
                 </div>

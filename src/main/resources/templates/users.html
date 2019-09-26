@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Mark Otto, Jacob Thornton, Bootstrap contributors, LarryZeta">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Bill System | Speedtest Page</title>
+    <title>Bill System | Users Page</title>
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
@@ -49,6 +49,7 @@
                     <th>email</th>
                     <th>password</th>
                     <th>isAdmin</th>
+                    <th>action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -58,14 +59,25 @@
                     <td>[[${user.email}]]</td>
                     <td>[[${user.password}]]</td>
                     <td>[[${user.isAdmin}]]</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger delete-btn" th:attr="del_uri=@{/user/}+${user.uid}" th:if="${!user.isAdmin}">Delete</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-
+        <form id="delete-client-form" method="post">
+            <input type="hidden" name="_method" value="delete" />
+        </form>
         <div th:replace="commons/footer::#footer"></div>
     </div>
 
+    <script>
+        $(".delete-btn").click(function () {
+            $("#delete-client-form").attr("action", $(this).attr("del_uri")).submit();
+            return false;
+        })
+    </script>
 
 </body>
 </html>

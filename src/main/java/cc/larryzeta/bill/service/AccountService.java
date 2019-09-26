@@ -9,9 +9,13 @@ public interface AccountService {
 
     Account getAccount(Integer uid);
 
+    List<Account> getAllAccount();
+
     Integer activeOrder(Order order);
 
     List<Integer> deleteExpiredAccounts();
+
+    Integer deleteAccount(String aid);
 
     List<Integer> getWarnedAccounts(Integer days);
 

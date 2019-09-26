@@ -5,7 +5,7 @@ CREATE TABLE `user` (
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `isAdmin` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `order` (
   `oid` varchar(255) COLLATE utf8_bin NOT NULL,

@@ -32,6 +32,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<Account> getAllAccount() {
+        return accountDAO.getAllAccount();
+    }
+
+    @Override
     public Integer activeOrder(Order order) {
 
         Account account = accountDAO.getAccountByUid(order.getUid());
@@ -70,6 +75,13 @@ public class AccountServiceImpl implements AccountService {
 
     }
 
+    @Override
+    public Integer deleteAccount(String aid) {
+        Account account = accountDAO.getAccountByAid(aid);
+        accountDAO.deleteAccount(aid);
+        return account.getUid();
+    }
+
     // 当前日期 + days 超过过期时间的账号
     @Override
     public List<Integer> getWarnedAccounts(Integer days) {
@@ -78,8 +90,7 @@ public class AccountServiceImpl implements AccountService {
         calendar.setTime(currentDate);
         calendar.add(calendar.DATE, days);
         Date warnedDate = new Date(calendar.getTimeInMillis());
-        List<Integer> list = accountDAO.getExpiredAccounts(warnedDate);
-        return list;
+        return accountDAO.getExpiredAccounts(warnedDate);
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface OrderDAO {
 
-    @Select(value = "SELECT * FROM `order`")
+    @Select(value = "SELECT `order`.oid, `order`.uid, `order`.isActivated, `order`.days, `user`.username FROM `order`  INNER JOIN `user` WHERE `order`.uid = `user`.uid")
     List<Order> getAllOrders();
 
     @Select(value = "SELECT * FROM `order` WHERE isActivated = 0")
