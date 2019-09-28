@@ -41,9 +41,9 @@ public class AccountController {
         return "accounts";
     }
 
-    @DeleteMapping(value = "/account/{aid}")
-    public String deleteAccount(@PathVariable("aid") String aid) {
-        Integer uid = accountService.deleteAccount(aid);
+    @DeleteMapping(value = "/account/{uid}")
+    public String deleteAccount(@PathVariable("uid") Integer uid) {
+        accountService.deleteAccountByUid(uid);
         userService.sentMail(uid, "账号删除提醒", "您的账号已被删除。");
         v2rayService.deleteClient(uid);
         return "redirect:/accounts";

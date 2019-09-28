@@ -2,7 +2,6 @@ package cc.larryzeta.bill.service.impl;
 
 import cc.larryzeta.bill.dao.AccountDAO;
 import cc.larryzeta.bill.dao.OrderDAO;
-import cc.larryzeta.bill.dao.V2rayDAO;
 import cc.larryzeta.bill.entities.Account;
 import cc.larryzeta.bill.entities.Order;
 import cc.larryzeta.bill.service.AccountService;
@@ -75,10 +74,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Integer deleteAccount(String aid) {
-        Account account = accountDAO.getAccountByAid(aid);
-        accountDAO.deleteAccount(aid);
-        return account.getUid();
+    public Integer deleteAccountByUid(Integer uid) {
+        return accountDAO.deleteAccountByUid(uid);
     }
 
     // 当前日期 + days 超过过期时间的账号

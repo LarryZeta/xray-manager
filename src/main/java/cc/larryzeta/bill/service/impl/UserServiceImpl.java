@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         message.setFrom("v@larryzeta.cc");
         message.setTo(user.getEmail());
         message.setSubject(subject);
-        message.setText("尊敬的用户 " + user.getUsername() + "：\n" + content);
+        message.setText("尊敬的用户 " + user.getUsername() + "：\n\n" + content);
         try {
             mailSender.send(message);
         } catch (MailException ex) {

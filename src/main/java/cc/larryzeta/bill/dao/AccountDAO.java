@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Update;
 
 import javax.websocket.server.PathParam;
 import java.sql.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Mapper
@@ -17,9 +16,6 @@ public interface AccountDAO {
 
     @Select(value = "SELECT * FROM `account` WHERE uid = #{uid}")
     Account getAccountByUid(@PathParam("uid") Integer uid);
-
-    @Select(value = "SELECT * FROM `account` WHERE aid = #{aid}")
-    Account getAccountByAid(@PathParam("aid") String aid);
 
     @Select(value = "SELECT `account`.aid, `account`.uid, `account`.activationDate, `account`.expireDate, `user`.username, `user`.email FROM `account` INNER JOIN `user` WHERE `account`.uid = `user`.uid")
     List<Account> getAllAccount();
@@ -38,5 +34,8 @@ public interface AccountDAO {
 
     @Delete(value = "DELETE FROM `account` WHERE aid = #{aid}")
     Integer deleteAccount(@PathParam("aid") String aid);
+
+    @Delete(value = "DELETE FROM `account` WHERE uid = #{uid}")
+    Integer deleteAccountByUid(@PathParam("uid") Integer uid);
 
 }

@@ -25,7 +25,7 @@ public class ScheduledTasks {
         List<Integer> uids = accountService.getWarnedAccounts(days);
         if (!uids.isEmpty()) {
             for (Integer uid : uids) {
-                userService.sentMail(uid, "账号到期提醒", "您的账号有效期已不足" + days + "天, 过期将删除（配置文件）。\n详情 https://v.larryzeta.cc/account。");
+                userService.sentMail(uid, "账号到期提醒", "您的账号有效期已不足" + days + "天, 过期将删除（配置文件）。\n\n详情 https://v.larryzeta.cc/account。");
             }
         }
     }

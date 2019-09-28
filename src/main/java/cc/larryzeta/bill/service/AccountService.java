@@ -15,7 +15,7 @@ public interface AccountService {
 
     List<Integer> deleteExpiredAccounts();
 
-    Integer deleteAccount(String aid);
+    Integer deleteAccountByUid(Integer uid);
 
     List<Integer> getWarnedAccounts(Integer days);
 
