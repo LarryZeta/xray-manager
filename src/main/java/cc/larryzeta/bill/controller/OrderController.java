@@ -25,7 +25,7 @@ public class OrderController {
     @Autowired
     private AccountService accountService;
     @Autowired
-    V2rayService v2rayService;
+    private V2rayService v2rayService;
 
     @GetMapping(value = "/orders")
     public String toOrders(Model model) {

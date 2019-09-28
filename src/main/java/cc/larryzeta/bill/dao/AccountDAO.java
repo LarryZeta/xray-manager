@@ -24,8 +24,8 @@ public interface AccountDAO {
     @Select(value = "SELECT `account`.aid, `account`.uid, `account`.activationDate, `account`.expireDate, `user`.username, `user`.email FROM `account` INNER JOIN `user` WHERE `account`.uid = `user`.uid")
     List<Account> getAllAccount();
 
-    @Select(value = "SELECT uid FROM `account` WHERE expireDate < #{currentDate}")
-    List<Integer> getExpiredAccounts(@PathParam("currentDate") Date currentDate);
+    @Select(value = "SELECT uid FROM `account` WHERE expireDate < #{date}")
+    List<Integer> getExpiredAccounts(@PathParam("date") Date date);
 
     @Insert(value = "INSERT INTO `account` (aid, uid, activationDate, expireDate) VALUE (#{aid}, #{uid}, #{activationDate}, #{expireDate})")
     Integer addAccount(Account account);

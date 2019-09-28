@@ -4,6 +4,9 @@ import cc.larryzeta.bill.dao.UserDAO;
 import cc.larryzeta.bill.entities.User;
 import cc.larryzeta.bill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,6 +19,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private JavaMailSender mailSender;
 
 
     @Override
@@ -68,6 +73,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer deleteUser(Integer uid) {
         return userDAO.deleteUser(uid);
+    }
+
+    @Override
+    public void sentMail(Integer uid,String subject, String content) {
+        User user = userDAO.getUserByUid(uid);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("v@larryzeta.cc");
+        message.setTo(user.getEmail());
+        message.setSubject(subject);
+        message.setText("尊敬的用户 " + user.getUsername() + "：\n" + content);
+        try {
+            mailSender.send(message);
+        } catch (MailException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 
 }

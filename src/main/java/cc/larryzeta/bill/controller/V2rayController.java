@@ -14,7 +14,7 @@ import java.util.UUID;
 public class V2rayController {
 
     @Autowired
-    V2rayService v2rayService;
+    private V2rayService v2rayService;
 
     @GetMapping(value = "/clients")
     public String getClients(Model model) {

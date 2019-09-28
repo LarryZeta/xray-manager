@@ -18,4 +18,6 @@ public interface UserService {
 
     Integer deleteUser(Integer uid);
 
+    void sentMail(Integer uid,String subject, String content);
+
 }

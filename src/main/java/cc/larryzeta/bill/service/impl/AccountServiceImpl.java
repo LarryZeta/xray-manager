@@ -21,10 +21,9 @@ import java.util.UUID;
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    AccountDAO accountDAO;
+    private AccountDAO accountDAO;
     @Autowired
-    OrderDAO orderDAO;
-    V2rayDAO v2rayDAO = new V2rayDAO();
+    private OrderDAO orderDAO;
 
     @Override
     public Account getAccount(Integer uid) {

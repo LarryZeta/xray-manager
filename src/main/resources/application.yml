@@ -21,7 +21,7 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/bill
     username: root
-    password: 2Jg3P7LVZtfuErje
+    password: root
   thymeleaf:
     cache: false
 
@@ -32,7 +32,7 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/bill
     username: root
-    password: \**********
+    password: root
 
 
 
