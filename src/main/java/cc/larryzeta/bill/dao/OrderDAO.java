@@ -24,7 +24,7 @@ public interface OrderDAO {
     @Select(value = "SELECT * FROM `order` WHERE oid = #{oid}")
     Order getOrderByOid(@Param("oid") String oid);
 
-    @Select(value = "SELECT * FROM `order` WHERE uid = #{uid}")
+    @Select(value = "SELECT `order`.oid, `order`.uid, `order`.isActivated, `order`.days, `user`.username FROM `order`  INNER JOIN `user` WHERE `order`.uid = `user`.uid AND `order`.uid = #{uid}")
     List<Order> getOrdersByUid(@Param("uid") Integer uid);
 
     @Insert(value = "INSERT INTO `order` (oid, uid, days) VALUE (#{oid}, #{uid}, #{days})")
