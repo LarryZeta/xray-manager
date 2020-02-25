@@ -31,22 +31,22 @@
 </head>
 <body>
     <div th:replace="commons/topbar::#navbar(activeUri='pricing')"></div>
-
-    <form class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" th:action="@{/order}" method="post">
-        <input th:value="${session.uid}" name="uid" type="hidden">
-        <input th:value="${days}" name = "days" type="hidden">
-        <button type="submit">
-            <img th:src="@{/images/alipay.jpg}">
-        </button>
-    </form>
-
-<!--    TODO 调整样式 点击那条居中  -->
     <div class="container">
-        <div class="card-deck mb-3 text-center">
-            <h3 class="display-5">点击二维码确认提交订单</h3>
-        </div>
-        <div class="card-deck mb-3 text-center">
-            <h3 class="display-5">支付宝拿API太麻烦了所以就简单搞了个收款码，我手动确认后订单生效</h3>
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h3 class="display-5">付款完成后点击下方按钮提交订单，我手动确认后订单生效</h3>
+            </div>
+            <form class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" th:action="@{/order}" method="post">
+                <input th:value="${session.uid}" name="uid" type="hidden">
+                <input th:value="${days}" name = "days" type="hidden">
+                <div class="mb-5">
+                    <img th:src="@{/images/alipay.jpg}" style="max-height: 100%; max-width: 100%">
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-lg btn-block btn-primary">提交订单</button>
+                </div>
+            </form>
         </div>
         <div th:replace="commons/footer::#footer"></div>
     </div>

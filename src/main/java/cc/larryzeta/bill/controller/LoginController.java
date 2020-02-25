@@ -21,7 +21,7 @@ public class LoginController {
                         @RequestParam("password") String password,
                         Map<String, Object> map, HttpSession session) {
         if (userService.login(email, password, map, session)) {
-            return "redirect:/pricing";
+            return "redirect:/service";
         } else {
             return "login";
         }

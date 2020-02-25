@@ -14,13 +14,12 @@ public class MvcConfigure implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("pricing");
+        registry.addViewController("/").setViewName("service");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/login.html").setViewName("login");
         registry.addViewController("/register").setViewName("register");
         registry.addViewController("/register.html").setViewName("register");
-        registry.addViewController("/pricing").setViewName("pricing");
-        registry.addViewController("/speedtest").setViewName("speedtest");
+        registry.addViewController("/service").setViewName("service");
     }
 
     @Bean
