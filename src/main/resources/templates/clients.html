@@ -68,7 +68,9 @@
     </div>
     <script>
         $(".delete-btn").click(function () {
-            $("#delete-client-form").attr("action", $(this).attr("del_uri")).submit();
+            if (window.confirm("Are you sure you want to delete this client?")) {
+                $("#delete-client-form").attr("action", $(this).attr("del_uri")).submit();
+            }
             return false;
         })
     </script>
