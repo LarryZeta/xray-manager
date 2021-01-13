@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class BillApplication {
+public class XrayManager {
 
     public static void main(String[] args) {
-        SpringApplication.run(BillApplication.class, args);
+        SpringApplication.run(XrayManager.class, args);
     }
 
 }

@@ -1,15 +1,14 @@
 package cc.larryzeta.bill.dao;
 
-/**
- * TODO 用 V2ray API 重写
- */
 
 import cc.larryzeta.bill.entities.Client;
 import cc.larryzeta.bill.entities.V2rayConfig;
-import cc.larryzeta.bill.util.GsonTypeAdapter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import cc.larryzeta.bill.util.JSONUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,38 +20,36 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class V2rayDAO {
+@Component
+public class XrayDAO {
 
-    private static final String path = "/etc/v2ray/config.json";
+    private static final Logger LOGGER = LoggerFactory.getLogger(XrayDAO.class);
 
-    private Gson getGson = new GsonBuilder().registerTypeAdapter(new TypeToken<Map<String, Object>>(){
-    }.getType(), new GsonTypeAdapter()).create();
+    @Value("xray.config-path")
+    private static String path;
 
-    private Gson writeGson = new Gson();
 
-    private V2rayConfig v2rayConfig = getV2rayConfig();
+    private Map<String, Object> getXrayConfig() {
 
-    private Map<String, List<Map<String, Object>>> settings = (Map<String, List<Map<String, Object>>>) v2rayConfig.getInbounds().get(0).get("settings");
-
-    private V2rayConfig getV2rayConfig() {
-
-        V2rayConfig v2rayConfig = null;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-            v2rayConfig = getGson.fromJson(bufferedReader, V2rayConfig.class);
+            Map<String, Object> configMap = JSONUtil.getMap(bufferedReader.toString());
             bufferedReader.close();
+            return configMap;
+        } catch (JsonProcessingException jsonProcessingException) {
+            LOGGER.error("JSON解析错误", jsonProcessingException);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("获取配置文件I/O错误", e);
         }
-        return v2rayConfig;
+        return null;
 
     }
 
-    private void writeV2rayConfig(V2rayConfig v2rayConfig) {
+    private void writeXrayConfig(Map<String, Object> configMap) {
 
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
-            bufferedWriter.write(writeGson.toJson(v2rayConfig));
+            bufferedWriter.write(JSONUtil.toJsonString(configMap));
             bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,11 +60,12 @@ public class V2rayDAO {
     // TODO Map 转 Client 方式改为通用的或不转，待优化
     public List<Client> getAllClients() {
 
-        List<Map<String, Object>> list = settings.get("clients");
+        Map<String, Object> configMap = getXrayConfig();
+        List<Map<String, Object>> inbounds = (List<Map<String, Object>>) configMap.get("inbounds");
+        List<Map<String, Object>> vless_list = (List<Map<String, Object>>) inbounds.get(0).get("settings").get("clients");
+        List<Map<String, Object>> vmess_list = (List<Map<String, Object>>) inbounds.get(1).get("settings").get("clients");
         List<Client> clients = new LinkedList<>();
-        for (Map<String, Object> map : list) {
-            clients.add(new Client(map));
-        }
+
 
         return clients;
 
@@ -86,6 +84,7 @@ public class V2rayDAO {
     }
 
     public Boolean addClient(String email, String uuid) {
+
 
         Map<String, Object> map = new HashMap<>();
         map.put("id", uuid);

@@ -25,6 +25,9 @@ spring:
   thymeleaf:
     cache: false
 
+xray:
+  config-path: ./config.json
+
 ---
 
 spring:
@@ -34,5 +37,7 @@ spring:
     username: root
     password: root
 
-
+xray:
+#  config-path: /etc/v2ray/config.json
+  config-path: /usr/local/etc/xray/config.json
 
