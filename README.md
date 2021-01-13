@@ -1,6 +1,6 @@
-# Billing-System
+# xray-manager
 
-V2ray 账号管理系统。
+V2ray/Xray 账号管理系统。
 
 基于 SpringBoot、Mybatis、Thymeleaf。
 
