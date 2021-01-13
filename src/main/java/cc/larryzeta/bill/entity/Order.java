@@ -1,4 +1,4 @@
-package cc.larryzeta.bill.entities;
+package cc.larryzeta.bill.entity;
 
 import lombok.Data;
 

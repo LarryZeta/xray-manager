@@ -1,7 +1,7 @@
 package cc.larryzeta.bill.service.impl;
 
 import cc.larryzeta.bill.dao.OrderDAO;
-import cc.larryzeta.bill.entities.Order;
+import cc.larryzeta.bill.entity.Order;
 import cc.larryzeta.bill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

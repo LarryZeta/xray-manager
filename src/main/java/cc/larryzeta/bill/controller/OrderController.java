@@ -1,10 +1,10 @@
 package cc.larryzeta.bill.controller;
 
-import cc.larryzeta.bill.entities.Account;
-import cc.larryzeta.bill.entities.Order;
+import cc.larryzeta.bill.entity.Account;
+import cc.larryzeta.bill.entity.Order;
 import cc.larryzeta.bill.service.AccountService;
 import cc.larryzeta.bill.service.OrderService;
-import cc.larryzeta.bill.service.V2rayService;
+import cc.larryzeta.bill.service.XrayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class OrderController {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private V2rayService v2rayService;
+    private XrayService xrayService;
 
     @GetMapping(value = "/orders")
     public String toOrders(Model model) {
@@ -46,7 +46,7 @@ public class OrderController {
         Integer uid = order.getUid();
         accountService.activeOrder(order);
         Account account = accountService.getAccount(uid);
-        v2rayService.addClient(uid, account.getAid());
+        xrayService.addClient(uid, account.getAid());
         return "redirect:/orders";
     }
 

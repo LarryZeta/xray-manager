@@ -2,8 +2,8 @@ package cc.larryzeta.bill.service.impl;
 
 import cc.larryzeta.bill.dao.AccountDAO;
 import cc.larryzeta.bill.dao.OrderDAO;
-import cc.larryzeta.bill.entities.Account;
-import cc.larryzeta.bill.entities.Order;
+import cc.larryzeta.bill.entity.Account;
+import cc.larryzeta.bill.entity.Order;
 import cc.larryzeta.bill.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

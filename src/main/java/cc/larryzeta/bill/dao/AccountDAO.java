@@ -1,6 +1,6 @@
 package cc.larryzeta.bill.dao;
 
-import cc.larryzeta.bill.entities.Account;
+import cc.larryzeta.bill.entity.Account;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

@@ -1,9 +1,9 @@
 package cc.larryzeta.bill.controller;
 
-import cc.larryzeta.bill.entities.Account;
+import cc.larryzeta.bill.entity.Account;
 import cc.larryzeta.bill.service.AccountService;
 import cc.larryzeta.bill.service.UserService;
-import cc.larryzeta.bill.service.V2rayService;
+import cc.larryzeta.bill.service.XrayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private V2rayService v2rayService;
+    private XrayService xrayService;
     @Autowired
     private UserService userService;
 
@@ -45,7 +45,7 @@ public class AccountController {
     public String deleteAccount(@PathVariable("uid") Integer uid) {
         accountService.deleteAccountByUid(uid);
         userService.sentMail(uid, "账号删除提醒", "您的账号已被删除。");
-        v2rayService.deleteClient(uid);
+        xrayService.deleteClient(uid);
         return "redirect:/accounts";
     }
 

@@ -26,7 +26,7 @@ spring:
     cache: false
 
 xray:
-  config-path: ./config.json
+  config-file: /config.json
 
 ---
 
@@ -38,6 +38,6 @@ spring:
     password: root
 
 xray:
-#  config-path: /etc/v2ray/config.json
-  config-path: /usr/local/etc/xray/config.json
+#  config-file: /etc/v2ray/config.json
+  config-file: /usr/local/etc/xray/config.json
 

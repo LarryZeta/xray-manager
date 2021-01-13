@@ -1,7 +1,7 @@
 package cc.larryzeta.bill.service;
 
-import cc.larryzeta.bill.entities.Account;
-import cc.larryzeta.bill.entities.Order;
+import cc.larryzeta.bill.entity.Account;
+import cc.larryzeta.bill.entity.Order;
 
 import java.util.List;
 

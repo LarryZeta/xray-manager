@@ -2,7 +2,7 @@ package cc.larryzeta.bill.compoment;
 
 import cc.larryzeta.bill.service.AccountService;
 import cc.larryzeta.bill.service.UserService;
-import cc.larryzeta.bill.service.V2rayService;
+import cc.larryzeta.bill.service.XrayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ public class ScheduledTasks {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private V2rayService v2rayService;
+    private XrayService xrayService;
     @Autowired
     private UserService userService;
 
@@ -38,7 +38,7 @@ public class ScheduledTasks {
         }
         for (Integer uid : uids) {
             userService.sentMail(uid, "账号删除提醒", "您的账号已被删除。");
-            v2rayService.deleteClient(uid);
+            xrayService.deleteClient(uid);
         }
     }
 

@@ -1,6 +1,6 @@
 package cc.larryzeta.bill.controller;
 
-import cc.larryzeta.bill.entities.User;
+import cc.larryzeta.bill.entity.User;
 import cc.larryzeta.bill.service.AccountService;
 import cc.larryzeta.bill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package cc.larryzeta.bill.service;
 
-import cc.larryzeta.bill.entities.User;
+import cc.larryzeta.bill.entity.User;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
