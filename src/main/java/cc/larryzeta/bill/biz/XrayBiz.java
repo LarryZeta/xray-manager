@@ -3,24 +3,25 @@ package cc.larryzeta.bill.biz;
 import cc.larryzeta.bill.dao.XrayDAO;
 import cc.larryzeta.bill.entity.Client;
 import cc.larryzeta.bill.entity.XrayConfig;
+import cc.larryzeta.bill.entity.xray.InboundObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 // TODO
 @Service
 public class XrayBiz {
 
     @Autowired
-    private static XrayDAO xrayDAO;
+    private XrayDAO xrayDAO;
 
     public List<Client> getAllClients() {
 
         XrayConfig xrayConfig = xrayDAO.getXrayConfig();
+        InboundObject inbound = xrayConfig.getInbounds().get(0);
+        System.out.println(inbound.getSettings().getClass());
 
         List<Client> clients = new LinkedList<>();
 

@@ -26,7 +26,7 @@ spring:
     cache: false
 
 xray:
-  config-file: /config.json
+  config-file: /VLESS/config.json
 
 ---
 

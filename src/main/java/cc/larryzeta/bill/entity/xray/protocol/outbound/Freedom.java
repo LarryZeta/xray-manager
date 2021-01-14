@@ -7,6 +7,6 @@ public class Freedom extends OutboundConfigurationObject{
 
     private String domainStrategy;
     private String redirect;
-    int userLevel;
+    private Integer userLevel;
 
 }

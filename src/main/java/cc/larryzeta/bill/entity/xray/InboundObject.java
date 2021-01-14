@@ -1,17 +1,14 @@
 package cc.larryzeta.bill.entity.xray;
 
-import cc.larryzeta.bill.entity.xray.protocol.inbound.InboundConfigurationObject;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class InboundObject {
 
-    private String address;
-    private int port;
+    private String listen;
+    private Integer port;
     private String protocol;
-    private List<InboundConfigurationObject> settings;
+    private Object settings;
     private StreamSettingsObject streamSettings;
     private String tag;
     private SniffingObject sniffing;
@@ -22,7 +19,7 @@ public class InboundObject {
 @Data
 class SniffingObject {
 
-    private boolean enabled;
+    private Boolean enabled;
     private String destOverride;
 
 }
@@ -31,7 +28,7 @@ class SniffingObject {
 class AllocateObject {
 
     private String strategy;
-    private int refresh;
-    private int concurrency;
+    private Integer refresh;
+    private Integer concurrency;
 
 }

@@ -25,7 +25,7 @@ public class DnsObject {
 class ServerObject {
 
     private String address;
-    private int port;
+    private Integer port;
     private List<String> domains;
     private List<String> expectIPs;
 

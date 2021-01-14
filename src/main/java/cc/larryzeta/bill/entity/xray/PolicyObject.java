@@ -15,22 +15,22 @@ public class PolicyObject {
 @Data
 class LevelPolicyObject {
 
-    private int handshake;
-    private int connIdle;
-    private int uplinkOnly;
-    private int downlinkOnly;
-    private boolean statsUserUplink;
-    private boolean statsUserDownlink;
-    private int bufferSize;
+    private Integer handshake;
+    private Integer connIdle;
+    private Integer uplinkOnly;
+    private Integer downlinkOnly;
+    private Boolean statsUserUplink;
+    private Boolean statsUserDownlink;
+    private Integer bufferSize;
 
 }
 
 @Data
 class SystemPolicyObject {
 
-    private boolean statsInboundUplink;
-    private boolean statsInboundDownlink;
-    private boolean statsOutboundUplink;
-    private boolean statsOutboundDownlink;
+    private Boolean statsInboundUplink;
+    private Boolean statsInboundDownlink;
+    private Boolean statsOutboundUplink;
+    private Boolean statsOutboundDownlink;
 
 }

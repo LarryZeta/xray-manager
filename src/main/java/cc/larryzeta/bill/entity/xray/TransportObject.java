@@ -2,6 +2,8 @@ package cc.larryzeta.bill.entity.xray;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class TransportObject {
 
@@ -22,7 +24,12 @@ class KcpObject {
 
 }
 
+@Data
 class WebSocketObject {
+
+    private Boolean acceptProxyProtocol;
+    private String path;
+    private Map<String, String> headers;
 
 }
 
