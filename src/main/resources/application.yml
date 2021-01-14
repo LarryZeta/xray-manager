@@ -26,7 +26,7 @@ spring:
     cache: false
 
 xray:
-  config-file: /VLESS/config.json
+  config-file: /config.json
 
 ---
 
@@ -38,6 +38,5 @@ spring:
     password: root
 
 xray:
-#  config-file: /etc/v2ray/config.json
   config-file: /usr/local/etc/xray/config.json
 

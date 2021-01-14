@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -22,7 +21,6 @@ public class XrayDAO {
     @Value("${xray.config-file}")
     private String CONFIG_FILE;
 
-    @Bean
     public XrayConfig getXrayConfig() {
 
         try {
@@ -37,7 +35,7 @@ public class XrayDAO {
 
     }
 
-    private void saveXrayConfig(XrayConfig xrayConfig) {
+    public void saveXrayConfig(XrayConfig xrayConfig) {
 
         try {
             MAPPER.writeValue(new File(CONFIG_FILE), xrayConfig);

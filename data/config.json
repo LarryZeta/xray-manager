@@ -1,11 +1,64 @@
 {
     "log": {
-        "access": "/var/log/v2ray/access.log",
-        "error": "/var/log/v2ray/error.log",
+        "access": "/var/log/xray/access.log",
+        "error": "/var/log/xray/error.log",
         "loglevel": "warning"
     },
     "inbounds": [
         {
+            "port": 443,
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "level": 1,
+                        "id": "5b569be4-046a-4ae1-894d-ecd47c6b6898",
+                        "flow": "xtls-rprx-direct"
+                    }
+                ],
+                "decryption": "none",
+                "fallbacks": [
+                    {
+                        "path": "/ray",
+                        "dest": 23333,
+                        "xver": 1
+                    },
+                    {
+                        "alpn": "h2",
+                        "dest": 23443,
+                        "xver": 1
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "xtls",
+                "xtlsSettings": {
+                    "alpn": [
+                        "h2",
+                        "http/1.1"
+                    ],
+                    "certificates": [
+                        {
+                            "certificateFile": "/path/to/cert.crt",
+                            "keyFile": "/path/to/key.key"
+                        },
+                        {
+                            "certificateFile": "/also/support/muti/cert.crt",
+                            "keyFile": "/also/support/muti/key.key"
+                        },
+                        {
+                            "certificateFile": "/default/cert/in/list/order/cert.crt",
+                            "keyFile": "/default/cert/in/list/order/key.key"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "port": 23333,
+            "listen": "127.0.0.1",
+            "protocol": "vmess",
             "settings": {
                 "clients": [
                     {
@@ -15,15 +68,14 @@
                     }
                 ]
             },
-            "protocol": "vmess",
-            "port": 23333,
             "streamSettings": {
+                "network": "ws",
+                "security": "none",
                 "wsSettings": {
+                    "acceptProxyProtocol": true,
                     "path": "/ray"
-                },
-                "network": "ws"
-            },
-            "listen": "127.0.0.1"
+                }
+            }
         }
     ],
     "outbounds": [

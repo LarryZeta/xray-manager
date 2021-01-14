@@ -24,11 +24,6 @@ public class XrayServiceImpl implements XrayService {
     private XrayBiz xrayBiz;
 
     @Override
-    public List<Client> getAllClients() {
-        return xrayBiz.getAllClients();
-    }
-
-    @Override
     public Boolean addClient(Integer uid, String uuid) {
         String email = userDAO.getUserByUid(uid).getEmail();
         if (xrayBiz.findClient(email)) {
@@ -36,7 +31,7 @@ public class XrayServiceImpl implements XrayService {
         } else {
             try {
                 xrayBiz.addClient(email, uuid);
-                Process process = Runtime.getRuntime().exec(RESTART);
+                Runtime.getRuntime().exec(RESTART);
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -50,7 +45,7 @@ public class XrayServiceImpl implements XrayService {
 
         try {
             if(xrayBiz.deleteClient(email)) {
-                Process process = Runtime.getRuntime().exec(RESTART);
+                Runtime.getRuntime().exec(RESTART);
                 return true;
             }
         } catch (IOException e) {
