@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class FallbackObject {
 
+    private String name;
     private String alpn;
     private String path;
     private Object dest;

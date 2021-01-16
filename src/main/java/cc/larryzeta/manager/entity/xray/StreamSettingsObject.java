@@ -19,8 +19,8 @@ public class StreamSettingsObject extends TransportObject{
 class TLSObject {
     private String serverName;
     private List<String> alpn;
-    private List<String> minVersion;
-    private List<String> maxVersion;
+    private String minVersion;
+    private String maxVersion;
     private Boolean preferServerCipherSuites;
     private List<String> cipherSuites;
     private Boolean allowInsecure;
