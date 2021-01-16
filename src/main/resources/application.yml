@@ -4,14 +4,14 @@ spring:
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
   mail:
-    host: smtp.qiye.aliyun.com
-    username: v@larryzeta.cc
-    password: \********
+    host:
+    username:
+    password:
   jpa:
     database: mariadb
 
 mybatis:
-  type-aliases-package: cc.larryzeta.bill.entities
+  type-aliases-package: cc.larryzeta.manager.entities
   mapper-locations: classpath*:mapper/*.xml
 
 ---
@@ -35,7 +35,9 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/bill
     username: root
-    password: root
+    password:
+server:
+  address: 127.0.0.1
 
 xray:
   config-file: /usr/local/etc/xray/config.json
