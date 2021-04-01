@@ -24,8 +24,7 @@ public class XrayDAO {
     public XrayConfig getXrayConfig() {
 
         try {
-            XrayConfig xrayConfig = MAPPER.readValue(new File(CONFIG_FILE), XrayConfig.class);
-            return xrayConfig;
+            return MAPPER.readValue(new File(CONFIG_FILE), XrayConfig.class);
         } catch (JsonProcessingException jsonProcessingException) {
             LOGGER.error("JSON解析错误", jsonProcessingException);
         } catch (IOException e) {

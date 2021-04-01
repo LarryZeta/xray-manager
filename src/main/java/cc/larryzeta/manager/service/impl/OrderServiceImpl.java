@@ -3,9 +3,9 @@ package cc.larryzeta.manager.service.impl;
 import cc.larryzeta.manager.dao.OrderDAO;
 import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
+    @Resource
     private OrderDAO orderDAO;
 
 

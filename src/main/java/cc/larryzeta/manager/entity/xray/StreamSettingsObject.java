@@ -22,7 +22,7 @@ class TLSObject {
     private String minVersion;
     private String maxVersion;
     private Boolean preferServerCipherSuites;
-    private List<String> cipherSuites;
+    private String cipherSuites;
     private Boolean allowInsecure;
     private Boolean disableSystemRoot;
     private Boolean enableSessionResumption;

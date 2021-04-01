@@ -5,10 +5,10 @@ import cc.larryzeta.manager.dao.OrderDAO;
 import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.annotation.Resource;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,9 +19,9 @@ import java.util.UUID;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    @Autowired
+    @Resource
     private AccountDAO accountDAO;
-    @Autowired
+    @Resource
     private OrderDAO orderDAO;
 
     @Override
@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
             account.setActivationDate(currentDate);
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(currentDate);
-            calendar.add(calendar.DATE, order.getDays());
+            calendar.add(Calendar.DATE, order.getDays());
             account.setExpireDate(new Date(calendar.getTimeInMillis()));
             orderDAO.setActiveated(order.getOid());
             return accountDAO.addAccount(account);
@@ -55,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
             Date expireDate = account.getExpireDate();
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(expireDate);
-            calendar.add(calendar.DATE, order.getDays());
+            calendar.add(Calendar.DATE, order.getDays());
             account.setExpireDate(new Date(calendar.getTimeInMillis()));
             orderDAO.setActiveated(order.getOid());
             return accountDAO.updateAccount(account);
@@ -84,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
         Date currentDate = new Date(System.currentTimeMillis());
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(currentDate);
-        calendar.add(calendar.DATE, days);
+        calendar.add(Calendar.DATE, days);
         Date warnedDate = new Date(calendar.getTimeInMillis());
         return accountDAO.getExpiredAccounts(warnedDate);
     }
