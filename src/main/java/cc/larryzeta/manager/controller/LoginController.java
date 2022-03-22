@@ -1,6 +1,7 @@
 package cc.larryzeta.manager.controller;
 
 import cc.larryzeta.manager.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+@Slf4j
 @Controller
 public class LoginController {
 
@@ -20,11 +22,16 @@ public class LoginController {
     public String login(@RequestParam("email") String email,
                         @RequestParam("password") String password,
                         Map<String, Object> map, HttpSession session) {
-        if (userService.login(email, password, map, session)) {
+
+        try {
+            userService.login(email, password, map, session);
             return "redirect:/service";
-        } else {
-            return "login";
+        } catch (Exception e) {
+            log.warn("[LoginController-login] Exception", e);
         }
+
+        return "login";
+
     }
 
     @GetMapping(value = "/logout")

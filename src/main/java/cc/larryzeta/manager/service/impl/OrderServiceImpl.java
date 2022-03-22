@@ -1,6 +1,6 @@
 package cc.larryzeta.manager.service.impl;
 
-import cc.larryzeta.manager.dao.OrderDAO;
+import cc.larryzeta.manager.mapper.OrderDAO;
 import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.OrderService;
 import org.springframework.stereotype.Service;

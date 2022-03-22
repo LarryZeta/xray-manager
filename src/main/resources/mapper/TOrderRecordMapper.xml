@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.larryzeta.manager.mapper.TOrderRecordMapper">
+  <resultMap id="BaseResultMap" type="cc.larryzeta.manager.entity.TOrderRecord">
+    <!--@mbg.generated -->
+    <!--@Table t_order_record -->
+    <!-- generated on Tue Mar 01 14:24:37 CST 2022 -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="service_price" jdbcType="DECIMAL" property="servicePrice" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="achive_time" jdbcType="TIMESTAMP" property="achiveTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated -->
+    id, user_id, order_id, service_price, `status`, create_time, update_time, achive_time, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated -->
+    delete from t_order_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TOrderRecord" useGeneratedKeys="true">
+    <!--@mbg.generated -->
+    insert into t_order_record (user_id, order_id, service_price, 
+      `status`, create_time, update_time, 
+      achive_time, remark)
+    values (#{userId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{servicePrice,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{achiveTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TOrderRecord" useGeneratedKeys="true">
+    <!--@mbg.generated -->
+    insert into t_order_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="servicePrice != null">
+        service_price,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="achiveTime != null">
+        achive_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="servicePrice != null">
+        #{servicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="achiveTime != null">
+        #{achiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.larryzeta.manager.entity.TOrderRecord">
+    <!--@mbg.generated -->
+    update t_order_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="servicePrice != null">
+        service_price = #{servicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="achiveTime != null">
+        achive_time = #{achiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.larryzeta.manager.entity.TOrderRecord">
+    <!--@mbg.generated -->
+    update t_order_record
+    set user_id = #{userId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      service_price = #{servicePrice,jdbcType=DECIMAL},
+      `status` = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      achive_time = #{achiveTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

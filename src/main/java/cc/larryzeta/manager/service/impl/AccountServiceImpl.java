@@ -1,7 +1,7 @@
 package cc.larryzeta.manager.service.impl;
 
-import cc.larryzeta.manager.dao.AccountDAO;
-import cc.larryzeta.manager.dao.OrderDAO;
+import cc.larryzeta.manager.mapper.AccountDAO;
+import cc.larryzeta.manager.mapper.OrderDAO;
 import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.AccountService;
@@ -21,6 +21,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     private AccountDAO accountDAO;
+
     @Resource
     private OrderDAO orderDAO;
 
