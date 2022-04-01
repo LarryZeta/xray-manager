@@ -1,11 +1,13 @@
 package cc.larryzeta.manager.external.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class AddRequest implements Serializable {
+public class AddRequest extends RequestBase {
+
+    private static final long serialVersionUID = -3558884321832737258L;
 
     private String email;
 
