@@ -1,5 +1,6 @@
 import logging
 import shim_service
+import auth
 import flask
 
 if __name__ == '__main__':
@@ -10,11 +11,11 @@ if __name__ == '__main__':
 
 
 @app.route('/api/add', methods=['POST'])
+@auth.permission
 def add_client():
     logger.info('[controller-add_client]  request.json: ' + str(flask.request.json))
     
     try:
-        service.token_auth(flask.request.json)
         service.add_client(flask.request.json['id'], flask.request.json['email'])
     except BaseException:
         return {
@@ -28,10 +29,10 @@ def add_client():
 
 
 @app.route('/api/remove', methods=['POST'])
+@auth.permission
 def delete_client():
     logger.info('[controller-delete_client]  request.json: ' + str(flask.request.json))
     try:
-        service.token_auth(flask.request.json)
         service.delete_client(flask.request.json['email'])
     except BaseException: 
         return {
@@ -45,10 +46,10 @@ def delete_client():
 
 
 @app.route('/client/sync', methods=['POST', 'PUT'])
+@auth.permission
 def sync_client():
     logger.info('[controller-sync_client]  request.json: ' + str(flask.request.json))
     try:
-        service.token_auth(flask.request.json)
         service.sync_client(flask.request.json['clients'])
     except BaseException: 
         return {
@@ -61,15 +62,16 @@ def sync_client():
     }
 
 @app.route('/test', methods=['POST'])
+@auth.permission
 def test_auth():
     logger.info('[controller-test_auth]  request.json: ' + str(flask.request.json))
-    try:
-        service.token_auth(flask.request.json)
-    except BaseException: 
-        return {
-            'code': '9999',
-            'msg': 'FAIL'
-        }
+    # try:
+    #     service.token_auth(flask.request.json)
+    # except BaseException: 
+    #     return {
+    #         'code': '9999',
+    #         'msg': 'FAIL'
+    #     }
     return {
         'code': '0000',
         'msg': 'SUCCESS'

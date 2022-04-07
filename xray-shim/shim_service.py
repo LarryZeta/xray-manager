@@ -1,9 +1,8 @@
 from asyncio.log import logger
 import json
-import yaml
 import logging
 import os
-import pyotp
+import shim_config
 
 class ShimService():
 
@@ -11,16 +10,11 @@ class ShimService():
         logging.basicConfig(filename='xray-shim.log', encoding='utf-8', level=logging.DEBUG)
         logger = logging.getLogger()
 
-    # 加载 shim config
-    def load_shim_config(self):
-        with open(__name__ + '.yml', encoding='utf-8') as f:
-            return yaml.safe_load(f)
-
 
     # 从文件加载配置文件
     def load_config(self):
         xray_config = {}
-        path = self.load_shim_config()['configPath']
+        path = shim_config.config_path
         with open(path, encoding='utf-8') as f:
             xray_config = json.load(f)
             logger.info('[service-load_config] 读取配置文件完成')
@@ -29,7 +23,7 @@ class ShimService():
 
     # 写入配置文件
     def save_config(self, xray_config):
-        path = self.load_shim_config()['configPath']
+        path = shim_config.config_path
         with open(path, "w", encoding='utf-8') as f:
             json.dump(xray_config, f)
             logger.info('[service-save_config] 写入配置文件完成')
@@ -115,14 +109,3 @@ class ShimService():
         self.save_config(xray_config)
 
         os.system('service xray restart')
-
-
-    def token_auth(self, json):
-        shim_config = self.load_shim_config()
-        otp = pyotp.TOTP(shim_config['seed'])
-        logger.info('[service-token_auth] token:' + shim_config['token'])
-        logger.info('[service-token_auth] otp: ' + otp.now())
-        if shim_config['token'] != json['token'] or otp.now() != json['otp']:
-            logger.info('[service-token_auth] 校验不一致')
-            raise BaseException()
-        logger.info('[service-token_auth] 校验通过')
