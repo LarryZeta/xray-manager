@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.larryzeta.manager.mapper.TXrayServerInfoMapper">
+  <resultMap id="BaseResultMap" type="cc.larryzeta.manager.entity.TXrayServerInfo">
+    <!--@mbg.generated -->
+    <!--@Table t_xray_server_info -->
+    <!-- generated on Fri Apr 01 16:16:41 CST 2022 -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="server_name" jdbcType="VARCHAR" property="serverName" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated -->
+    id, address, `server_name`, tag, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_xray_server_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--@mbg.generated -->
+    select
+    <include refid="Base_Column_List" />
+    from t_xray_server_info
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated -->
+    delete from t_xray_server_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TXrayServerInfo" useGeneratedKeys="true">
+    <!--@mbg.generated -->
+    insert into t_xray_server_info (address, `server_name`, tag, 
+      remark)
+    values (#{address,jdbcType=VARCHAR}, #{serverName,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TXrayServerInfo" useGeneratedKeys="true">
+    <!--@mbg.generated -->
+    insert into t_xray_server_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="address != null">
+        address,
+      </if>
+      <if test="serverName != null">
+        `server_name`,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="serverName != null">
+        #{serverName,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cc.larryzeta.manager.entity.TXrayServerInfo">
+    <!--@mbg.generated -->
+    update t_xray_server_info
+    <set>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="serverName != null">
+        `server_name` = #{serverName,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cc.larryzeta.manager.entity.TXrayServerInfo">
+    <!--@mbg.generated -->
+    update t_xray_server_info
+    set address = #{address,jdbcType=VARCHAR},
+      `server_name` = #{serverName,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

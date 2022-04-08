@@ -1,12 +1,15 @@
 package cc.larryzeta.manager.api.account;
 
+import cc.larryzeta.manager.api.account.model.AddAccountRequest;
 import cc.larryzeta.manager.api.model.ResultEntity;
+import feign.RequestLine;
 
 public interface AccountControllerApi {
 
-    ResultEntity<Object> AddAccount(Object o);
+    @RequestLine("POST /account/add")
+    ResultEntity<String> AddAccount(AddAccountRequest request);
 
-    ResultEntity<Object> deleteAccount(Object o);
+    ResultEntity<String> deleteAccount(Object o);
 
     ResultEntity<Object> queryAccount(Object o);
 

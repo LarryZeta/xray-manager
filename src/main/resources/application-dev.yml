@@ -1,8 +1,11 @@
 spring:
-  profiles:
-    active: @activatedProperties@
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/xray
+    username: root
+    password: ROOT
+  thymeleaf:
+    cache: false
   mail:
     host:
     username:
@@ -17,7 +20,3 @@ mybatis:
 shim:
   access-key: hfmvnauvjz7duyupmxrbu2c737s3x4x9
   secret-key: fmmztmgw3xriue3aj5goczc25dxnfyy9
-
----
-
-

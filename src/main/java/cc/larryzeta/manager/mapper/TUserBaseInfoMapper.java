@@ -3,6 +3,8 @@ package cc.larryzeta.manager.mapper;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TUserBaseInfoMapper {
     /**
@@ -39,6 +41,8 @@ public interface TUserBaseInfoMapper {
      * @return TUserBaseInfo TUserBaseInfo
      */
     TUserBaseInfo selectByEmail(String email);
+
+    List<TUserBaseInfo> selectAll();
 
     /**
     * updateByPrimaryKeySelective

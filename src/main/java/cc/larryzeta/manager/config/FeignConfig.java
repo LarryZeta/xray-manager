@@ -19,26 +19,26 @@ import java.util.List;
 @Configuration
 public class FeignConfig {
 
-    @Value("${flask.base.url.list}")
-    private List<String> flaskUrlList;
+//    @Value("${flask.base.url.list}")
+//    private List<String> flaskUrlList;
 
-    @Bean
-    public List<FlaskApi> getFlaskApi() {
-
-        List<FlaskApi> flaskApiList = new ArrayList<>(flaskUrlList.size());
-        for (String flaskUrl : flaskUrlList) {
-            flaskApiList.add(this.getFlaskApi(FlaskApi.class, flaskUrl));
-        }
-
-        return flaskApiList;
-    }
+//    @Bean
+//    public List<FlaskApi> getFlaskApi() {
+//
+//        List<FlaskApi> flaskApiList = new ArrayList<>(flaskUrlList.size());
+//        for (String flaskUrl : flaskUrlList) {
+//            flaskApiList.add(FeignConfig.getFlaskApi(FlaskApi.class, flaskUrl));
+//        }
+//
+//        return flaskApiList;
+//    }
 
     @Bean
     public Request.Options options() {
         return new Request.Options(15000, 30000);
     }
 
-    public <T> T getFlaskApi(Class<T> apiClazz, String apiUrl) {
+    static public <T> T getFlaskApi(Class<T> apiClazz, String apiUrl) {
         ObjectMapper mapper = new ObjectMapper();
         return Feign.builder()
                 .retryer(Retryer.NEVER_RETRY)

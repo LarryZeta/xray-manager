@@ -3,11 +3,11 @@ import shim_service
 import auth
 import flask
 
-if __name__ == '__main__':
-    logging.basicConfig(filename='xray-shim.log', encoding='utf-8', level=logging.DEBUG)
-    logger = logging.getLogger()
-    app = flask.Flask(__name__)
-    service = shim_service.ShimService()
+
+logging.basicConfig(filename='xray-shim.log', encoding='utf-8', level=logging.DEBUG)
+logger = logging.getLogger()
+app = flask.Flask(__name__)
+service = shim_service.ShimService()
 
 
 @app.route('/api/add', methods=['POST'])
@@ -77,4 +77,6 @@ def test_auth():
         'msg': 'SUCCESS'
     }
 
-app.run()
+
+if __name__ == '__main__':
+    app.run()

@@ -10,6 +10,6 @@ public interface OrderControllerApi {
 
     ResultEntity<Object> queryOrder(Object o);
 
-    ResultEntity<Object> updateOrder(Object o);
+    ResultEntity<Object> activeOrder(Object o);
 
 }
