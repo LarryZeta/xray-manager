@@ -5,7 +5,7 @@ import lombok.Data;
 import java.sql.Date;
 
 @Data
-public class Account extends User{
+public class Account extends User {
 
     private String aid;
     private Date activationDate;

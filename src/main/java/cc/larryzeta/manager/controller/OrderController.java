@@ -47,6 +47,7 @@ public class OrderController {
         accountService.activeOrder(order);
         Account account = accountService.getAccount(uid);
         xrayService.addClient(uid, account.getAid());
+        xrayService.syncConfig();
         return "redirect:/orders";
     }
 

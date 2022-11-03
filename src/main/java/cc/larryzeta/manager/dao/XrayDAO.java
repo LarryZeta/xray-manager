@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 
-@Component
+//@Component
 public class XrayDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XrayDAO.class);

@@ -22,7 +22,7 @@ public interface UserDAO {
     User getUserByEmail(@Param("email") String email);
 
     @Insert(value = "INSERT INTO `user` (username, email, password) VALUE (#{username}, #{email}, #{password})")
-    Integer registerUser(User user);
+    Integer save(User user);
 
     @Delete(value = "DELETE FROM `user` WHERE uid= #{uid}")
     Integer deleteUser(@Param("uid") Integer uid);

@@ -8,11 +8,11 @@ import java.util.Map;
 
 public interface UserService {
 
-    Boolean login(String email, String password, Map<String, Object> map, HttpSession session);
+    void login(String email, String password, HttpSession session);
 
     void logout(HttpSession session);
 
-    Boolean register(String username, String email, String password, String retype, Map<String, Object> map);
+    void register(String username, String email, String password, String retype);
 
     List<User> getAllUsers();
 

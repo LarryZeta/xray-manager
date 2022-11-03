@@ -2,9 +2,12 @@ package cc.larryzeta.manager.service.impl;
 
 import cc.larryzeta.manager.dao.AccountDAO;
 import cc.larryzeta.manager.dao.OrderDAO;
+import cc.larryzeta.manager.dao.UserDAO;
 import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.entity.Order;
+import cc.larryzeta.manager.entity.User;
 import cc.larryzeta.manager.service.AccountService;
+import cc.larryzeta.manager.service.UserService;
 import org.springframework.stereotype.Service;
 
 
@@ -21,6 +24,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     private AccountDAO accountDAO;
+
+    @Resource
+    private UserDAO userDAO;
+
     @Resource
     private OrderDAO orderDAO;
 
@@ -38,11 +45,13 @@ public class AccountServiceImpl implements AccountService {
     public Integer activeOrder(Order order) {
 
         Account account = accountDAO.getAccountByUid(order.getUid());
+        User user = userDAO.getUserByUid(order.getUid());
 
         if (account == null) {
             account = new Account();
             account.setAid(UUID.randomUUID().toString());
             account.setUid(order.getUid());
+            account.setEmail(user.getEmail());
             Date currentDate = new Date(System.currentTimeMillis());
             account.setActivationDate(currentDate);
             Calendar calendar = new GregorianCalendar();

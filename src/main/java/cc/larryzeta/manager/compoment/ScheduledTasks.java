@@ -39,6 +39,7 @@ public class ScheduledTasks {
         for (Integer uid : uids) {
             userService.sentMail(uid, "账号删除提醒", "您的账号已被删除。");
             xrayService.deleteClient(uid);
+            xrayService.syncConfig();
         }
     }
 
