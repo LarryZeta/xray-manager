@@ -23,7 +23,7 @@ public class XrayManagerTests {
         client.setEmail("test@email");
         List<Client> clientList = Collections.singletonList(client);
 
-        xrayBiz.syncClient(clientList, "nas");
+        xrayBiz.syncClient(clientList, "TEST");
 
     }
 

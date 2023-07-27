@@ -2,63 +2,133 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.larryzeta.manager.mapper.TXrayAccountInfoMapper">
   <resultMap id="BaseResultMap" type="cc.larryzeta.manager.entity.TXrayAccountInfo">
-    <!--@mbg.generated -->
-    <!--@Table t_xray_account_info -->
-    <!-- generated on Tue Mar 01 14:28:51 CST 2022 -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="effective_time" jdbcType="TIMESTAMP" property="effectiveTime" />
-    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="order_price" jdbcType="VARCHAR" property="orderPrice" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="active_time" jdbcType="TIMESTAMP" property="activeTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
   <sql id="Base_Column_List">
-    <!--@mbg.generated -->
-    id, user_id, uuid, `status`, effective_time, expire_time, create_time, update_time, 
+    id, user_id, order_id, order_price, order_status, active_time, create_time, update_time, 
     remark
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--@mbg.generated -->
+  <select id="selectByExample" parameterType="cc.larryzeta.manager.entity.TXrayAccountInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_xray_account_info
-    where id = #{id,jdbcType=VARCHAR}
+    from t_order_record
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    <!--@mbg.generated -->
-    delete from t_xray_account_info
-    where id = #{id,jdbcType=VARCHAR}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_order_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cc.larryzeta.manager.entity.TXrayAccountInfoExample">
+    delete from t_order_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TXrayAccountInfo" useGeneratedKeys="true">
-    <!--@mbg.generated -->
-    insert into t_xray_account_info (user_id, uuid, `status`, 
-      effective_time, expire_time, create_time, 
+    insert into t_order_record (user_id, order_id, order_price, 
+      order_status, active_time, create_time, 
       update_time, remark)
-    values (#{userId,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{effectiveTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{orderPrice,jdbcType=VARCHAR}, 
+      #{orderStatus,jdbcType=VARCHAR}, #{activeTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TXrayAccountInfo" useGeneratedKeys="true">
-    <!--@mbg.generated -->
-    insert into t_xray_account_info
+    insert into t_order_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
         user_id,
       </if>
-      <if test="uuid != null">
-        uuid,
+      <if test="orderId != null">
+        order_id,
       </if>
-      <if test="status != null">
-        `status`,
+      <if test="orderPrice != null">
+        order_price,
       </if>
-      <if test="effectiveTime != null">
-        effective_time,
+      <if test="orderStatus != null">
+        order_status,
       </if>
-      <if test="expireTime != null">
-        expire_time,
+      <if test="activeTime != null">
+        active_time,
       </if>
       <if test="createTime != null">
         create_time,
@@ -72,19 +142,19 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=VARCHAR},
       </if>
-      <if test="effectiveTime != null">
-        #{effectiveTime,jdbcType=TIMESTAMP},
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
       </if>
-      <if test="expireTime != null">
-        #{expireTime,jdbcType=TIMESTAMP},
+      <if test="activeTime != null">
+        #{activeTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -97,24 +167,79 @@
       </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="cc.larryzeta.manager.entity.TXrayAccountInfoExample" resultType="java.lang.Long">
+    select count(*) from t_order_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_order_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_price = #{record.orderPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activeTime != null">
+        active_time = #{record.activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_order_record
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_price = #{record.orderPrice,jdbcType=VARCHAR},
+      order_status = #{record.orderStatus,jdbcType=VARCHAR},
+      active_time = #{record.activeTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="cc.larryzeta.manager.entity.TXrayAccountInfo">
-    <!--@mbg.generated -->
-    update t_xray_account_info
+    update t_order_record
     <set>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="uuid != null">
-        uuid = #{uuid,jdbcType=VARCHAR},
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        `status` = #{status,jdbcType=VARCHAR},
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=VARCHAR},
       </if>
-      <if test="effectiveTime != null">
-        effective_time = #{effectiveTime,jdbcType=TIMESTAMP},
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
       </if>
-      <if test="expireTime != null">
-        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      <if test="activeTime != null">
+        active_time = #{activeTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -126,19 +251,18 @@
         remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cc.larryzeta.manager.entity.TXrayAccountInfo">
-    <!--@mbg.generated -->
-    update t_xray_account_info
-    set user_id = #{userId,jdbcType=VARCHAR},
-      uuid = #{uuid,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=VARCHAR},
-      effective_time = #{effectiveTime,jdbcType=TIMESTAMP},
-      expire_time = #{expireTime,jdbcType=TIMESTAMP},
+    update t_order_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_price = #{orderPrice,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      active_time = #{activeTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

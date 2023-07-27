@@ -1,24 +1,30 @@
 package cc.larryzeta.manager.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
+/**
+ * t_user_role_info
+ * @author 
+ */
 @Data
-public class TUserRoleInfo {
-    private String id;
+public class TUserRoleInfo implements Serializable {
+    private Integer id;
+
+    private Integer userId;
 
     private String roleCode;
 
     private String roleName;
 
-    /**
-    * 状态 INIT-初始化；VALID-有效；DELETE-删除；
-    */
-    private String status;
+    private String roleStatus;
 
     private Date createTime;
 
     private Date updateTime;
 
     private String remark;
+
+    private static final long serialVersionUID = 1L;
 }

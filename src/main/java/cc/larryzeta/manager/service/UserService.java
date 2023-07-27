@@ -20,4 +20,8 @@ public interface UserService {
 
     void sentMail(Integer uid, String subject, String content);
 
+    List<String> getRoleList(String username);
+
+    List<String> getPermissions(String username);
+
 }

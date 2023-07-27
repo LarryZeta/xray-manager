@@ -1,43 +1,32 @@
 package cc.larryzeta.manager.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
 /**
-* user base info
-*/
+ * t_user_base_info
+ * @author 
+ */
 @Data
-public class TUserBaseInfo {
-    /**
-    * primary key
-    */
-    private String id;
+public class TUserBaseInfo implements Serializable {
+    private Integer id;
 
-    /**
-    * 用户名
-    */
     private String userName;
 
-    /**
-    * 手机号
-    */
     private String phone;
 
-    /**
-    * 邮箱
-    */
     private String email;
 
-    /**
-    * 密码
-    */
     private String passwd;
 
-    private String status;
+    private String userStatus;
 
     private Date createTime;
 
     private Date updateTime;
 
     private String remark;
+
+    private static final long serialVersionUID = 1L;
 }

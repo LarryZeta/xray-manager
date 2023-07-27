@@ -1,7 +1,7 @@
 package cc.larryzeta.manager.model;
 
 import cc.larryzeta.manager.entity.TUserBaseInfo;
-import cc.larryzeta.manager.entity.TUserRoleRelation;
+import cc.larryzeta.manager.entity.TUserRoleInfo;
 import lombok.Data;
 
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 public class UserBO {
 
-    private TUserBaseInfo tUserBaseInfo;
+    private TUserBaseInfo userBaseInfo;
 
-    private List<TUserRoleRelation> tUserRoleRelations;
+    private List<TUserRoleInfo> userRoleInfoList;
 
 }

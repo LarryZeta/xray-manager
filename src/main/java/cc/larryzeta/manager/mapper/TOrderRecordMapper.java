@@ -1,47 +1,30 @@
 package cc.larryzeta.manager.mapper;
 
 import cc.larryzeta.manager.entity.TOrderRecord;
+import cc.larryzeta.manager.entity.TOrderRecordExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TOrderRecordMapper {
-    /**
-    * deleteByPrimaryKey
-    * @param id id
-    * @return int int
-    */
-    int deleteByPrimaryKey(String id);
+    long countByExample(TOrderRecordExample example);
 
-    /**
-    * insert
-    * @param row row
-    * @return int int
-    */
-    int insert(TOrderRecord row);
+    int deleteByExample(TOrderRecordExample example);
 
-    /**
-    * insertSelective
-    * @param row row
-    * @return int int
-    */
-    int insertSelective(TOrderRecord row);
+    int deleteByPrimaryKey(Integer id);
 
-    /**
-    * selectByPrimaryKey
-    * @param id id
-    * @return TOrderRecord TOrderRecord
-    */
-    TOrderRecord selectByPrimaryKey(String id);
+    int insert(TOrderRecord record);
 
-    /**
-    * updateByPrimaryKeySelective
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKeySelective(TOrderRecord row);
+    int insertSelective(TOrderRecord record);
 
-    /**
-    * updateByPrimaryKey
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKey(TOrderRecord row);
+    List<TOrderRecord> selectByExample(TOrderRecordExample example);
+
+    TOrderRecord selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") TOrderRecord record, @Param("example") TOrderRecordExample example);
+
+    int updateByExample(@Param("record") TOrderRecord record, @Param("example") TOrderRecordExample example);
+
+    int updateByPrimaryKeySelective(TOrderRecord record);
+
+    int updateByPrimaryKey(TOrderRecord record);
 }

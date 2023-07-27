@@ -1,55 +1,30 @@
 package cc.larryzeta.manager.mapper;
 
 import cc.larryzeta.manager.entity.TXrayServerInfo;
-
+import cc.larryzeta.manager.entity.TXrayServerInfoExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TXrayServerInfoMapper {
-    /**
-    * deleteByPrimaryKey
-    * @param id id
-    * @return int int
-    */
-    int deleteByPrimaryKey(String id);
+    long countByExample(TXrayServerInfoExample example);
 
-    /**
-    * insert
-    * @param row row
-    * @return int int
-    */
-    int insert(TXrayServerInfo row);
+    int deleteByExample(TXrayServerInfoExample example);
 
-    /**
-    * insertSelective
-    * @param row row
-    * @return int int
-    */
-    int insertSelective(TXrayServerInfo row);
+    int deleteByPrimaryKey(Integer id);
 
-    /**
-    * selectByPrimaryKey
-    * @param id id
-    * @return TXrayServerInfo TXrayServerInfo
-    */
-    TXrayServerInfo selectByPrimaryKey(String id);
+    int insert(TXrayServerInfo record);
 
-    /**
-     * selectAll
-     * @return List<TXrayServerInfo> List<TXrayServerInfo>
-     */
-    List<TXrayServerInfo> selectAll();
+    int insertSelective(TXrayServerInfo record);
 
-    /**
-    * updateByPrimaryKeySelective
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKeySelective(TXrayServerInfo row);
+    List<TXrayServerInfo> selectByExample(TXrayServerInfoExample example);
 
-    /**
-    * updateByPrimaryKey
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKey(TXrayServerInfo row);
+    TXrayServerInfo selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") TXrayServerInfo record, @Param("example") TXrayServerInfoExample example);
+
+    int updateByExample(@Param("record") TXrayServerInfo record, @Param("example") TXrayServerInfoExample example);
+
+    int updateByPrimaryKeySelective(TXrayServerInfo record);
+
+    int updateByPrimaryKey(TXrayServerInfo record);
 }

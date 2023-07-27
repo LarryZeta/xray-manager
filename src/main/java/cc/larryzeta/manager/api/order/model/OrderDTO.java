@@ -1,16 +1,13 @@
-package cc.larryzeta.manager.entity;
+package cc.larryzeta.manager.api.order.model;
+
+
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
-/**
- * t_order_record
- * @author 
- */
 @Data
-public class TOrderRecord implements Serializable {
-    private Integer id;
+public class OrderDTO implements Serializable {
 
     private Integer userId;
 
@@ -26,7 +23,4 @@ public class TOrderRecord implements Serializable {
 
     private Date updateTime;
 
-    private String remark;
-
-    private static final long serialVersionUID = 1L;
 }

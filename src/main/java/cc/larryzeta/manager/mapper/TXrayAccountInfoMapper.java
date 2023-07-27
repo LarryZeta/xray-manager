@@ -1,49 +1,30 @@
 package cc.larryzeta.manager.mapper;
 
 import cc.larryzeta.manager.entity.TXrayAccountInfo;
-import org.springframework.stereotype.Repository;
+import cc.larryzeta.manager.entity.TXrayAccountInfoExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-@Repository
 public interface TXrayAccountInfoMapper {
-    /**
-    * deleteByPrimaryKey
-    * @param id id
-    * @return int int
-    */
-    int deleteByPrimaryKey(String id);
+    long countByExample(TXrayAccountInfoExample example);
 
-    /**
-    * insert
-    * @param row row
-    * @return int int
-    */
-    int insert(TXrayAccountInfo row);
+    int deleteByExample(TXrayAccountInfoExample example);
 
-    /**
-    * insertSelective
-    * @param row row
-    * @return int int
-    */
-    int insertSelective(TXrayAccountInfo row);
+    int deleteByPrimaryKey(Integer id);
 
-    /**
-    * selectByPrimaryKey
-    * @param id id
-    * @return TXrayAccountInfo TXrayAccountInfo
-    */
-    TXrayAccountInfo selectByPrimaryKey(String id);
+    int insert(TXrayAccountInfo record);
 
-    /**
-    * updateByPrimaryKeySelective
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKeySelective(TXrayAccountInfo row);
+    int insertSelective(TXrayAccountInfo record);
 
-    /**
-    * updateByPrimaryKey
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKey(TXrayAccountInfo row);
+    List<TXrayAccountInfo> selectByExample(TXrayAccountInfoExample example);
+
+    TXrayAccountInfo selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") TXrayAccountInfo record, @Param("example") TXrayAccountInfoExample example);
+
+    int updateByExample(@Param("record") TXrayAccountInfo record, @Param("example") TXrayAccountInfoExample example);
+
+    int updateByPrimaryKeySelective(TXrayAccountInfo record);
+
+    int updateByPrimaryKey(TXrayAccountInfo record);
 }

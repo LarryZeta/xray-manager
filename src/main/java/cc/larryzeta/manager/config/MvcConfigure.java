@@ -25,19 +25,21 @@ public class MvcConfigure implements WebMvcConfigurer {
     @Bean
     public WebMvcConfigurer webMvcConfigurer() {
 
-        return new WebMvcConfigurer() {
-            @Override
-            public void addInterceptors(InterceptorRegistry registry) {
-                // before login
-                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/user/login", "/user/register", "/css/**", "/js/**");
-                // after login
-                registry.addInterceptor(new SessionHandlerInterceptor()).addPathPatterns("/login", "/register", "/user/login");
-                // isAdmin
-                registry.addInterceptor(new AdminHandlerInterceptor()).addPathPatterns("/orders", "/clients", "/addClient", "/users", "/accounts");
+        return new WebMvcConfigurer() {};
 
-            }
-
-        };
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addInterceptors(InterceptorRegistry registry) {
+//                // before login
+//                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/login", "/register", "/user/login", "/user/register", "/css/**", "/js/**");
+//                // after login
+//                registry.addInterceptor(new SessionHandlerInterceptor()).addPathPatterns("/login", "/register", "/user/login");
+//                // isAdmin
+//                registry.addInterceptor(new AdminHandlerInterceptor()).addPathPatterns("/orders", "/clients", "/addClient", "/users", "/accounts");
+//
+//            }
+//
+//        };
 
     }
 

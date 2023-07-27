@@ -1,25 +1,32 @@
 package cc.larryzeta.manager.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
+/**
+ * t_order_record
+ * @author 
+ */
 @Data
-public class TXrayAccountInfo {
-    private String id;
+public class TXrayAccountInfo implements Serializable {
+    private Integer id;
 
-    private String userId;
+    private Integer userId;
 
-    private String uuid;
+    private String orderId;
 
-    private String status;
+    private String orderPrice;
 
-    private Date effectiveTime;
+    private String orderStatus;
 
-    private Date expireTime;
+    private Date activeTime;
 
     private Date createTime;
 
     private Date updateTime;
 
     private String remark;
+
+    private static final long serialVersionUID = 1L;
 }

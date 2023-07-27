@@ -1,49 +1,30 @@
 package cc.larryzeta.manager.mapper;
 
 import cc.larryzeta.manager.entity.TUserRoleInfo;
-import org.springframework.stereotype.Repository;
+import cc.larryzeta.manager.entity.TUserRoleInfoExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-@Repository
 public interface TUserRoleInfoMapper {
-    /**
-    * deleteByPrimaryKey
-    * @param id id
-    * @return int int
-    */
-    int deleteByPrimaryKey(String id);
+    long countByExample(TUserRoleInfoExample example);
 
-    /**
-    * insert
-    * @param row row
-    * @return int int
-    */
-    int insert(TUserRoleInfo row);
+    int deleteByExample(TUserRoleInfoExample example);
 
-    /**
-    * insertSelective
-    * @param row row
-    * @return int int
-    */
-    int insertSelective(TUserRoleInfo row);
+    int deleteByPrimaryKey(Integer id);
 
-    /**
-    * selectByPrimaryKey
-    * @param id id
-    * @return TUserRoleInfo TUserRoleInfo
-    */
-    TUserRoleInfo selectByPrimaryKey(String id);
+    int insert(TUserRoleInfo record);
 
-    /**
-    * updateByPrimaryKeySelective
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKeySelective(TUserRoleInfo row);
+    int insertSelective(TUserRoleInfo record);
 
-    /**
-    * updateByPrimaryKey
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKey(TUserRoleInfo row);
+    List<TUserRoleInfo> selectByExample(TUserRoleInfoExample example);
+
+    TUserRoleInfo selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") TUserRoleInfo record, @Param("example") TUserRoleInfoExample example);
+
+    int updateByExample(@Param("record") TUserRoleInfo record, @Param("example") TUserRoleInfoExample example);
+
+    int updateByPrimaryKeySelective(TUserRoleInfo record);
+
+    int updateByPrimaryKey(TUserRoleInfo record);
 }

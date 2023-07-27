@@ -1,28 +1,23 @@
 package cc.larryzeta.manager.entity;
 
+import java.io.Serializable;
 import lombok.Data;
 
+/**
+ * t_xray_server_info
+ * @author 
+ */
 @Data
-public class TXrayServerInfo {
-    private String id;
+public class TXrayServerInfo implements Serializable {
+    private Integer id;
 
-    /**
-    * 服务器IP或域名
-    */
     private String address;
 
-    /**
-    * 服务器名
-    */
     private String serverName;
 
-    /**
-    * 服务器标签，可用作标记地区
-    */
     private String tag;
 
-    /**
-    * 备注
-    */
     private String remark;
+
+    private static final long serialVersionUID = 1L;
 }

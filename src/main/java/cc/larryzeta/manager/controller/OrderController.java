@@ -1,24 +1,25 @@
 package cc.larryzeta.manager.controller;
 
+import cc.larryzeta.manager.api.model.ResultEntity;
+import cc.larryzeta.manager.api.order.OrderControllerApi;
+import cc.larryzeta.manager.api.order.model.OrderDTO;
 import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.AccountService;
 import cc.larryzeta.manager.service.OrderService;
 import cc.larryzeta.manager.service.XrayService;
+import feign.RequestLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @Controller
-public class OrderController {
+public class OrderController implements OrderControllerApi {
 
     @Autowired
     private OrderService orderService;
@@ -40,20 +41,57 @@ public class OrderController {
         return "orders";
     }
 
-    @GetMapping(value = "/order/{oid}")
-    public String activeOrder(@PathVariable("oid") String oid) {
-        Order order = orderService.getOrderByOid(oid);
-        Integer uid = order.getUid();
-        accountService.activeOrder(order);
-        Account account = accountService.getAccount(uid);
-        xrayService.addClient(uid, account.getAid());
-        return "redirect:/orders";
+//    @GetMapping(value = "/order/{oid}")
+//    public String activeOrder(@PathVariable("oid") String oid) {
+//        Order order = orderService.getOrderByOid(oid);
+//        Integer uid = order.getUid();
+//        accountService.activeOrder(order);
+//        Account account = accountService.getAccount(uid);
+//        xrayService.addClient(uid, account.getAid());
+//        return "redirect:/orders";
+//    }
+
+    @PostMapping("/order/te")
+    @ResponseBody
+    @Override
+    public ResultEntity<String> AddOrder(@RequestBody OrderDTO orderDTO) {
+//        orderService.addOrder(orderDTO.getUserId(), orderDTO.getDays());
+        return null;
     }
 
-    @DeleteMapping(value = "order/{oid}")
-    public String deleteOrder(@PathVariable("oid") String oid) {
-        orderService.deleteOrder(oid);
-        return "redirect:/orders";
+    @DeleteMapping("/order/{orderId}")
+    @ResponseBody
+    @Override
+    public ResultEntity<String> deleteOrder(@PathVariable String orderId) {
+
+        ResultEntity<String> resultEntity = new ResultEntity<>();
+        resultEntity.setData(String.valueOf(orderService.deleteOrder(orderId)));
+
+        return resultEntity;
+    }
+
+//    @DeleteMapping(value = "order/{oid}")
+//    public String deleteOrder(@PathVariable("oid") String oid) {
+//        orderService.deleteOrder(oid);
+//        return "redirect:/orders";
+//    }
+
+    @GetMapping("/order/{orderId}")
+    @ResponseBody
+    @Override
+    public ResultEntity<List<OrderDTO>> queryOrder(@PathVariable String orderId) {
+        ResultEntity<List<OrderDTO>> resultEntity = new ResultEntity<>();
+//        orderService.getAllOrders();
+
+        return resultEntity;
+    }
+
+    @PutMapping("/order/{orderId}/active")
+    @ResponseBody
+    @Override
+    public ResultEntity<OrderDTO> activeOrder(@PathVariable String orderId) {
+
+        return null;
     }
 
     @PostMapping(value = "/pay")

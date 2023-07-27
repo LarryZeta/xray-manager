@@ -1,10 +1,12 @@
 package cc.larryzeta.manager.service.impl;
 
+import cc.larryzeta.manager.dao.XrayServerInfoDAO;
 import cc.larryzeta.manager.mapper.AccountDAO;
 import cc.larryzeta.manager.mapper.OrderDAO;
 import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -21,6 +23,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     private AccountDAO accountDAO;
+
+    @Autowired
+    private XrayServerInfoDAO xrayServerInfoDAO;
 
     @Resource
     private OrderDAO orderDAO;

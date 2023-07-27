@@ -3,9 +3,20 @@ spring:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/xray
     username: root
-    password: ROOT
+    password: 
+    hikari:
+      autoCommit: true
+      connectionTimeOut: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximumPoolSize: 10
+      minimumIdle: 10
+      poolName: hikari
+      registerMbeans: true
+
   thymeleaf:
     cache: false
+
   mail:
     host:
     username:

@@ -1,15 +1,25 @@
 package cc.larryzeta.manager.api.order;
 
 import cc.larryzeta.manager.api.model.ResultEntity;
+import cc.larryzeta.manager.api.order.model.OrderDTO;
+import feign.Headers;
+import feign.RequestLine;
 
+import java.util.List;
+
+@Headers({"Content-Type: application/json", "Accept: application/json"})
 public interface OrderControllerApi {
 
-    ResultEntity<Object> AddOrder(Object o);
+    @RequestLine("POST /order")
+    ResultEntity<String> AddOrder(OrderDTO orderDTO);
 
-    ResultEntity<Object> deleteOrder(Object o);
+    @RequestLine("DELETE /order/{order_id}")
+    ResultEntity<String> deleteOrder(String orderId);
 
-    ResultEntity<Object> queryOrder(Object o);
+    @RequestLine("GET /order/{order_id}")
+    ResultEntity<List<OrderDTO>> queryOrder(String orderId);
 
-    ResultEntity<Object> activeOrder(Object o);
+    @RequestLine("PUT /order/{order_id}/active")
+    ResultEntity<OrderDTO> activeOrder(String orderId);
 
 }

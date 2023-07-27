@@ -11,4 +11,6 @@ public class ResultEntity<T> implements Serializable {
 
     private String msg;
 
+    private T data;
+
 }

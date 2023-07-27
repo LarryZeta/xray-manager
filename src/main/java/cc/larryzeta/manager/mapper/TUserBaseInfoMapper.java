@@ -1,60 +1,30 @@
 package cc.larryzeta.manager.mapper;
 
 import cc.larryzeta.manager.entity.TUserBaseInfo;
-import org.springframework.stereotype.Repository;
-
+import cc.larryzeta.manager.entity.TUserBaseInfoExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-@Repository
 public interface TUserBaseInfoMapper {
-    /**
-    * deleteByPrimaryKey
-    * @param id id
-    * @return int int
-    */
-    int deleteByPrimaryKey(String id);
+    long countByExample(TUserBaseInfoExample example);
 
-    /**
-    * insert
-    * @param row row
-    * @return int int
-    */
-    int insert(TUserBaseInfo row);
+    int deleteByExample(TUserBaseInfoExample example);
 
-    /**
-    * insertSelective
-    * @param row row
-    * @return int int
-    */
-    int insertSelective(TUserBaseInfo row);
+    int deleteByPrimaryKey(Integer id);
 
-    /**
-    * selectByPrimaryKey
-    * @param id id
-    * @return TUserBaseInfo TUserBaseInfo
-    */
-    TUserBaseInfo selectByPrimaryKey(String id);
+    int insert(TUserBaseInfo record);
 
-    /**
-     * selectByEmail
-     * @param email email
-     * @return TUserBaseInfo TUserBaseInfo
-     */
-    TUserBaseInfo selectByEmail(String email);
+    int insertSelective(TUserBaseInfo record);
 
-    List<TUserBaseInfo> selectAll();
+    List<TUserBaseInfo> selectByExample(TUserBaseInfoExample example);
 
-    /**
-    * updateByPrimaryKeySelective
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKeySelective(TUserBaseInfo row);
+    TUserBaseInfo selectByPrimaryKey(Integer id);
 
-    /**
-    * updateByPrimaryKey
-    * @param row row
-    * @return int int
-    */
-    int updateByPrimaryKey(TUserBaseInfo row);
+    int updateByExampleSelective(@Param("record") TUserBaseInfo record, @Param("example") TUserBaseInfoExample example);
+
+    int updateByExample(@Param("record") TUserBaseInfo record, @Param("example") TUserBaseInfoExample example);
+
+    int updateByPrimaryKeySelective(TUserBaseInfo record);
+
+    int updateByPrimaryKey(TUserBaseInfo record);
 }

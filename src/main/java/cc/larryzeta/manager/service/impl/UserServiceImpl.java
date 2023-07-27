@@ -1,9 +1,9 @@
 package cc.larryzeta.manager.service.impl;
 
 import cc.larryzeta.manager.biz.UserBiz;
-import cc.larryzeta.manager.dao.TUserBaseInfoDAO;
-import cc.larryzeta.manager.dao.TUserRoleRelationDAO;
-import cc.larryzeta.manager.entity.TUserRoleRelation;
+import cc.larryzeta.manager.dao.UserBaseInfoDAO;
+import cc.larryzeta.manager.dao.UserRoleInfoDAO;
+import cc.larryzeta.manager.entity.TUserRoleInfo;
 import cc.larryzeta.manager.mapper.UserDAO;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.entity.User;
@@ -20,9 +20,10 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,10 +34,10 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Autowired
-    private TUserBaseInfoDAO tUserBaseInfoDAO;
+    private UserBaseInfoDAO userBaseInfoDAO;
 
     @Autowired
-    private TUserRoleRelationDAO tUserRoleRelationDAO;
+    private UserRoleInfoDAO userRoleInfoDAO;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -49,24 +50,27 @@ public class UserServiceImpl implements UserService {
 
         log.info("[UserServiceImpl-login] 用户登录 email=[{}]", email);
 
-        if (StringUtils.isEmpty(email)) {
+        if (!StringUtils.hasText(email)) {
             log.info("[UserServiceImpl-login] 用户登录 email=[{}] 失败", email);
             map.put("msg", "Please input email");
             throw new ReturnException(ReturnCodeEnum.PARAM_EXCEPTION);
         }
 
-        TUserBaseInfo userBaseInfo = tUserBaseInfoDAO.getTUserBaseInfoByEmail(email);
+        TUserBaseInfo query = new TUserBaseInfo();
+        query.setEmail(email);
+        TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfo(query).get(0);
 
         if (userBaseInfo == null) {
             throw new ReturnException(ReturnCodeEnum.EXCEPTION);
         }
 
-        List<TUserRoleRelation> userRoleRelationList = tUserRoleRelationDAO.getUserRole(userBaseInfo.getId());
-        boolean isAdmin = false;
+        TUserRoleInfo userRoleInfo = new TUserRoleInfo();
+        userRoleInfo.setUserId(userBaseInfo.getId());
+        List<TUserRoleInfo> userRoleInfoList = userRoleInfoDAO.getUserRole(userRoleInfo);
 
-        for (TUserRoleRelation roleRelation : userRoleRelationList) {
-            if ("ADMIN".equals(roleRelation.getRoleCode()) && "VALID".equals(roleRelation.getStatus())) {
-                isAdmin = true;
+        for (TUserRoleInfo roleInfo : userRoleInfoList) {
+            if ("ADMIN".equals(roleInfo.getRoleCode()) && "VALID".equals(roleInfo.getRoleStatus())) {
+                // TODO ADMIN
                 break;
             }
         }
@@ -75,7 +79,7 @@ public class UserServiceImpl implements UserService {
             log.info("[UserServiceImpl-login] 用户登录成功 email=[{}]", email);
             session.setAttribute("loginUser", userBaseInfo.getUserName());
             session.setAttribute("uid", userBaseInfo.getId());
-            session.setAttribute("isAdmin", isAdmin);
+            session.setAttribute("isAdmin", true);
         } else {
             log.info("[UserServiceImpl-login] 用户登录 email=[{}] 失败", email);
             map.put("msg", "Invalid email or password.");
@@ -96,7 +100,9 @@ public class UserServiceImpl implements UserService {
         log.info("UserServiceImpl-register username=[{}], email=[{}]", username, email);
 
 //        User exist = userDAO.getUserByEmail(email);
-        TUserBaseInfo userBaseInfo = tUserBaseInfoDAO.getTUserBaseInfoByEmail(email);
+        TUserBaseInfo query = new TUserBaseInfo();
+        query.setEmail(email);
+        TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfo(query).get(0);
 
         if (userBaseInfo != null) {
             map.put("msg", "The email has been registered.");
@@ -112,7 +118,7 @@ public class UserServiceImpl implements UserService {
             tUserBaseInfo.setUserName(username);
             tUserBaseInfo.setEmail(email);
             tUserBaseInfo.setPasswd(password);
-            tUserBaseInfoDAO.saveTUserBaseInfo(tUserBaseInfo);
+            userBaseInfoDAO.saveTUserBaseInfo(tUserBaseInfo);
 
 //            User user = new User();
 //            user.setUsername(username);
@@ -125,7 +131,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
 
-        List<TUserBaseInfo> tUserBaseInfoList = tUserBaseInfoDAO.getAllTUserBaseInfo();
+        List<TUserBaseInfo> tUserBaseInfoList = userBaseInfoDAO.getTUserBaseInfo(null);
 
         // TUserBaseInfo -> user
         List<User> userList = tUserBaseInfoList
@@ -141,14 +147,14 @@ public class UserServiceImpl implements UserService {
     public Integer deleteUser(Integer uid) {
 //        return userDAO.deleteUser(uid);
 
-        userBiz.deleteUser(uid.toString());
+        userBiz.deleteUser(uid);
         return 0;
     }
 
     @Override
     public void sentMail(Integer uid,String subject, String content) {
 //        User user = userDAO.getUserByUid(uid);
-        TUserBaseInfo userBaseInfo = tUserBaseInfoDAO.getTUserBaseInfoById(uid.toString());
+        TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfoById(uid);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("v@larryzeta.cc");
 //        message.setTo(user.getEmail());
@@ -164,11 +170,30 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<String> getRoleList(String userName) {
+
+        TUserBaseInfo userBaseInfo = new TUserBaseInfo();
+        userBaseInfo.setUserName(userName);
+        List<TUserBaseInfo> userBaseInfoList = userBaseInfoDAO.getTUserBaseInfo(userBaseInfo);
+
+        TUserRoleInfo userRoleInfo = new TUserRoleInfo();
+        userRoleInfo.setUserId(userBaseInfoList.get(0).getId());
+        List<TUserRoleInfo> userRoleInfoList = userRoleInfoDAO.getUserRole(userRoleInfo);
+
+        return userRoleInfoList.stream().map(TUserRoleInfo::getRoleCode).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getPermissions(String username) {
+        return Arrays.asList("TEST", "READ");
+    }
+
     private User userBaseInfo2User(TUserBaseInfo userBaseInfo) {
         User user = new User();
         user.setEmail(userBaseInfo.getEmail());
         user.setUsername(userBaseInfo.getUserName());
-        user.setUid(Integer.getInteger(userBaseInfo.getId()));
+        user.setUid(userBaseInfo.getId());
         user.setPassword(userBaseInfo.getPasswd());
         return user;
     }

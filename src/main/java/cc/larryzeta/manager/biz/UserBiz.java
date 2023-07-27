@@ -1,6 +1,6 @@
 package cc.larryzeta.manager.biz;
 
-import cc.larryzeta.manager.dao.TUserBaseInfoDAO;
+import cc.larryzeta.manager.dao.UserBaseInfoDAO;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.enumeration.StatusEnum;
 import cc.larryzeta.manager.exception.ReturnException;
@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
 public class UserBiz {
 
     @Autowired
-    private TUserBaseInfoDAO userBaseInfoDAO;
+    private UserBaseInfoDAO userBaseInfoDAO;
 
-    public void deleteUser(String userId) {
+    public void deleteUser(int userId) {
 
         TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfoById(userId);
 
-        if (userBaseInfo == null || StatusEnum.DELETED.code.equals(userBaseInfo.getStatus())) {
+        if (userBaseInfo == null || StatusEnum.DELETED.code.equals(userBaseInfo.getUserStatus())) {
             throw new ReturnException("用户无效");
         }
 
         userBaseInfo = new TUserBaseInfo();
         userBaseInfo.setId(userId);
-        userBaseInfo.setStatus(StatusEnum.DELETED.code);
+        userBaseInfo.setUserStatus(StatusEnum.DELETED.code);
         userBaseInfoDAO.updateTUserBaseInfo(userBaseInfo);
 
     }

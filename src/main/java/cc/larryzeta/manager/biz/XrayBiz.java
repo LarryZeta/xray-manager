@@ -1,7 +1,7 @@
 package cc.larryzeta.manager.biz;
 
 import cc.larryzeta.manager.config.FeignConfig;
-import cc.larryzeta.manager.dao.TXrayServerInfoDAO;
+import cc.larryzeta.manager.dao.XrayServerInfoDAO;
 import cc.larryzeta.manager.entity.TXrayServerInfo;
 import cc.larryzeta.manager.exception.ReturnException;
 import cc.larryzeta.manager.external.model.AddRequest;
@@ -32,7 +32,7 @@ public class XrayBiz {
     private String secretKey;
 
     @Autowired
-    private TXrayServerInfoDAO xrayServerInfoDao;
+    private XrayServerInfoDAO xrayServerInfoDao;
 
     private Map<String, FlaskApi> loadFlaskApiMap() {
         List<TXrayServerInfo> xrayServerInfoList = xrayServerInfoDao.getAllXrayServerInfo();
@@ -106,7 +106,7 @@ public class XrayBiz {
                 throw new ReturnException("服务器不存在");
             }
             Response response = flaskApi.syncClients(syncRequest);
-            log.info("response: {}", response);
+            log.info("[syncClient] sync response: {}", response);
             return;
         }
 
@@ -115,7 +115,7 @@ public class XrayBiz {
             try {
                 flaskApi.syncClients(syncRequest);
             } catch (Exception e) {
-                log.error("[XrayBiz-addClient] Exception", e);
+                log.error("[XrayBiz-syncClient] Exception", e);
                 throw new ReturnException();
             }
         }
