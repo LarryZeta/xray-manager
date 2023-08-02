@@ -20,7 +20,9 @@ public interface UserService {
 
     List<String> getPermissions(String username);
 
-    List<TUserBaseInfo> getUser(TUserBaseInfo userBaseInfo);
+    List<TUserBaseInfo> getUsers(TUserBaseInfo userBaseInfo);
+
+    TUserBaseInfo getUser(String email);
 
     TUserBaseInfo updatePassWord(String email, UpdatePassWordRequest updatePassWordRequest);
 

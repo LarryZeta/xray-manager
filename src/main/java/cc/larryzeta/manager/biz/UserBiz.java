@@ -1,13 +1,12 @@
 package cc.larryzeta.manager.biz;
 
 import cc.larryzeta.manager.dao.UserBaseInfoDAO;
-import cc.larryzeta.manager.dao.XrayAccountInfoDAO;
-import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
 import cc.larryzeta.manager.enumeration.StatusEnum;
 import cc.larryzeta.manager.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +53,23 @@ public class UserBiz {
         }
 
         return userBaseInfoList.get(0);
+
+    }
+
+    public void jwtPermission(String email) {
+
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        String[] strings = principal.split("-");
+        String jwtUserName = strings[0];
+        String jwtEmail = strings[1];
+
+        log.info("jwtUserName: [{}]", jwtUserName);
+        log.info("jwtEmail: [{}]", jwtEmail);
+
+        if (!jwtEmail.equals(email)) {
+            log.warn("permission denied");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "permission denied");
+        }
 
     }
 

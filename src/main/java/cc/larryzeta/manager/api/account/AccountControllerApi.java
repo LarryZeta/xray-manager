@@ -2,19 +2,23 @@ package cc.larryzeta.manager.api.account;
 
 import cc.larryzeta.manager.api.account.model.AddAccountRequest;
 import cc.larryzeta.manager.api.model.ResultEntity;
+import cc.larryzeta.manager.entity.TXrayAccountInfo;
 import feign.RequestLine;
+
+import java.util.List;
 
 public interface AccountControllerApi {
 
-    @RequestLine("POST /account/add")
-    ResultEntity<String> AddAccount(AddAccountRequest request);
+    @RequestLine("DELETE /account/{userId}")
+    ResultEntity<String> deleteAccount(Integer userId);
 
-    ResultEntity<String> deleteAccount(Object o);
+    @RequestLine("GET /account/{userId}")
+    ResultEntity<TXrayAccountInfo> queryAccount(Integer userId);
 
-    ResultEntity<Object> queryAccount(Object o);
+    @RequestLine("GET /accounts")
+    ResultEntity<List<TXrayAccountInfo>> deleteAccount(TXrayAccountInfo xrayAccountInfo);
 
-    ResultEntity<Object> updateAccount(Object o);
 
-    ResultEntity<Object> syncAccount(Object o);
+//    ResultEntity<Object> syncAccount(Object o);
 
 }

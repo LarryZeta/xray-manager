@@ -15,6 +15,7 @@ import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.UserService;
 import cc.larryzeta.manager.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -38,9 +39,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRoleInfoDAO userRoleInfoDAO;
-
-    @Autowired
-    private JavaMailSender mailSender;
 
     @Autowired
     private UserBiz userBiz;
@@ -115,12 +113,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<TUserBaseInfo> getUser(TUserBaseInfo userBaseInfo) {
+    public List<TUserBaseInfo> getUsers(TUserBaseInfo userBaseInfo) {
+
+        log.info("getUsers service START condition userBaseInfo: [{}]", JsonUtils.toJSONString(userBaseInfo));
 
         List<TUserBaseInfo> userBaseInfoList = userBaseInfoDAO.getTUserBaseInfo(userBaseInfo);
 
-        return userBaseInfoList;
+        log.info("getUsers service START condition userBaseInfo: [{}]", JsonUtils.toJSONString(userBaseInfo));
 
+
+        return userBaseInfoList;
+    }
+
+    @Override
+    public TUserBaseInfo getUser(String email) {
+
+        log.info("getUser service START email: {}", email);
+
+        userBiz.jwtPermission(email);
+
+        TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(email);
+
+        log.info("getUser service END userBaseInfo: {}", JsonUtils.toJSONString(userBaseInfo));
+
+        return userBaseInfo;
     }
 
     @Override
@@ -132,6 +148,8 @@ public class UserServiceImpl implements UserService {
             log.error("updatePassWord service email blank");
             throw new BizException(ReturnCodeEnum.EXCEPTION.code, "email blank");
         }
+
+        userBiz.jwtPermission(email);
 
         if (email.equals(updatePassWordRequest.getEmail())) {
             log.error("updatePassWord service not same email");

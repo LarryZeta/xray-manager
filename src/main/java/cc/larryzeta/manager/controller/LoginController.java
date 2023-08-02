@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,28 +54,6 @@ public class LoginController {
         result.setData(json.toString());
 
         return result;
-    }
-
-    @PostMapping(value = "/user/login")
-    public String login(@RequestParam("email") String email,
-                        @RequestParam("password") String password,
-                        Map<String, Object> map, HttpSession session) {
-
-        try {
-            authService.login(email, password, map, session);
-            return "redirect:/service";
-        } catch (Exception e) {
-            log.warn("[LoginController-login] Exception", e);
-        }
-
-        return "login";
-
-    }
-
-    @GetMapping(value = "/logout")
-    public String logout(HttpSession session) {
-        authService.logout(session);
-        return "redirect:/login";
     }
 
 }

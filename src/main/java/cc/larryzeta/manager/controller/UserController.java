@@ -4,14 +4,20 @@ import cc.larryzeta.manager.api.model.ResultEntity;
 import cc.larryzeta.manager.api.user.UserControllerApi;
 import cc.larryzeta.manager.api.user.model.RegisterRequest;
 import cc.larryzeta.manager.api.user.model.UpdatePassWordRequest;
+import cc.larryzeta.manager.auth.JwtRealm;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
 import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.UserService;
 import cc.larryzeta.manager.util.JsonUtils;
+import cc.larryzeta.manager.util.JwtUtil;
 import io.micrometer.core.lang.Nullable;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +56,7 @@ public class UserController implements UserControllerApi {
         return resultEntity;
     }
 
+    @RequiresRoles("ADMIN")
     @DeleteMapping(value = "/user/{email}")
     @Override
     public ResultEntity<String> deleteUser(@PathVariable String email) {
@@ -84,7 +91,7 @@ public class UserController implements UserControllerApi {
 
         log.info("getUsers START condition userBaseInfo: [{}]", JsonUtils.toJSONString(userBaseInfo));
 
-        List<TUserBaseInfo> users = userService.getUser(userBaseInfo);
+        List<TUserBaseInfo> users = userService.getUsers(userBaseInfo);
         ResultEntity<List<TUserBaseInfo>> resultEntity = new ResultEntity<>();
         resultEntity.setData(users);
 
@@ -128,11 +135,20 @@ public class UserController implements UserControllerApi {
 
         log.info("getUser START email: {}", email);
 
-        TUserBaseInfo query = new TUserBaseInfo();
-        query.setEmail(email);
-        List<TUserBaseInfo> users = userService.getUser(query);
         ResultEntity<TUserBaseInfo> resultEntity = new ResultEntity<>();
-        resultEntity.setData(users.get(0));
+
+        try {
+            TUserBaseInfo userBaseInfo = userService.getUser(email);
+            resultEntity.setData(userBaseInfo);
+        } catch (BizException bizException) {
+            resultEntity.setCode(bizException.getCode());
+            resultEntity.setMsg(bizException.getMsg());
+            log.error("getUser bizException", bizException);
+        } catch (Exception e) {
+            resultEntity.setCode(ReturnCodeEnum.EXCEPTION.code);
+            resultEntity.setMsg(ReturnCodeEnum.EXCEPTION.msg);
+            log.error("getUser unknown Exception e", e);
+        }
 
         log.info("getUser END resultEntity: {}", JsonUtils.toJSONString(resultEntity));
 

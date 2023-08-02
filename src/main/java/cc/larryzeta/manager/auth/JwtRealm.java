@@ -73,8 +73,7 @@ public class JwtRealm extends AuthorizingRealm {
             log.error("doGetAuthenticationInfo unknown Exception e", e);
         }
 
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userName, token, getName());
-        return authenticationInfo;
+        return new SimpleAuthenticationInfo(userName + "-" + email, token, getName());
     }
 
 }
