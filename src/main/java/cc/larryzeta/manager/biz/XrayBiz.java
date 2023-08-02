@@ -3,7 +3,7 @@ package cc.larryzeta.manager.biz;
 import cc.larryzeta.manager.config.FeignConfig;
 import cc.larryzeta.manager.dao.XrayServerInfoDAO;
 import cc.larryzeta.manager.entity.TXrayServerInfo;
-import cc.larryzeta.manager.exception.ReturnException;
+import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.external.model.AddRequest;
 import cc.larryzeta.manager.external.FlaskApi;
 import cc.larryzeta.manager.external.model.Client;
@@ -24,12 +24,6 @@ import java.util.Map;
 @Service
 @Slf4j
 public class XrayBiz {
-
-    @Value("${shim.access-key}")
-    private String accessKey;
-
-    @Value("${shim.secret-key}")
-    private String secretKey;
 
     @Autowired
     private XrayServerInfoDAO xrayServerInfoDao;
@@ -58,7 +52,7 @@ public class XrayBiz {
                 flaskApi.addClient(addRequest);
             } catch (Exception e) {
                 log.error("[XrayBiz-addClient] Exception", e);
-                throw new ReturnException();
+                throw new BizException();
             }
         }
 
@@ -80,7 +74,7 @@ public class XrayBiz {
                 flaskApi.removeClient(removeRequest);
             } catch (Exception e) {
                 log.error("[XrayBiz-addClient] Exception", e);
-                throw new ReturnException();
+                throw new BizException();
             }
         }
 
@@ -94,8 +88,6 @@ public class XrayBiz {
 
         SyncRequest syncRequest = new SyncRequest();
         syncRequest.setClients(clientList);
-        syncRequest.setAccessKey(accessKey);
-        syncRequest.setSecretKey(secretKey);
 
         Map<String, FlaskApi> flaskApiMap = loadFlaskApiMap();
 
@@ -103,7 +95,7 @@ public class XrayBiz {
             log.info("[syncClient] sync server: {}", serverName);
             FlaskApi flaskApi = flaskApiMap.get(serverName);
             if (flaskApi == null) {
-                throw new ReturnException("服务器不存在");
+                throw new BizException("服务器不存在");
             }
             Response response = flaskApi.syncClients(syncRequest);
             log.info("[syncClient] sync response: {}", response);
@@ -116,7 +108,7 @@ public class XrayBiz {
                 flaskApi.syncClients(syncRequest);
             } catch (Exception e) {
                 log.error("[XrayBiz-syncClient] Exception", e);
-                throw new ReturnException();
+                throw new BizException();
             }
         }
 

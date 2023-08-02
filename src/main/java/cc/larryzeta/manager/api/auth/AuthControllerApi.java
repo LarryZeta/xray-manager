@@ -12,7 +12,4 @@ public interface AuthControllerApi {
     @RequestLine("POST /login")
     ResultEntity<AuthResponse> login(AuthRequest authRequest);
 
-    @RequestLine("POST /logout")
-    ResultEntity<AuthResponse> logout();
-
 }

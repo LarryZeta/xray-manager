@@ -1,11 +1,10 @@
 package cc.larryzeta.manager.controller;
 
 import cc.larryzeta.manager.api.model.ResultEntity;
+import cc.larryzeta.manager.config.JwtConfig;
 import cc.larryzeta.manager.dao.UserBaseInfoDAO;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
-import cc.larryzeta.manager.entity.User;
-import cc.larryzeta.manager.mapper.UserDAO;
-import cc.larryzeta.manager.service.UserService;
+import cc.larryzeta.manager.service.AuthService;
 import cc.larryzeta.manager.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Slf4j
 @Controller
 public class LoginController {
 
     @Autowired
-    private UserService userService;
+    private JwtConfig jwtConfig;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private UserBaseInfoDAO userBaseInfoDAO;
@@ -30,6 +31,7 @@ public class LoginController {
     @ResponseBody
     @PostMapping(value = "toLogin")
     public ResultEntity<String> login(String username, String password) {
+
         ResultEntity<String> result = new ResultEntity<>();
         Map<String, Object> json = new HashMap<>();
 
@@ -48,9 +50,10 @@ public class LoginController {
             return result;
         }
 
-        String token = JwtUtil.sign(username, password);
+        String token = JwtUtil.sign(username, user.getEmail(), jwtConfig);
         json.put("token", token);
         result.setData(json.toString());
+
         return result;
     }
 
@@ -60,7 +63,7 @@ public class LoginController {
                         Map<String, Object> map, HttpSession session) {
 
         try {
-            userService.login(email, password, map, session);
+            authService.login(email, password, map, session);
             return "redirect:/service";
         } catch (Exception e) {
             log.warn("[LoginController-login] Exception", e);
@@ -72,7 +75,7 @@ public class LoginController {
 
     @GetMapping(value = "/logout")
     public String logout(HttpSession session) {
-        userService.logout(session);
+        authService.logout(session);
         return "redirect:/login";
     }
 

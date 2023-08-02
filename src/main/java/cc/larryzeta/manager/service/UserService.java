@@ -1,6 +1,10 @@
 package cc.larryzeta.manager.service;
 
+import cc.larryzeta.manager.api.user.model.RegisterRequest;
+import cc.larryzeta.manager.api.user.model.UpdatePassWordRequest;
+import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.entity.User;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -8,20 +12,16 @@ import java.util.Map;
 
 public interface UserService {
 
-    void login(String email, String password, Map<String, Object> map, HttpSession session);
+    void register(RegisterRequest registerRequest);
 
-    void logout(HttpSession session);
-
-    void register(String username, String email, String password, String retype, Map<String, Object> map);
-
-    List<User> getAllUsers();
-
-    Integer deleteUser(Integer uid);
-
-    void sentMail(Integer uid, String subject, String content);
+    void deleteUser(String email);
 
     List<String> getRoleList(String username);
 
     List<String> getPermissions(String username);
+
+    List<TUserBaseInfo> getUser(TUserBaseInfo userBaseInfo);
+
+    TUserBaseInfo updatePassWord(String email, UpdatePassWordRequest updatePassWordRequest);
 
 }

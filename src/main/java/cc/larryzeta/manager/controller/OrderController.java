@@ -41,16 +41,6 @@ public class OrderController implements OrderControllerApi {
         return "orders";
     }
 
-//    @GetMapping(value = "/order/{oid}")
-//    public String activeOrder(@PathVariable("oid") String oid) {
-//        Order order = orderService.getOrderByOid(oid);
-//        Integer uid = order.getUid();
-//        accountService.activeOrder(order);
-//        Account account = accountService.getAccount(uid);
-//        xrayService.addClient(uid, account.getAid());
-//        return "redirect:/orders";
-//    }
-
     @PostMapping("/order/te")
     @ResponseBody
     @Override
@@ -69,12 +59,6 @@ public class OrderController implements OrderControllerApi {
 
         return resultEntity;
     }
-
-//    @DeleteMapping(value = "order/{oid}")
-//    public String deleteOrder(@PathVariable("oid") String oid) {
-//        orderService.deleteOrder(oid);
-//        return "redirect:/orders";
-//    }
 
     @GetMapping("/order/{orderId}")
     @ResponseBody

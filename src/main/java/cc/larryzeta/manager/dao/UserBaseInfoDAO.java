@@ -84,6 +84,7 @@ public class UserBaseInfoDAO {
     }
 
     public void updateTUserBaseInfo(TUserBaseInfo userBaseInfo) {
+
         log.info("[TUserBaseInfoDao-updateTUserBaseInfo] userBaseInfo=[{}]", userBaseInfo);
 
         try {

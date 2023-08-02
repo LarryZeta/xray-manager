@@ -2,6 +2,7 @@ package cc.larryzeta.manager.controller;
 
 import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.service.AccountService;
+import cc.larryzeta.manager.service.NoticeService;
 import cc.larryzeta.manager.service.UserService;
 import cc.larryzeta.manager.service.XrayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class AccountController {
     private XrayService xrayService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NoticeService noticeService;
 
     @GetMapping(value = "/user/account")
     public String toAccount(HttpSession session, Model model) {
@@ -44,7 +48,7 @@ public class AccountController {
     @DeleteMapping(value = "/account/{uid}")
     public String deleteAccount(@PathVariable("uid") Integer uid) {
         accountService.deleteAccountByUid(uid);
-        userService.sentMail(uid, "账号删除提醒", "您的账号已被删除。");
+        noticeService.sentMail(uid, "账号删除提醒", "您的账号已被删除。");
         xrayService.deleteClient(uid);
         return "redirect:/accounts";
     }

@@ -33,8 +33,9 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(webSecurityManager);
 
-        Map<String,String> filterChainDefinitionMap=new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/toLogin","anon");
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/toLogin", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSuccessUrl("/");
 
@@ -42,7 +43,7 @@ public class ShiroConfig {
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filters);
-        filterChainDefinitionMap.put("/**","jwt");
+        filterChainDefinitionMap.put("/**", "jwt");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -63,7 +64,7 @@ public class ShiroConfig {
     @Bean(name = "defaultWebSecurityManager")
     public DefaultWebSecurityManager defaultWebSecurityManager(@Qualifier("realm") JwtRealm realm,
                                                                SubjectFactory subjectFactory, SessionManager sessionManager){
-        DefaultWebSecurityManager webSecurityManager=new DefaultWebSecurityManager();
+        DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager();
         webSecurityManager.setRealm(realm);
 
         //关闭shiro自带的session

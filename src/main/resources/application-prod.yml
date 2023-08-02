@@ -15,9 +15,9 @@ mybatis:
   type-aliases-package: cc.larryzeta.manager.entity
   mapper-locations: classpath:mapper/*.xml
 
-shim:
-  access-key: hfmvnauvjz7duyupmxrbu2c737s3x4x9
-  secret-key: fmmztmgw3xriue3aj5goczc25dxnfyy9
-
 server:
   address: 127.0.0.1
+
+jwt:
+  secret:
+  timeout: 1800000

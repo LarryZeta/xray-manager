@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class JwtFilter extends AccessControlFilter {
 
-    public static String ACCESS_TOKEN = "Access-Token";
+    public static String AUTH_HEADER = "Authorization";
 
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
@@ -26,9 +26,11 @@ public class JwtFilter extends AccessControlFilter {
             return true;
         }
         if (isLoginAttempt(request, response)) {
-            JwtToken token = new JwtToken(req.getHeader(ACCESS_TOKEN));
+            String header = req.getHeader(AUTH_HEADER);
+            String token = header.replace("Bearer " , "");
+            JwtToken jwtToken = new JwtToken(token);
             try {
-                getSubject(request, response).login(token);
+                getSubject(request, response).login(jwtToken);
                 return true;
             } catch (Exception e) {
             }
@@ -39,7 +41,7 @@ public class JwtFilter extends AccessControlFilter {
 
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
-        String authorization = req.getHeader(ACCESS_TOKEN);
+        String authorization = req.getHeader(AUTH_HEADER);
         return authorization != null;
     }
 

@@ -1,0 +1,54 @@
+package cc.larryzeta.manager.biz;
+
+import cc.larryzeta.manager.dao.XrayAccountInfoDAO;
+import cc.larryzeta.manager.entity.TXrayAccountInfo;
+import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
+import cc.larryzeta.manager.enumeration.StatusEnum;
+import cc.larryzeta.manager.exception.BizException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@Slf4j
+public class AccountBiz {
+
+    @Autowired
+    private XrayAccountInfoDAO xrayAccountInfoDAO;
+
+    public void deleteAccountByUserId(Integer userId) {
+
+        TXrayAccountInfo xrayAccountInfo = getAccount(userId);
+
+        TXrayAccountInfo update = new TXrayAccountInfo();
+        update.setId(xrayAccountInfo.getId());
+        update.setAccountStatus(StatusEnum.INVALID.code);
+
+        xrayAccountInfoDAO.updateTXrayAccountInfo(update);
+
+    }
+
+    public TXrayAccountInfo getAccount(Integer userId) {
+
+        TXrayAccountInfo query = new TXrayAccountInfo();
+        query.setUserId(userId);
+
+        List<TXrayAccountInfo> xrayAccountInfoList = xrayAccountInfoDAO.getTXrayAccountInfo(query);
+
+        if (xrayAccountInfoList == null || xrayAccountInfoList.isEmpty()) {
+            log.error("AccountBiz deleteAccountByUserId userId: [{}] no account", userId);
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "account not fund");
+        }
+
+        if (xrayAccountInfoList.size() != 1) {
+            log.error("fund too many account info userId: [{}]", userId);
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "too many account info");
+        }
+
+        return xrayAccountInfoList.get(0);
+
+    }
+
+}

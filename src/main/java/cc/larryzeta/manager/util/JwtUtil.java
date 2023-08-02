@@ -1,5 +1,6 @@
 package cc.larryzeta.manager.util;
 
+import cc.larryzeta.manager.config.JwtConfig;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -9,22 +10,22 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.util.Date;
 
 public class JwtUtil {
-    public static final String ACCOUNT = "username";
-    public static final long EXPIRE_TIME = 30 * 60 * 1000;
 
-    public static boolean verify(String token, String username, String secret) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim(ACCOUNT, username)
-                    .build();
+    public static final String USERNAME = "username";
 
-            DecodedJWT jwt = verifier.verify(token);
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
+    public static final String EMAIL = "email";
+
+
+    public static void verify(String token, String username, String email, JwtConfig config) {
+
+        Algorithm algorithm = config.getAlgorithm();
+        JWTVerifier verifier = JWT.require(algorithm)
+                .withClaim(USERNAME, username)
+                .withClaim(EMAIL, email)
+                .build();
+
+        verifier.verify(token);
+
     }
 
     public static String getClaimField(String token, String claim){
@@ -37,11 +38,12 @@ public class JwtUtil {
         }
     }
 
-    public static String sign(String username, String secret) {
-        Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-        Algorithm algorithm = Algorithm.HMAC256(secret);
+    public static String sign(String username, String email, JwtConfig config) {
+        Date date = new Date(System.currentTimeMillis() + config.getTimeOut());
+        Algorithm algorithm = Algorithm.HMAC256(config.getSecret());
         return JWT.create()
-                .withClaim(ACCOUNT, username)
+                .withClaim(USERNAME, username)
+                .withClaim(EMAIL, email)
                 .withExpiresAt(date)
                 .sign(algorithm);
     }

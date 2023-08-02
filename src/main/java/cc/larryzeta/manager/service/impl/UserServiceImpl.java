@@ -1,5 +1,8 @@
 package cc.larryzeta.manager.service.impl;
 
+import cc.larryzeta.manager.api.user.model.RegisterRequest;
+import cc.larryzeta.manager.api.user.model.UpdatePassWordRequest;
+import cc.larryzeta.manager.biz.AccountBiz;
 import cc.larryzeta.manager.biz.UserBiz;
 import cc.larryzeta.manager.dao.UserBaseInfoDAO;
 import cc.larryzeta.manager.dao.UserRoleInfoDAO;
@@ -8,8 +11,9 @@ import cc.larryzeta.manager.mapper.UserDAO;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.entity.User;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
-import cc.larryzeta.manager.exception.ReturnException;
+import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.UserService;
+import cc.larryzeta.manager.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -20,7 +24,6 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +32,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Resource
-    private UserDAO userDAO;
 
     @Autowired
     private UserBaseInfoDAO userBaseInfoDAO;
@@ -45,130 +45,55 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserBiz userBiz;
 
-    @Override
-    public void login(String email, String password, Map<String, Object> map, HttpSession session) {
+    @Autowired
+    private AccountBiz accountBiz;
 
-        log.info("[UserServiceImpl-login] 用户登录 email=[{}]", email);
-
-        if (!StringUtils.hasText(email)) {
-            log.info("[UserServiceImpl-login] 用户登录 email=[{}] 失败", email);
-            map.put("msg", "Please input email");
-            throw new ReturnException(ReturnCodeEnum.PARAM_EXCEPTION);
-        }
-
-        TUserBaseInfo query = new TUserBaseInfo();
-        query.setEmail(email);
-        TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfo(query).get(0);
-
-        if (userBaseInfo == null) {
-            throw new ReturnException(ReturnCodeEnum.EXCEPTION);
-        }
-
-        TUserRoleInfo userRoleInfo = new TUserRoleInfo();
-        userRoleInfo.setUserId(userBaseInfo.getId());
-        List<TUserRoleInfo> userRoleInfoList = userRoleInfoDAO.getUserRole(userRoleInfo);
-
-        for (TUserRoleInfo roleInfo : userRoleInfoList) {
-            if ("ADMIN".equals(roleInfo.getRoleCode()) && "VALID".equals(roleInfo.getRoleStatus())) {
-                // TODO ADMIN
-                break;
-            }
-        }
-
-        if (userBaseInfo.getPasswd().equals(password)) {
-            log.info("[UserServiceImpl-login] 用户登录成功 email=[{}]", email);
-            session.setAttribute("loginUser", userBaseInfo.getUserName());
-            session.setAttribute("uid", userBaseInfo.getId());
-            session.setAttribute("isAdmin", true);
-        } else {
-            log.info("[UserServiceImpl-login] 用户登录 email=[{}] 失败", email);
-            map.put("msg", "Invalid email or password.");
-            throw new ReturnException(ReturnCodeEnum.EXCEPTION);
-        }
-    }
 
     @Override
-    public void logout(HttpSession session) {
-        session.removeAttribute("loginUser");
-        session.removeAttribute("uid");
-        session.removeAttribute("isAdmin");
-    }
+    public void register(RegisterRequest registerRequest) {
 
-    @Override
-    public void register(String username, String email, String password, String retype, Map<String, Object> map) {
+        log.info("register service START registerRequest: [{}]", JsonUtils.toJSONString(registerRequest));
 
-        log.info("UserServiceImpl-register username=[{}], email=[{}]", username, email);
-
-//        User exist = userDAO.getUserByEmail(email);
-        TUserBaseInfo query = new TUserBaseInfo();
-        query.setEmail(email);
-        TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfo(query).get(0);
+        TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(registerRequest.getEmail());
 
         if (userBaseInfo != null) {
-            map.put("msg", "The email has been registered.");
-            throw new ReturnException(ReturnCodeEnum.EXCEPTION);
-        } else if (!password.equals(retype)) {
-            map.put("msg", "Inconsistent password.");
-            throw new ReturnException(ReturnCodeEnum.EXCEPTION);
-        } else if (username.equals("admin")) {
-            map.put("msg", "Username cannot be admin.");
-            throw new ReturnException(ReturnCodeEnum.EXCEPTION);
+            log.warn("The email has been registered email: [{}]", registerRequest.getEmail());
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "The email has been registered email");
+        } else if ("admin".equals(registerRequest.getUsername())) {
+            log.warn("Username cannot be admin.");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "Username cannot be admin.");
         } else {
             TUserBaseInfo tUserBaseInfo = new TUserBaseInfo();
-            tUserBaseInfo.setUserName(username);
-            tUserBaseInfo.setEmail(email);
-            tUserBaseInfo.setPasswd(password);
+            tUserBaseInfo.setUserName(registerRequest.getUsername());
+            tUserBaseInfo.setEmail(registerRequest.getEmail());
+            tUserBaseInfo.setPasswd(registerRequest.getPassword());
             userBaseInfoDAO.saveTUserBaseInfo(tUserBaseInfo);
-
-//            User user = new User();
-//            user.setUsername(username);
-//            user.setEmail(email);
-//            user.setPassword(password);
-//            userDAO.registerUser(user);
         }
+
+        log.info("register service END");
+
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public void deleteUser(String email) {
 
-        List<TUserBaseInfo> tUserBaseInfoList = userBaseInfoDAO.getTUserBaseInfo(null);
+        log.info("deleteUser service START email: [{}]", email);
 
-        // TUserBaseInfo -> user
-        List<User> userList = tUserBaseInfoList
-                .stream()
-                .map(this::userBaseInfo2User)
-                .collect(Collectors.toList());
-
-        return null;
-//        return userDAO.getAllUsers();
-    }
-
-    @Override
-    public Integer deleteUser(Integer uid) {
-//        return userDAO.deleteUser(uid);
-
-        userBiz.deleteUser(uid);
-        return 0;
-    }
-
-    @Override
-    public void sentMail(Integer uid,String subject, String content) {
-//        User user = userDAO.getUserByUid(uid);
-        TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfoById(uid);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("v@larryzeta.cc");
-//        message.setTo(user.getEmail());
-        message.setTo(userBaseInfo.getEmail());
-        message.setSubject(subject);
-//        message.setText("尊敬的用户 " + user.getUsername() + "：\n\n" + content);
-        message.setText("尊敬的用户 " + userBaseInfo.getUserName() + "：\n\n" + content);
-        try {
-            mailSender.send(message);
-        } catch (MailException ex) {
-            log.error("[UserServiceImpl-sentMail] error", ex);
-//            System.err.println(ex.getMessage());
+        if (!StringUtils.hasText(email)) {
+            log.error("deleteUser service email blank");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "deleteUser email blank");
         }
+
+        TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(email);
+
+        accountBiz.deleteAccountByUserId(userBaseInfo.getId());
+
+        userBiz.deleteUser(userBaseInfo.getId());
+
+        log.info("deleteUser service END email: [{}]", email);
+
     }
+
 
     @Override
     public List<String> getRoleList(String userName) {
@@ -189,13 +114,48 @@ public class UserServiceImpl implements UserService {
         return Arrays.asList("TEST", "READ");
     }
 
-    private User userBaseInfo2User(TUserBaseInfo userBaseInfo) {
-        User user = new User();
-        user.setEmail(userBaseInfo.getEmail());
-        user.setUsername(userBaseInfo.getUserName());
-        user.setUid(userBaseInfo.getId());
-        user.setPassword(userBaseInfo.getPasswd());
-        return user;
+    @Override
+    public List<TUserBaseInfo> getUser(TUserBaseInfo userBaseInfo) {
+
+        List<TUserBaseInfo> userBaseInfoList = userBaseInfoDAO.getTUserBaseInfo(userBaseInfo);
+
+        return userBaseInfoList;
+
+    }
+
+    @Override
+    public TUserBaseInfo updatePassWord(String email, UpdatePassWordRequest updatePassWordRequest) {
+
+        log.info("updatePassWord service START email: [{}] updatePassWordRequest: [{}]", email, JsonUtils.toJSONString(updatePassWordRequest));
+
+        if (!StringUtils.hasText(email)) {
+            log.error("updatePassWord service email blank");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "email blank");
+        }
+
+        if (email.equals(updatePassWordRequest.getEmail())) {
+            log.error("updatePassWord service not same email");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "not same email");
+        }
+
+        TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(email);
+
+        if (!userBaseInfo.getPasswd().equals(updatePassWordRequest.getPassword())) {
+            log.error("updatePassWord service incorrect password");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "incorrect password");
+        }
+
+        TUserBaseInfo update = new TUserBaseInfo();
+        update.setId(userBaseInfo.getId());
+        update.setPasswd(updatePassWordRequest.getNewPassWord());
+
+        userBaseInfoDAO.updateTUserBaseInfo(update);
+
+        userBaseInfo = userBaseInfoDAO.getTUserBaseInfoById(update.getId());
+
+        log.info("updatePassWord service END userBaseInfo: [{}]", JsonUtils.toJSONString(userBaseInfo));
+
+        return userBaseInfo;
     }
 
 }

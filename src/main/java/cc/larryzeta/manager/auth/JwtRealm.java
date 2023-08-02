@@ -1,10 +1,11 @@
 package cc.larryzeta.manager.auth;
 
-import cc.larryzeta.manager.dao.UserBaseInfoDAO;
+import cc.larryzeta.manager.biz.UserBiz;
+import cc.larryzeta.manager.config.JwtConfig;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
-import cc.larryzeta.manager.entity.User;
 import cc.larryzeta.manager.service.UserService;
 import cc.larryzeta.manager.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -17,13 +18,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class JwtRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    private UserBaseInfoDAO userBaseInfoDAO;
+    private UserBiz userBiz;
+
+    @Autowired
+    private JwtConfig jwtConfig;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -41,30 +46,34 @@ public class JwtRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+
         String token = (String) authenticationToken.getCredentials();
         String userName = null;
+        String email = null;
+
         try {
-            userName = JwtUtil.getClaimField(token, JwtUtil.ACCOUNT);
-//            User user = userService.getUserByName(userName);
-            TUserBaseInfo query = new TUserBaseInfo();
-            query.setUserName(userName);
-            TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfo(query).get(0);
+            userName = JwtUtil.getClaimField(token, JwtUtil.USERNAME);
+            email = JwtUtil.getClaimField(token, JwtUtil.EMAIL);
+
+            TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(email);
+
             if (userBaseInfo == null) {
-                System.out.println("用户不存在");
+                log.warn("user not fund");
                 return null;
             }
 
-            boolean verify = JwtUtil.verify(token, userName, userBaseInfo.getPasswd());
-            if (!verify) {
-                System.out.println("Token校验不正确");
+            try {
+                JwtUtil.verify(token, userName, email, jwtConfig);
+            } catch (Exception e) {
+                log.warn("doGetAuthenticationInfo token incorrect", e);
                 return null;
             }
+
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("doGetAuthenticationInfo unknown Exception e", e);
         }
 
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                userName,token,getName());
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userName, token, getName());
         return authenticationInfo;
     }
 

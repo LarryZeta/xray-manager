@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * t_order_record
+ * t_xray_account_info
  * @author 
  */
 @Data
@@ -14,13 +14,13 @@ public class TXrayAccountInfo implements Serializable {
 
     private Integer userId;
 
-    private String orderId;
+    private String uuid;
 
-    private String orderPrice;
+    private String accountStatus;
 
-    private String orderStatus;
+    private Date effectiveTime;
 
-    private Date activeTime;
+    private Date expireTime;
 
     private Date createTime;
 
