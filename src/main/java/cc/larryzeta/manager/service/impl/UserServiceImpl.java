@@ -119,8 +119,7 @@ public class UserServiceImpl implements UserService {
 
         List<TUserBaseInfo> userBaseInfoList = userBaseInfoDAO.getTUserBaseInfo(userBaseInfo);
 
-        log.info("getUsers service START condition userBaseInfo: [{}]", JsonUtils.toJSONString(userBaseInfo));
-
+        log.info("getUsers service END userBaseInfoList: [{}]", JsonUtils.toJSONString(userBaseInfoList));
 
         return userBaseInfoList;
     }

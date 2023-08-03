@@ -43,12 +43,12 @@ public class UserBiz {
         List<TUserBaseInfo> userBaseInfoList = userBaseInfoDAO.getTUserBaseInfo(query);
 
         if (userBaseInfoList == null || userBaseInfoList.isEmpty()) {
-            log.warn("user not fund email: [{}]", email);
-            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "user not fund");
+            log.warn("user not found email: [{}]", email);
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "user not found");
         }
 
         if (userBaseInfoList.size() != 1) {
-            log.error("fund too many user info email: [{}]", email);
+            log.error("found too many user info email: [{}]", email);
             throw new BizException(ReturnCodeEnum.EXCEPTION.code, "too many user info");
         }
 
@@ -70,6 +70,19 @@ public class UserBiz {
             log.warn("permission denied");
             throw new BizException(ReturnCodeEnum.EXCEPTION.code, "permission denied");
         }
+
+    }
+
+    public void jwtPermission(Integer userId) {
+
+        TUserBaseInfo userBaseInfo = userBaseInfoDAO.getTUserBaseInfoById(userId);
+
+        if (userBaseInfo == null || StatusEnum.INVALID.code.equals(userBaseInfo.getUserStatus())) {
+            log.warn("invalid user");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "invalid user");
+        }
+
+        this.jwtPermission(userBaseInfo.getEmail());
 
     }
 

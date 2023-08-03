@@ -10,6 +10,7 @@ import lombok.Data;
  */
 @Data
 public class TXrayAccountInfo implements Serializable {
+
     private Integer id;
 
     private Integer userId;

@@ -11,15 +11,18 @@ import java.util.List;
 public interface OrderControllerApi {
 
     @RequestLine("POST /order")
-    ResultEntity<String> AddOrder(OrderDTO orderDTO);
+    ResultEntity<String> addOrder(OrderDTO orderDTO);
 
     @RequestLine("DELETE /order/{order_id}")
     ResultEntity<String> deleteOrder(String orderId);
 
     @RequestLine("GET /order/{order_id}")
-    ResultEntity<List<OrderDTO>> queryOrder(String orderId);
+    ResultEntity<OrderDTO> queryOrder(String orderId);
 
-    @RequestLine("PUT /order/{order_id}/active")
+    @RequestLine("GET /orders")
+    ResultEntity<List<OrderDTO>> queryOrders(OrderDTO orderDTO);
+
+    @RequestLine("PUT /order/{order_id}")
     ResultEntity<OrderDTO> activeOrder(String orderId);
 
 }

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,11 +40,11 @@ public class AccountBiz {
 
         if (xrayAccountInfoList == null || xrayAccountInfoList.isEmpty()) {
             log.error("AccountBiz deleteAccountByUserId userId: [{}] no account", userId);
-            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "account not fund");
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "account not found");
         }
 
         if (xrayAccountInfoList.size() != 1) {
-            log.error("fund too many account info userId: [{}]", userId);
+            log.error("too many account info userId: [{}]", userId);
             throw new BizException(ReturnCodeEnum.EXCEPTION.code, "too many account info");
         }
 

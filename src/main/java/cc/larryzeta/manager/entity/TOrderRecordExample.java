@@ -365,6 +365,76 @@ public class TOrderRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andOrderDaysIsNull() {
+            addCriterion("order_days is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysIsNotNull() {
+            addCriterion("order_days is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysEqualTo(String value) {
+            addCriterion("order_days =", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysNotEqualTo(String value) {
+            addCriterion("order_days <>", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysGreaterThan(String value) {
+            addCriterion("order_days >", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysGreaterThanOrEqualTo(String value) {
+            addCriterion("order_days >=", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysLessThan(String value) {
+            addCriterion("order_days <", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysLessThanOrEqualTo(String value) {
+            addCriterion("order_days <=", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysLike(String value) {
+            addCriterion("order_days like", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysNotLike(String value) {
+            addCriterion("order_days not like", value, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysIn(List<String> values) {
+            addCriterion("order_days in", values, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysNotIn(List<String> values) {
+            addCriterion("order_days not in", values, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysBetween(String value1, String value2) {
+            addCriterion("order_days between", value1, value2, "orderDays");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderDaysNotBetween(String value1, String value2) {
+            addCriterion("order_days not between", value1, value2, "orderDays");
+            return (Criteria) this;
+        }
+
         public Criteria andOrderStatusIsNull() {
             addCriterion("order_status is null");
             return (Criteria) this;

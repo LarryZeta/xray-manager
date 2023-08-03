@@ -18,6 +18,8 @@ public class TOrderRecord implements Serializable {
 
     private String orderPrice;
 
+    private String orderDays;
+
     private String orderStatus;
 
     private Date activeTime;

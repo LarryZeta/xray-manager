@@ -1,21 +1,22 @@
 package cc.larryzeta.manager.service;
 
+import cc.larryzeta.manager.api.order.model.OrderDTO;
 import cc.larryzeta.manager.entity.Order;
 
 import java.util.List;
 
 public interface OrderService {
 
-    List<Order> getAllOrders();
-
-    List<Order> getNotActiveOrders();
+    List<OrderDTO> getOrders(OrderDTO orderDTO);
 
     List<Order> getOrdersByUid(Integer uid);
 
-    Order getOrderByOid(String oid);
+    OrderDTO getOrderByOrderId(String orderId);
 
-    Integer addOrder(Integer uid, Integer dayes);
+    void addOrder(OrderDTO orderDTO);
 
-    Boolean deleteOrder(String oid);
+    void deleteOrder(String orderId);
+
+    Integer activeOrder(Order order);
 
 }

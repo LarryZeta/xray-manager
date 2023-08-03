@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import javax.websocket.server.PathParam;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Mapper

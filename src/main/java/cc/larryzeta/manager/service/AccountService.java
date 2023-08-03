@@ -2,21 +2,22 @@ package cc.larryzeta.manager.service;
 
 import cc.larryzeta.manager.entity.Account;
 import cc.larryzeta.manager.entity.Order;
+import cc.larryzeta.manager.entity.TXrayAccountInfo;
 
 import java.util.List;
 
 public interface AccountService {
 
-    Account getAccount(Integer uid);
+    TXrayAccountInfo getAccount(Integer userId);
 
-    List<Account> getAllAccount();
+    List<TXrayAccountInfo> getAccounts(TXrayAccountInfo xrayAccountInfo);
 
-    Integer activeOrder(Order order);
+    void deleteAccount(Integer userId);
 
-    List<Integer> deleteExpiredAccounts();
-
-    Integer deleteAccountByUid(Integer uid);
-
-    List<Integer> getWarnedAccounts(Integer days);
+    /**
+     * 1. get about to expire accounts sentNotice
+     * 2. delete expire accounts
+     */
+    void refreshAccounts();
 
 }

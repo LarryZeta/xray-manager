@@ -6,6 +6,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="order_price" jdbcType="VARCHAR" property="orderPrice" />
+    <result column="order_days" jdbcType="VARCHAR" property="orderDays" />
     <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
     <result column="active_time" jdbcType="TIMESTAMP" property="activeTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -71,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, order_id, order_price, order_status, active_time, create_time, update_time, 
-    remark
+    id, user_id, order_id, order_price, order_days, order_status, active_time, create_time, 
+    update_time, remark
   </sql>
   <select id="selectByExample" parameterType="cc.larryzeta.manager.entity.TOrderRecordExample" resultMap="BaseResultMap">
     select
@@ -106,11 +107,13 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TOrderRecord" useGeneratedKeys="true">
     insert into t_order_record (user_id, order_id, order_price, 
-      order_status, active_time, create_time, 
-      update_time, remark)
+      order_days, order_status, active_time, 
+      create_time, update_time, remark
+      )
     values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{orderPrice,jdbcType=VARCHAR}, 
-      #{orderStatus,jdbcType=VARCHAR}, #{activeTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+      #{orderDays,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, #{activeTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TOrderRecord" useGeneratedKeys="true">
     insert into t_order_record
@@ -123,6 +126,9 @@
       </if>
       <if test="orderPrice != null">
         order_price,
+      </if>
+      <if test="orderDays != null">
+        order_days,
       </if>
       <if test="orderStatus != null">
         order_status,
@@ -149,6 +155,9 @@
       </if>
       <if test="orderPrice != null">
         #{orderPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDays != null">
+        #{orderDays,jdbcType=VARCHAR},
       </if>
       <if test="orderStatus != null">
         #{orderStatus,jdbcType=VARCHAR},
@@ -188,6 +197,9 @@
       <if test="record.orderPrice != null">
         order_price = #{record.orderPrice,jdbcType=VARCHAR},
       </if>
+      <if test="record.orderDays != null">
+        order_days = #{record.orderDays,jdbcType=VARCHAR},
+      </if>
       <if test="record.orderStatus != null">
         order_status = #{record.orderStatus,jdbcType=VARCHAR},
       </if>
@@ -214,6 +226,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       order_id = #{record.orderId,jdbcType=VARCHAR},
       order_price = #{record.orderPrice,jdbcType=VARCHAR},
+      order_days = #{record.orderDays,jdbcType=VARCHAR},
       order_status = #{record.orderStatus,jdbcType=VARCHAR},
       active_time = #{record.activeTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -234,6 +247,9 @@
       </if>
       <if test="orderPrice != null">
         order_price = #{orderPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDays != null">
+        order_days = #{orderDays,jdbcType=VARCHAR},
       </if>
       <if test="orderStatus != null">
         order_status = #{orderStatus,jdbcType=VARCHAR},
@@ -258,6 +274,7 @@
     set user_id = #{userId,jdbcType=INTEGER},
       order_id = #{orderId,jdbcType=VARCHAR},
       order_price = #{orderPrice,jdbcType=VARCHAR},
+      order_days = #{orderDays,jdbcType=VARCHAR},
       order_status = #{orderStatus,jdbcType=VARCHAR},
       active_time = #{activeTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},

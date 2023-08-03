@@ -90,8 +90,8 @@ public class AuthServiceImpl implements AuthService {
         TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(authRequest.getEmail());
 
         if (userBaseInfo == null) {
-            log.error("login service user not fund email: [{}]", authRequest.getEmail());
-            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "user not fund");
+            log.error("login service user not found email: [{}]", authRequest.getEmail());
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "user not found");
         }
 
         if (!userBaseInfo.getPasswd().equals(authRequest.getPassword())) {

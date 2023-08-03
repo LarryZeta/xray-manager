@@ -16,7 +16,7 @@ public interface AccountControllerApi {
     ResultEntity<TXrayAccountInfo> queryAccount(Integer userId);
 
     @RequestLine("GET /accounts")
-    ResultEntity<List<TXrayAccountInfo>> deleteAccount(TXrayAccountInfo xrayAccountInfo);
+    ResultEntity<List<TXrayAccountInfo>> getAccounts(TXrayAccountInfo xrayAccountInfo);
 
 
 //    ResultEntity<Object> syncAccount(Object o);

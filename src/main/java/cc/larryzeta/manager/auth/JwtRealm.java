@@ -58,7 +58,7 @@ public class JwtRealm extends AuthorizingRealm {
             TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(email);
 
             if (userBaseInfo == null) {
-                log.warn("user not fund");
+                log.warn("user not found");
                 return null;
             }
 

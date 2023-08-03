@@ -1,96 +1,120 @@
 package cc.larryzeta.manager.service.impl;
 
-import cc.larryzeta.manager.dao.XrayServerInfoDAO;
+import cc.larryzeta.manager.biz.AccountBiz;
+import cc.larryzeta.manager.biz.UserBiz;
+import cc.larryzeta.manager.config.AccountConfig;
+import cc.larryzeta.manager.dao.XrayAccountInfoDAO;
+import cc.larryzeta.manager.entity.TXrayAccountInfo;
 import cc.larryzeta.manager.mapper.AccountDAO;
-import cc.larryzeta.manager.mapper.OrderDAO;
-import cc.larryzeta.manager.entity.Account;
-import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.AccountService;
+import cc.larryzeta.manager.service.NoticeService;
+import cc.larryzeta.manager.service.XrayService;
+import cc.larryzeta.manager.util.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import javax.annotation.Resource;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
+@Slf4j
 public class AccountServiceImpl implements AccountService {
+
+    @Autowired
+    private AccountConfig accountConfig;
 
     @Resource
     private AccountDAO accountDAO;
 
     @Autowired
-    private XrayServerInfoDAO xrayServerInfoDAO;
+    private AccountBiz accountBiz;
 
-    @Resource
-    private OrderDAO orderDAO;
+    @Autowired
+    private UserBiz userBiz;
+
+    @Autowired
+    private NoticeService noticeService;
+
+    @Autowired
+    private XrayService xrayService;
+
+    @Autowired
+    private XrayAccountInfoDAO xrayAccountInfoDAO;
 
     @Override
-    public Account getAccount(Integer uid) {
-        return accountDAO.getAccountByUid(uid);
+    public TXrayAccountInfo getAccount(Integer userId) {
+
+        log.info("getAccount Service START userId: [{}]", userId);
+
+        userBiz.jwtPermission(userId);
+
+        TXrayAccountInfo xrayAccountInfo = accountBiz.getAccount(userId);
+
+        log.info("getAccount Service END TXrayAccountInfo: [{}]", JsonUtils.toJSONString(xrayAccountInfo));
+
+        return xrayAccountInfo;
     }
 
     @Override
-    public List<Account> getAllAccount() {
-        return accountDAO.getAllAccount();
+    public List<TXrayAccountInfo> getAccounts(TXrayAccountInfo xrayAccountInfo) {
+
+        log.info("getAllAccount service START condition xrayAccountInfo: [{}]", JsonUtils.toJSONString(xrayAccountInfo));
+
+        List<TXrayAccountInfo> xrayAccountInfoList = xrayAccountInfoDAO.getTXrayAccountInfo(xrayAccountInfo);
+
+        log.info("getAllAccount service END userBaseInfoList: [{}]", JsonUtils.toJSONString(xrayAccountInfoList));
+
+        return xrayAccountInfoList;
+
     }
 
     @Override
-    public Integer activeOrder(Order order) {
+    public void deleteAccount(Integer userId) {
 
-        Account account = accountDAO.getAccountByUid(order.getUid());
+        log.info("deleteAccount Service START userId: [{}]", userId);
 
-        if (account == null) {
-            account = new Account();
-            account.setAid(UUID.randomUUID().toString());
-            account.setUid(order.getUid());
-            Date currentDate = new Date(System.currentTimeMillis());
-            account.setActivationDate(currentDate);
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(currentDate);
-            calendar.add(Calendar.DATE, order.getDays());
-            account.setExpireDate(new Date(calendar.getTimeInMillis()));
-            orderDAO.setActiveated(order.getOid());
-            return accountDAO.addAccount(account);
-        } else {
-            Date expireDate = account.getExpireDate();
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(expireDate);
-            calendar.add(Calendar.DATE, order.getDays());
-            account.setExpireDate(new Date(calendar.getTimeInMillis()));
-            orderDAO.setActiveated(order.getOid());
-            return accountDAO.updateAccount(account);
+        accountBiz.deleteAccountByUserId(userId);
+
+        noticeService.sentNotice(userId, "账号删除提醒", "您的账号已被删除。");
+
+        xrayService.deleteClient(userId);
+
+        log.info("deleteAccount Service END");
+
+    }
+
+    @Override
+    public void refreshAccounts() {
+
+        log.info("refreshAccounts START");
+
+        Calendar calendar = Calendar.getInstance();
+        Date today = calendar.getTime();
+
+        List<TXrayAccountInfo> xrayAccountInfoList = xrayAccountInfoDAO.getExpiredAccounts(today);
+
+        log.info("refreshAccounts expired xrayAccountInfoList: [{}]", JsonUtils.toJSONString(xrayAccountInfoList));
+
+        for (TXrayAccountInfo xrayAccountInfo : xrayAccountInfoList) {
+            this.deleteAccount(xrayAccountInfo.getUserId());
         }
 
-    }
-
-    @Override
-    public List<Integer> deleteExpiredAccounts() {
-
-        Date currentDate = new Date(System.currentTimeMillis());
-        List<Integer> list = accountDAO.getExpiredAccounts(currentDate);
-        accountDAO.deleteExpiredAccounts(currentDate);
-        return list;
-
-    }
-
-    @Override
-    public Integer deleteAccountByUid(Integer uid) {
-        return accountDAO.deleteAccountByUid(uid);
-    }
-
-    // 当前日期 + days 超过过期时间的账号
-    @Override
-    public List<Integer> getWarnedAccounts(Integer days) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, days);
+        calendar.add(Calendar.DATE, accountConfig.getNoticeBeforeDays());
         Date warnedDate = new Date(calendar.getTimeInMillis());
-        return accountDAO.getExpiredAccounts(warnedDate);
+
+        xrayAccountInfoList = xrayAccountInfoDAO.getExpiredAccounts(warnedDate);
+
+        log.info("refreshAccounts send warn notice xrayAccountInfoList: [{}]", JsonUtils.toJSONString(xrayAccountInfoList));
+
+        for (TXrayAccountInfo xrayAccountInfo : xrayAccountInfoList) {
+            noticeService.sentNotice(xrayAccountInfo.getUserId(), "账号到期提醒", "您的账号有效期已不足" + accountConfig.getNoticeBeforeDays() + "天, 到期时间： " + xrayAccountInfo.getExpireTime() + "\n 过期将删除（配置文件）。\n\n详情 https://v.larryzeta.cc/account。");
+        }
+
+        log.info("refreshAccounts END");
+
     }
 
 }

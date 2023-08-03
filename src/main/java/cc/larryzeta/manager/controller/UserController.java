@@ -58,6 +58,7 @@ public class UserController implements UserControllerApi {
 
     @RequiresRoles("ADMIN")
     @DeleteMapping(value = "/user/{email}")
+    @ResponseBody
     @Override
     public ResultEntity<String> deleteUser(@PathVariable String email) {
 
@@ -91,9 +92,21 @@ public class UserController implements UserControllerApi {
 
         log.info("getUsers START condition userBaseInfo: [{}]", JsonUtils.toJSONString(userBaseInfo));
 
-        List<TUserBaseInfo> users = userService.getUsers(userBaseInfo);
         ResultEntity<List<TUserBaseInfo>> resultEntity = new ResultEntity<>();
-        resultEntity.setData(users);
+
+        try {
+            List<TUserBaseInfo> users = userService.getUsers(userBaseInfo);
+            resultEntity.setData(users);
+        } catch (BizException bizException) {
+            resultEntity.setCode(bizException.getCode());
+            resultEntity.setMsg(bizException.getMsg());
+            log.error("getUsers bizException", bizException);
+        } catch (Exception e) {
+            resultEntity.setCode(ReturnCodeEnum.EXCEPTION.code);
+            resultEntity.setMsg(ReturnCodeEnum.EXCEPTION.msg);
+            log.error("getUsers unknown Exception e", e);
+        }
+
 
         log.info("getUsers END resultEntity: [{}]", JsonUtils.toJSONString(resultEntity));
 

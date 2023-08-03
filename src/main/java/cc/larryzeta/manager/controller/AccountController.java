@@ -1,56 +1,108 @@
 package cc.larryzeta.manager.controller;
 
-import cc.larryzeta.manager.entity.Account;
+import cc.larryzeta.manager.api.account.AccountControllerApi;
+import cc.larryzeta.manager.api.model.ResultEntity;
+import cc.larryzeta.manager.entity.TXrayAccountInfo;
+import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
+import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.AccountService;
-import cc.larryzeta.manager.service.NoticeService;
-import cc.larryzeta.manager.service.UserService;
-import cc.larryzeta.manager.service.XrayService;
+import cc.larryzeta.manager.util.JsonUtils;
+import io.micrometer.core.lang.Nullable;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
-public class AccountController {
+@Slf4j
+public class AccountController implements AccountControllerApi {
 
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private XrayService xrayService;
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private NoticeService noticeService;
+    @RequiresRoles("ADMIN")
+    @DeleteMapping(value = "/account/{userId}")
+    @ResponseBody
+    @Override
+    public ResultEntity<String> deleteAccount(@PathVariable Integer userId) {
 
-    @GetMapping(value = "/user/account")
-    public String toAccount(HttpSession session, Model model) {
-        Integer uid = (Integer) session.getAttribute("uid");
-        Account account = accountService.getAccount(uid);
-        if (account != null) {
-            model.addAttribute("account", account);
-            return "account";
-        } else {
-            return "redirect:/";
+        log.info("deleteAccount START userId: [{}]", userId);
+
+        ResultEntity<String> resultEntity = new ResultEntity<>();
+
+        try {
+            accountService.deleteAccount(userId);
+        } catch (BizException bizException) {
+            resultEntity.setCode(bizException.getCode());
+            resultEntity.setMsg(bizException.getMsg());
+            log.error("deleteAccount bizException", bizException);
+        } catch (Exception e) {
+            resultEntity.setCode(ReturnCodeEnum.EXCEPTION.code);
+            resultEntity.setMsg(ReturnCodeEnum.EXCEPTION.msg);
+            log.error("deleteAccount unknown Exception e", e);
         }
+
+        log.info("deleteAccount END resultEntity: [{}]", resultEntity);
+
+        return resultEntity;
     }
 
+    @GetMapping(value = "/account/{userId}")
+    @ResponseBody
+    @Override
+    public ResultEntity<TXrayAccountInfo> queryAccount(@PathVariable Integer userId) {
+
+        log.info("queryAccount START userId: [{}]", userId);
+
+        ResultEntity<TXrayAccountInfo> resultEntity = new ResultEntity<>();
+
+        try {
+            TXrayAccountInfo xrayAccountInfo = accountService.getAccount(userId);
+            resultEntity.setData(xrayAccountInfo);
+        } catch (BizException bizException) {
+            resultEntity.setCode(bizException.getCode());
+            resultEntity.setMsg(bizException.getMsg());
+            log.error("deleteAccount bizException", bizException);
+        } catch (Exception e) {
+            resultEntity.setCode(ReturnCodeEnum.EXCEPTION.code);
+            resultEntity.setMsg(ReturnCodeEnum.EXCEPTION.msg);
+            log.error("deleteAccount unknown Exception e", e);
+        }
+
+        log.info("queryAccount END resultEntity: [{}]", resultEntity);
+
+        return resultEntity;
+    }
+
+    @RequiresRoles("ADMIN")
     @GetMapping(value = "/accounts")
-    public String toAccounts(Model model) {
-        model.addAttribute("accounts", accountService.getAllAccount());
-        return "accounts";
-    }
+    @ResponseBody
+    @Override
+    public ResultEntity<List<TXrayAccountInfo>> getAccounts(@RequestBody @Nullable TXrayAccountInfo xrayAccountInfo) {
 
-    @DeleteMapping(value = "/account/{uid}")
-    public String deleteAccount(@PathVariable("uid") Integer uid) {
-        accountService.deleteAccountByUid(uid);
-        noticeService.sentMail(uid, "账号删除提醒", "您的账号已被删除。");
-        xrayService.deleteClient(uid);
-        return "redirect:/accounts";
+        log.info("getAccounts START condition xrayAccountInfo: [{}]", JsonUtils.toJSONString(xrayAccountInfo));
+
+        ResultEntity<List<TXrayAccountInfo>> resultEntity = new ResultEntity<>();
+
+        try {
+            List<TXrayAccountInfo> xrayAccountInfoList = accountService.getAccounts(xrayAccountInfo);
+            resultEntity.setData(xrayAccountInfoList);
+        } catch (BizException bizException) {
+            resultEntity.setCode(bizException.getCode());
+            resultEntity.setMsg(bizException.getMsg());
+            log.error("getUsers bizException", bizException);
+        } catch (Exception e) {
+            resultEntity.setCode(ReturnCodeEnum.EXCEPTION.code);
+            resultEntity.setMsg(ReturnCodeEnum.EXCEPTION.msg);
+            log.error("getUsers unknown Exception e", e);
+        }
+
+        log.info("getAccounts END resultEntity: [{}]", JsonUtils.toJSONString(resultEntity));
+
+        return resultEntity;
     }
 
 }
