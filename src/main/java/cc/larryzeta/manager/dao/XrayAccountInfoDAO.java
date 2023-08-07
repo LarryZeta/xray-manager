@@ -22,6 +22,18 @@ public class XrayAccountInfoDAO {
     @Resource
     private TXrayAccountInfoMapper xrayAccountInfoMapper;
 
+
+    public void saveXrayAccountInfo(TXrayAccountInfo xrayAccountInfo) {
+        log.info("saveXrayAccountInfo xrayAccountInfo=[{}]", xrayAccountInfo);
+
+        try {
+            xrayAccountInfoMapper.insertSelective(xrayAccountInfo);
+        } catch (Exception e) {
+            log.error("saveTUserBaseInfo error Exception:", e);
+            throw e;
+        }
+    }
+
     public List<TXrayAccountInfo> getTXrayAccountInfo(TXrayAccountInfo xrayAccountInfo) {
 
         log.info("[getTXrayAccountInfo] xrayAccountInfo=[{}]", JsonUtils.toJSONString(xrayAccountInfo));
@@ -37,6 +49,9 @@ public class XrayAccountInfoDAO {
 
             if (xrayAccountInfo.getUserId() != null) {
                 criteria.andUserIdEqualTo(xrayAccountInfo.getUserId());
+            }
+            if (StringUtils.hasText(xrayAccountInfo.getAccountStatus())) {
+                criteria.andAccountStatusEqualTo(xrayAccountInfo.getAccountStatus());
             }
 
             return xrayAccountInfoMapper.selectByExample(example);

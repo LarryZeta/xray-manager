@@ -15,6 +15,8 @@ public class TXrayServerInfo implements Serializable {
 
     private String serverName;
 
+    private String token;
+
     private String tag;
 
     private String remark;

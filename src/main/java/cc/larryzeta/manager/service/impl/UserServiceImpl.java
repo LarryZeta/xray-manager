@@ -7,27 +7,18 @@ import cc.larryzeta.manager.biz.UserBiz;
 import cc.larryzeta.manager.dao.UserBaseInfoDAO;
 import cc.larryzeta.manager.dao.UserRoleInfoDAO;
 import cc.larryzeta.manager.entity.TUserRoleInfo;
-import cc.larryzeta.manager.mapper.UserDAO;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
-import cc.larryzeta.manager.entity.User;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
 import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.UserService;
 import cc.larryzeta.manager.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j

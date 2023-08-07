@@ -1,7 +1,5 @@
 package cc.larryzeta.manager.service;
 
-import cc.larryzeta.manager.entity.Account;
-import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.entity.TXrayAccountInfo;
 
 import java.util.List;

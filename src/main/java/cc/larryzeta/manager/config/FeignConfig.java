@@ -1,6 +1,5 @@
 package cc.larryzeta.manager.config;
 
-import cc.larryzeta.manager.external.FlaskApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Feign;
 import feign.Logger;
@@ -9,29 +8,11 @@ import feign.Retryer;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Configuration
 public class FeignConfig {
-
-//    @Value("${flask.base.url.list}")
-//    private List<String> flaskUrlList;
-
-//    @Bean
-//    public List<FlaskApi> getFlaskApi() {
-//
-//        List<FlaskApi> flaskApiList = new ArrayList<>(flaskUrlList.size());
-//        for (String flaskUrl : flaskUrlList) {
-//            flaskApiList.add(FeignConfig.getFlaskApi(FlaskApi.class, flaskUrl));
-//        }
-//
-//        return flaskApiList;
-//    }
 
     @Bean
     public Request.Options options() {

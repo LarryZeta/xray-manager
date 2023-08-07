@@ -9,10 +9,6 @@ import java.util.Map;
 
 public interface AuthService {
 
-    void login(String email, String password, Map<String, Object> map, HttpSession session);
-
     AuthResponse login(AuthRequest authRequest);
-
-    void logout(HttpSession session);
 
 }

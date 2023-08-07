@@ -3,12 +3,8 @@ package cc.larryzeta.manager.service;
 import cc.larryzeta.manager.api.user.model.RegisterRequest;
 import cc.larryzeta.manager.api.user.model.UpdatePassWordRequest;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
-import cc.larryzeta.manager.entity.User;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
 

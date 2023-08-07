@@ -4,6 +4,8 @@ public enum StatusEnum {
 
     VALID("VALID", "有效"),
 
+    ACTIVATED("ACTIVATED", "已激活"),
+
     INVALID("INVALID", "失效"),
 
     DELETED("DELETED", "已经删除");

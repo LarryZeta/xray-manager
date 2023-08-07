@@ -23,6 +23,6 @@ public interface OrderControllerApi {
     ResultEntity<List<OrderDTO>> queryOrders(OrderDTO orderDTO);
 
     @RequestLine("PUT /order/{order_id}")
-    ResultEntity<OrderDTO> activeOrder(String orderId);
+    ResultEntity<String> activeOrder(String orderId);
 
 }

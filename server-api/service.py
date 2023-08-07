@@ -2,19 +2,21 @@ from asyncio.log import logger
 import json
 import logging
 import os
-import shim_config
+import config
 
-class ShimService():
+from model import Client
+
+class Service():
 
     if __name__ == '__init__':
-        logging.basicConfig(filename='xray-shim.log', encoding='utf-8', level=logging.DEBUG)
+        logging.basicConfig(filename='./service.log', encoding='utf-8', level=logging.DEBUG)
         logger = logging.getLogger()
 
 
     # 从文件加载配置文件
     def load_config(self):
         xray_config = {}
-        path = shim_config.config_path
+        path = config.config_path
         with open(path, encoding='utf-8') as f:
             xray_config = json.load(f)
             logger.info('[service-load_config] 读取配置文件完成')
@@ -23,7 +25,7 @@ class ShimService():
 
     # 写入配置文件
     def save_config(self, xray_config):
-        path = shim_config.config_path
+        path = config.config_path
         with open(path, "w", encoding='utf-8') as f:
             json.dump(xray_config, f)
             logger.info('[service-save_config] 写入配置文件完成')
@@ -90,7 +92,7 @@ class ShimService():
 
 
     # 同步账号功能
-    def sync_client(self, clients):
+    def sync_client(self, clients: list[Client]):
         
         logger.info('[service-sync_client] clients:[%s]', clients)
 
@@ -101,7 +103,7 @@ class ShimService():
             logger.info('[service-sync_client] protocol: [%s]', protocol)
             update_clients = []
             for account in clients:
-                update_client = self.build_client(account['email'], account['id'], protocol)
+                update_client = self.build_client(account.email, account.id, protocol)
                 update_clients.append(update_client)
             inbound['settings']['clients'] = update_clients
 

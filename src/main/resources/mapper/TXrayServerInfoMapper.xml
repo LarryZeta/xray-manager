@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="server_name" jdbcType="VARCHAR" property="serverName" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="tag" jdbcType="VARCHAR" property="tag" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, address, `server_name`, tag, remark
+    id, address, `server_name`, token, tag, remark
   </sql>
   <select id="selectByExample" parameterType="cc.larryzeta.manager.entity.TXrayServerInfoExample" resultMap="BaseResultMap">
     select
@@ -100,10 +101,10 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TXrayServerInfo" useGeneratedKeys="true">
-    insert into t_xray_server_info (address, `server_name`, tag, 
-      remark)
-    values (#{address,jdbcType=VARCHAR}, #{serverName,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+    insert into t_xray_server_info (address, `server_name`, token, 
+      tag, remark)
+    values (#{address,jdbcType=VARCHAR}, #{serverName,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+      #{tag,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cc.larryzeta.manager.entity.TXrayServerInfo" useGeneratedKeys="true">
     insert into t_xray_server_info
@@ -113,6 +114,9 @@
       </if>
       <if test="serverName != null">
         `server_name`,
+      </if>
+      <if test="token != null">
+        token,
       </if>
       <if test="tag != null">
         tag,
@@ -127,6 +131,9 @@
       </if>
       <if test="serverName != null">
         #{serverName,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
       </if>
       <if test="tag != null">
         #{tag,jdbcType=VARCHAR},
@@ -154,6 +161,9 @@
       <if test="record.serverName != null">
         `server_name` = #{record.serverName,jdbcType=VARCHAR},
       </if>
+      <if test="record.token != null">
+        token = #{record.token,jdbcType=VARCHAR},
+      </if>
       <if test="record.tag != null">
         tag = #{record.tag,jdbcType=VARCHAR},
       </if>
@@ -170,6 +180,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
       `server_name` = #{record.serverName,jdbcType=VARCHAR},
+      token = #{record.token,jdbcType=VARCHAR},
       tag = #{record.tag,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -185,6 +196,9 @@
       <if test="serverName != null">
         `server_name` = #{serverName,jdbcType=VARCHAR},
       </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
       <if test="tag != null">
         tag = #{tag,jdbcType=VARCHAR},
       </if>
@@ -198,6 +212,7 @@
     update t_xray_server_info
     set address = #{address,jdbcType=VARCHAR},
       `server_name` = #{serverName,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
       tag = #{tag,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

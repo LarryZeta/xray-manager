@@ -20,6 +20,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class UserController implements UserControllerApi {
     @PostMapping("/user/register")
     @ResponseBody
     @Override
-    public ResultEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+    public ResultEntity<String> register(@RequestBody @Validated RegisterRequest registerRequest) {
 
         log.info("register START RegisterRequest: [{}]", JsonUtils.toJSONString(registerRequest));
 

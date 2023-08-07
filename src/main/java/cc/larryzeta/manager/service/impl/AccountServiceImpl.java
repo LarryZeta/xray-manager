@@ -5,17 +5,16 @@ import cc.larryzeta.manager.biz.UserBiz;
 import cc.larryzeta.manager.config.AccountConfig;
 import cc.larryzeta.manager.dao.XrayAccountInfoDAO;
 import cc.larryzeta.manager.entity.TXrayAccountInfo;
-import cc.larryzeta.manager.mapper.AccountDAO;
 import cc.larryzeta.manager.service.AccountService;
 import cc.larryzeta.manager.service.NoticeService;
 import cc.larryzeta.manager.service.XrayService;
 import cc.larryzeta.manager.util.JsonUtils;
+import cc.larryzeta.manager.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import javax.annotation.Resource;
 import java.util.*;
 
 
@@ -25,9 +24,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountConfig accountConfig;
-
-    @Resource
-    private AccountDAO accountDAO;
 
     @Autowired
     private AccountBiz accountBiz;
@@ -80,7 +76,7 @@ public class AccountServiceImpl implements AccountService {
 
         noticeService.sentNotice(userId, "账号删除提醒", "您的账号已被删除。");
 
-        xrayService.deleteClient(userId);
+        xrayService.syncClient();
 
         log.info("deleteAccount Service END");
 
@@ -91,10 +87,9 @@ public class AccountServiceImpl implements AccountService {
 
         log.info("refreshAccounts START");
 
-        Calendar calendar = Calendar.getInstance();
-        Date today = calendar.getTime();
+        Date now = TimeUtil.getCurrentTime();
 
-        List<TXrayAccountInfo> xrayAccountInfoList = xrayAccountInfoDAO.getExpiredAccounts(today);
+        List<TXrayAccountInfo> xrayAccountInfoList = xrayAccountInfoDAO.getExpiredAccounts(now);
 
         log.info("refreshAccounts expired xrayAccountInfoList: [{}]", JsonUtils.toJSONString(xrayAccountInfoList));
 
@@ -102,8 +97,7 @@ public class AccountServiceImpl implements AccountService {
             this.deleteAccount(xrayAccountInfo.getUserId());
         }
 
-        calendar.add(Calendar.DATE, accountConfig.getNoticeBeforeDays());
-        Date warnedDate = new Date(calendar.getTimeInMillis());
+        Date warnedDate = TimeUtil.getTimeAfter(accountConfig.getNoticeBeforeDays());
 
         xrayAccountInfoList = xrayAccountInfoDAO.getExpiredAccounts(warnedDate);
 

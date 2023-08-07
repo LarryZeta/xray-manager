@@ -12,7 +12,7 @@ public class JwtConfig {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.timeout}")
+    @Value("${jwt.timeout:180000}")
     private Long timeOut;
 
     public String getSecret() {

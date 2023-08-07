@@ -1,6 +1,7 @@
 package cc.larryzeta.manager;
 
 import cc.larryzeta.manager.biz.XrayBiz;
+import cc.larryzeta.manager.entity.TXrayServerInfo;
 import cc.larryzeta.manager.external.model.Client;
 
 import org.junit.jupiter.api.Test;
@@ -19,11 +20,15 @@ public class XrayManagerTests {
     @Test
     public void contextLoads() {
         Client client = new Client();
-        client.setId("test_id");
-        client.setEmail("test@email");
+        client.setId("tid");
+        client.setEmail("t@em");
         List<Client> clientList = Collections.singletonList(client);
 
-        xrayBiz.syncClient(clientList, "TEST");
+        TXrayServerInfo xrayServerInfo = new TXrayServerInfo();
+        xrayServerInfo.setAddress("http://localhost:8000");
+        xrayServerInfo.setToken("");
+
+        xrayBiz.syncClient(clientList, xrayServerInfo);
 
     }
 

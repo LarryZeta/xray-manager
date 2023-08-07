@@ -1,28 +1,24 @@
 package cc.larryzeta.manager.service.impl;
 
 import cc.larryzeta.manager.api.order.model.OrderDTO;
+import cc.larryzeta.manager.biz.AccountBiz;
 import cc.larryzeta.manager.biz.UserBiz;
 import cc.larryzeta.manager.dao.OrderRecordDAO;
-import cc.larryzeta.manager.dao.UserRoleInfoDAO;
-import cc.larryzeta.manager.entity.Account;
+import cc.larryzeta.manager.dao.XrayAccountInfoDAO;
 import cc.larryzeta.manager.entity.TOrderRecord;
+import cc.larryzeta.manager.entity.TXrayAccountInfo;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
 import cc.larryzeta.manager.enumeration.StatusEnum;
 import cc.larryzeta.manager.exception.BizException;
-import cc.larryzeta.manager.mapper.AccountDAO;
-import cc.larryzeta.manager.mapper.OrderDAO;
-import cc.larryzeta.manager.entity.Order;
 import cc.larryzeta.manager.service.OrderService;
+import cc.larryzeta.manager.service.XrayService;
 import cc.larryzeta.manager.util.JsonUtils;
+import cc.larryzeta.manager.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.sql.Date;
 import java.util.*;
 
 
@@ -30,11 +26,12 @@ import java.util.*;
 @Slf4j
 public class OrderServiceImpl implements OrderService {
 
-    @Resource
-    private OrderDAO orderDAO;
 
-    @Resource
-    private AccountDAO accountDAO;
+    @Autowired
+    private AccountBiz accountBiz;
+
+    @Autowired
+    private XrayAccountInfoDAO xrayAccountInfoDAO;
 
     @Autowired
     private UserBiz userBiz;
@@ -42,8 +39,13 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRecordDAO orderRecordDAO;
 
+    @Autowired
+    private XrayService xrayService;
+
     @Override
     public List<OrderDTO> getOrders(OrderDTO orderDTO) {
+
+        log.info("getOrders service START orderDTO: [{}]", JsonUtils.toJSONString(orderDTO));
 
         TOrderRecord query = new TOrderRecord();
         BeanUtils.copyProperties(orderDTO, query);
@@ -62,17 +64,22 @@ public class OrderServiceImpl implements OrderService {
             orderDTOList.add(orderDTO);
         }
 
+        log.info("getOrders service END orderDTOList: [{}]", JsonUtils.toJSONString(orderDTOList));
+
         return orderDTOList;
     }
 
     @Override
-    public List<Order> getNotActiveOrders() {
-        return orderDAO.getNotActiveOrders();
-    }
+    public List<OrderDTO> getOrdersByUserId(Integer userId) {
 
-    @Override
-    public List<Order> getOrdersByUid(Integer uid) {
-        return orderDAO.getOrdersByUid(uid);
+        log.info("getOrdersByUserId service START userId: [{}]", userId);
+
+        userBiz.jwtPermission(userId);
+
+        OrderDTO query = new OrderDTO();
+        query.setUserId(userId);
+
+        return getOrders(query);
     }
 
     @Override
@@ -148,36 +155,63 @@ public class OrderServiceImpl implements OrderService {
         update.setOrderStatus(StatusEnum.DELETED.code);
         orderRecordDAO.updateTOrderRecord(update);
 
-        log.info("deleteOrder END");
+        log.info("deleteOrder service END");
 
     }
 
     @Override
-    public Integer activeOrder(Order order) {
+    public void activeOrder(String orderId) {
 
-        Account account = accountDAO.getAccountByUid(order.getUid());
+        log.info("activeOrder service START orderId: [{}]", orderId);
 
-        if (account == null) {
-            account = new Account();
-            account.setAid(UUID.randomUUID().toString());
-            account.setUid(order.getUid());
-            Date currentDate = new Date(System.currentTimeMillis());
-            account.setActivationDate(currentDate);
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(currentDate);
-            calendar.add(Calendar.DATE, order.getDays());
-            account.setExpireDate(new Date(calendar.getTimeInMillis()));
-            orderDAO.setActiveated(order.getOid());
-            return accountDAO.addAccount(account);
-        } else {
-            Date expireDate = account.getExpireDate();
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(expireDate);
-            calendar.add(Calendar.DATE, order.getDays());
-            account.setExpireDate(new Date(calendar.getTimeInMillis()));
-            orderDAO.setActiveated(order.getOid());
-            return accountDAO.updateAccount(account);
+        TOrderRecord query = new TOrderRecord();
+        query.setOrderId(orderId);
+        List<TOrderRecord> orderRecordList = orderRecordDAO.queryTOrderRecord(query);
+
+        if (orderRecordList == null || orderRecordList.isEmpty()) {
+            log.warn("activeOrder orderId:[{}] not found", orderId);
+            throw new BizException(ReturnCodeEnum.EXCEPTION.code, "order not found");
         }
+
+        TOrderRecord orderRecord = orderRecordList.get(0);
+
+        TXrayAccountInfo accountInfo = null;
+
+        try {
+            accountInfo = accountBiz.getAccount(orderRecord.getUserId());
+        } catch (Exception e) {
+            log.info("activeOrder userId:[{}] accountInfo not found", orderRecord.getUserId());
+        }
+
+        int orderDays = Integer.parseInt(orderRecord.getOrderDays());
+        if (accountInfo == null) {
+            accountInfo = new TXrayAccountInfo();
+            accountInfo.setUuid(UUID.randomUUID().toString());
+            accountInfo.setUserId(orderRecord.getUserId());
+            accountInfo.setEffectiveTime(TimeUtil.getCurrentTime());
+
+            Date expireTime = TimeUtil.getTimeAfter(accountInfo.getEffectiveTime(), orderDays);
+            accountInfo.setExpireTime(expireTime);
+            accountInfo.setAccountStatus(StatusEnum.VALID.code);
+            xrayAccountInfoDAO.saveXrayAccountInfo(accountInfo);
+        } else {
+            TXrayAccountInfo update = new TXrayAccountInfo();
+            Date expireTime = TimeUtil.getTimeAfter(accountInfo.getExpireTime(), orderDays);
+            update.setId(accountInfo.getId());
+            update.setExpireTime(expireTime);
+            update.setAccountStatus(StatusEnum.VALID.code);
+            xrayAccountInfoDAO.updateTXrayAccountInfo(accountInfo);
+        }
+
+        orderRecord.setOrderStatus(StatusEnum.ACTIVATED.code);
+        TOrderRecord update = new TOrderRecord();
+        update.setId(orderRecord.getId());
+        update.setOrderStatus(orderRecord.getOrderStatus());
+        orderRecordDAO.updateTOrderRecord(update);
+
+        xrayService.syncClient();
+
+        log.info("activeOrder service END orderId: [{}]", orderId);
 
     }
 
