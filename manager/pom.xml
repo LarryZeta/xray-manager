@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cc.larryzeta</groupId>
-    <artifactId>xray-manager</artifactId>
+    <artifactId>manager</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <name>xray-manager</name>
     <description>Spring Boot Project</description>

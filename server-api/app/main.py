@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import FastAPI, HTTPException, Header
+from fastapi import FastAPI, HTTPException, status, Header
 
 import config
 from service import Service
@@ -24,7 +24,10 @@ def sync(authorization: Annotated[str | None, Header()] = None, request: Req = N
 
     # TODO token 认证
     if config.token != token:
-        raise HTTPException(status_code=401, detail="unauthorized")
+        raise HTTPException(
+                status_code = status.HTTP_401_UNAUTHORIZED,
+                detail = "unauthorized"
+            )
 
     print(request)
     
@@ -34,7 +37,3 @@ def sync(authorization: Annotated[str | None, Header()] = None, request: Req = N
         "code": "0000",
         "msg": "成功"
     }
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)

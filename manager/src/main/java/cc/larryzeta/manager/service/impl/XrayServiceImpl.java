@@ -58,7 +58,9 @@ public class XrayServiceImpl implements XrayService {
         List<TXrayServerInfo> xrayServerInfoList = xrayServerInfoDao.getAllXrayServerInfo();;
 
         for (TXrayServerInfo xrayServerInfo : xrayServerInfoList) {
-            xrayBiz.syncClient(clientList, xrayServerInfo);
+            if("TEST".equals(xrayServerInfo.getServerName())) {
+                xrayBiz.syncClient(clientList, xrayServerInfo);
+            }
         }
 
     }

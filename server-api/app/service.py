@@ -100,6 +100,8 @@ class Service():
         inbounds = xray_config['inbounds']
         for inbound in inbounds:
             protocol = inbound['protocol']
+            if protocol != 'vless' or protocol != 'vmess':
+                pass
             logger.info('[service-sync_client] protocol: [%s]', protocol)
             update_clients = []
             for account in clients:

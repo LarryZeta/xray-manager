@@ -6,6 +6,7 @@ import cc.larryzeta.manager.entity.TXrayAccountInfo;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
 import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.AccountService;
+import cc.larryzeta.manager.service.XrayService;
 import cc.larryzeta.manager.util.JsonUtils;
 import io.micrometer.core.lang.Nullable;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,9 @@ public class AccountController implements AccountControllerApi {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private XrayService xrayService;
 
     @RequiresRoles("ADMIN")
     @DeleteMapping(value = "/account/{userId}")
@@ -102,6 +106,32 @@ public class AccountController implements AccountControllerApi {
 
         log.info("getAccounts END resultEntity: [{}]", JsonUtils.toJSONString(resultEntity));
 
+        return resultEntity;
+    }
+
+    @RequiresRoles("ADMIN")
+    @GetMapping(value = "/accounts/sync")
+    @ResponseBody
+    @Override
+    public ResultEntity<String> syncAccount() {
+
+        log.info("syncAccount START");
+
+        ResultEntity<String> resultEntity = new ResultEntity<>();
+
+        try {
+            xrayService.syncClient();
+        } catch (BizException bizException) {
+            resultEntity.setCode(bizException.getCode());
+            resultEntity.setMsg(bizException.getMsg());
+            log.error("syncAccount bizException", bizException);
+        } catch (Exception e) {
+            resultEntity.setCode(ReturnCodeEnum.EXCEPTION.code);
+            resultEntity.setMsg(ReturnCodeEnum.EXCEPTION.msg);
+            log.error("syncAccount unknown Exception e", e);
+        }
+
+        log.info("syncAccount END resultEntity: [{}]", JsonUtils.toJSONString(resultEntity));
         return resultEntity;
     }
 

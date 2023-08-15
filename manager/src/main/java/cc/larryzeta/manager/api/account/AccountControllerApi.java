@@ -18,7 +18,7 @@ public interface AccountControllerApi {
     @RequestLine("GET /accounts")
     ResultEntity<List<TXrayAccountInfo>> getAccounts(TXrayAccountInfo xrayAccountInfo);
 
-
-//    ResultEntity<Object> syncAccount(Object o);
+    @RequestLine("GET /accounts/sync")
+    ResultEntity<String> syncAccount();
 
 }
