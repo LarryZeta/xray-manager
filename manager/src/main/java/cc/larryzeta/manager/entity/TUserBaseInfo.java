@@ -10,6 +10,7 @@ import lombok.Data;
  */
 @Data
 public class TUserBaseInfo implements Serializable {
+
     private Integer id;
 
     private String userName;

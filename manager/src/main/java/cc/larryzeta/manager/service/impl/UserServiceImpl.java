@@ -43,17 +43,22 @@ public class UserServiceImpl implements UserService {
 
         log.info("register service START registerRequest: [{}]", JsonUtils.toJSONString(registerRequest));
 
-        TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(registerRequest.getEmail());
+        TUserBaseInfo userBaseInfo = null;
+        try {
+            userBaseInfo = userBiz.getUserByEmail(registerRequest.getEmail());
+        } catch (BizException bizException) {
+            log.info("getUserByEmail BizException", bizException);
+        }
 
         if (userBaseInfo != null) {
             log.warn("The email has been registered email: [{}]", registerRequest.getEmail());
             throw new BizException(ReturnCodeEnum.EXCEPTION.code, "The email has been registered email");
-        } else if ("admin".equals(registerRequest.getUsername())) {
+        } else if ("admin".equals(registerRequest.getUserName())) {
             log.warn("Username cannot be admin.");
             throw new BizException(ReturnCodeEnum.EXCEPTION.code, "Username cannot be admin.");
         } else {
             TUserBaseInfo tUserBaseInfo = new TUserBaseInfo();
-            tUserBaseInfo.setUserName(registerRequest.getUsername());
+            tUserBaseInfo.setUserName(registerRequest.getUserName());
             tUserBaseInfo.setEmail(registerRequest.getEmail());
             tUserBaseInfo.setPasswd(registerRequest.getPassword());
             userBaseInfoDAO.saveTUserBaseInfo(tUserBaseInfo);
@@ -75,7 +80,11 @@ public class UserServiceImpl implements UserService {
 
         TUserBaseInfo userBaseInfo = userBiz.getUserByEmail(email);
 
-        accountBiz.deleteAccountByUserId(userBaseInfo.getId());
+        try {
+            accountBiz.deleteAccountByUserId(userBaseInfo.getId());
+        } catch (BizException bizException) {
+            log.info("deleteAccount bizException", bizException);
+        }
 
         userBiz.deleteUser(userBaseInfo.getId());
 
@@ -141,7 +150,7 @@ public class UserServiceImpl implements UserService {
 
         userBiz.jwtPermission(email);
 
-        if (email.equals(updatePassWordRequest.getEmail())) {
+        if (!email.equals(updatePassWordRequest.getEmail())) {
             log.error("updatePassWord service not same email");
             throw new BizException(ReturnCodeEnum.EXCEPTION.code, "not same email");
         }

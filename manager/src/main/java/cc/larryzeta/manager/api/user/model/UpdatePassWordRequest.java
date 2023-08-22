@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 public class UpdatePassWordRequest {
 
     @NotBlank
-    String username;
+    String userName;
 
     @NotBlank
     String email;

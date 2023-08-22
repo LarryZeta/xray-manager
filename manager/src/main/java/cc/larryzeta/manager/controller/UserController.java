@@ -23,9 +23,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 @Slf4j
 public class UserController implements UserControllerApi {
 
@@ -33,7 +34,6 @@ public class UserController implements UserControllerApi {
     private UserService userService;
 
     @PostMapping("/user/register")
-    @ResponseBody
     @Override
     public ResultEntity<String> register(@RequestBody @Validated RegisterRequest registerRequest) {
 
@@ -59,7 +59,6 @@ public class UserController implements UserControllerApi {
 
     @RequiresRoles("ADMIN")
     @DeleteMapping(value = "/user/{email}")
-    @ResponseBody
     @Override
     public ResultEntity<String> deleteUser(@PathVariable String email) {
 
@@ -87,7 +86,6 @@ public class UserController implements UserControllerApi {
 
     @RequiresRoles("ADMIN")
     @GetMapping(value = "/users")
-    @ResponseBody
     @Override
     public ResultEntity<List<TUserBaseInfo>> getUsers(@RequestBody @Nullable TUserBaseInfo userBaseInfo) {
 
@@ -115,9 +113,8 @@ public class UserController implements UserControllerApi {
     }
 
     @PutMapping(value = "/user/{email}")
-    @ResponseBody
     @Override
-    public ResultEntity<TUserBaseInfo> userPassword(@PathVariable String email, @RequestBody UpdatePassWordRequest updatePassWordRequest) {
+    public ResultEntity<TUserBaseInfo> userPassword(@PathVariable String email, @RequestBody @Validated UpdatePassWordRequest updatePassWordRequest) {
 
         log.info("userPassword START email: [{}] UpdatePassWordRequest: [{}]", email, JsonUtils.toJSONString(updatePassWordRequest));
 
@@ -143,7 +140,6 @@ public class UserController implements UserControllerApi {
 
 
     @GetMapping(value = "/user/{email}")
-    @ResponseBody
     @Override
     public ResultEntity<TUserBaseInfo> getUser(@PathVariable String email) {
 
