@@ -2,8 +2,8 @@ spring:
   datasource:
     driverClassName: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/xray
-    username: root
-    password: GRyj41Rb2qG4JSV3
+    username:
+    password: 
     hikari:
       autoCommit: true
       connectionTimeOut: 30000
