@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Union
 
 from fastapi import FastAPI, HTTPException, status, Header
 
@@ -17,7 +17,7 @@ def root():
 
 
 @app.post("/client/sync")
-def sync(authorization: Annotated[str | None, Header()] = None, request: Req = None):
+def sync(authorization: Annotated[Union[str, None], Header()] = None, request: Req = None):
 
     token = authorization.split(' ')[1]
     print(token)

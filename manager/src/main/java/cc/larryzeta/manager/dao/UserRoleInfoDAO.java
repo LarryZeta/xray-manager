@@ -54,4 +54,15 @@ public class UserRoleInfoDAO {
 
     }
 
+    public void save(TUserRoleInfo userRoleInfo) {
+        log.info("[save] userRoleInfo=[{}]", JsonUtils.toJSONString(userRoleInfo));
+
+        try {
+            tUserRoleInfoMapper.insertSelective(userRoleInfo);
+        } catch (Exception e) {
+            log.error("[TUserBaseInfoDao-getTUserBaseInfoByEmail] error Exception:", e);
+            throw e;
+        }
+    }
+
 }

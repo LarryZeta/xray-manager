@@ -9,6 +9,7 @@ import cc.larryzeta.manager.dao.UserRoleInfoDAO;
 import cc.larryzeta.manager.entity.TUserRoleInfo;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
+import cc.larryzeta.manager.enumeration.StatusEnum;
 import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.UserService;
 import cc.larryzeta.manager.util.JsonUtils;
@@ -24,6 +25,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final String ROLE_CODE = "USER";
+    private static final String ROLE_NAME = "用户";
 
     @Autowired
     private UserBaseInfoDAO userBaseInfoDAO;
@@ -61,7 +65,15 @@ public class UserServiceImpl implements UserService {
             tUserBaseInfo.setUserName(registerRequest.getUserName());
             tUserBaseInfo.setEmail(registerRequest.getEmail());
             tUserBaseInfo.setPasswd(registerRequest.getPassword());
+            tUserBaseInfo.setUserStatus(StatusEnum.VALID.code);
             userBaseInfoDAO.saveTUserBaseInfo(tUserBaseInfo);
+
+            TUserRoleInfo roleInfo = new TUserRoleInfo();
+            roleInfo.setUserId(tUserBaseInfo.getId());
+            roleInfo.setRoleCode(ROLE_CODE);
+            roleInfo.setRoleName(ROLE_NAME);
+            roleInfo.setRoleStatus(StatusEnum.VALID.code);
+            userRoleInfoDAO.save(roleInfo);
         }
 
         log.info("register service END");

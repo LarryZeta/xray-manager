@@ -36,11 +36,10 @@ class Service():
         client = {}
         client['id'] = id
         client['email'] = email
-        client['level'] = 1
         if 'vless' == protocol:
             client['flow'] = 'xtls-rprx-direct'
         if 'vmess' == protocol:
-            client['alterId'] = 16
+            client['alterId'] = 0
         logger.info('[service-new_client] 创建新账号 [%s] - [%s]', protocol, str(client))
         return client
 

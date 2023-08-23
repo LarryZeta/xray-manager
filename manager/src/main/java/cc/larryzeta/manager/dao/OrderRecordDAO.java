@@ -38,7 +38,7 @@ public class OrderRecordDAO {
 
         try {
 
-            if (tOrderRecord == null || tOrderRecord.getOrderId() == null) {
+            if (tOrderRecord == null || tOrderRecord.getId() == null) {
                 throw new BizException(ReturnCodeEnum.EXCEPTION.code, "updateTOrderRecord no condition");
             }
 

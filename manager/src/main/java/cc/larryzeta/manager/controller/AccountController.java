@@ -3,6 +3,7 @@ package cc.larryzeta.manager.controller;
 import cc.larryzeta.manager.api.account.AccountControllerApi;
 import cc.larryzeta.manager.api.model.ResultEntity;
 import cc.larryzeta.manager.entity.TXrayAccountInfo;
+import cc.larryzeta.manager.entity.TXrayServerInfo;
 import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
 import cc.larryzeta.manager.exception.BizException;
 import cc.larryzeta.manager.service.AccountService;
@@ -113,14 +114,15 @@ public class AccountController implements AccountControllerApi {
     @GetMapping(value = "/accounts/sync")
     @ResponseBody
     @Override
-    public ResultEntity<String> syncAccount() {
+    public ResultEntity<List<TXrayServerInfo>> syncAccount() {
 
         log.info("syncAccount START");
 
-        ResultEntity<String> resultEntity = new ResultEntity<>();
+        ResultEntity<List<TXrayServerInfo>> resultEntity = new ResultEntity<>();
 
         try {
-            xrayService.syncClient();
+            List<TXrayServerInfo> xrayServerInfoList = xrayService.syncClient();
+            resultEntity.setData(xrayServerInfoList);
         } catch (BizException bizException) {
             resultEntity.setCode(bizException.getCode());
             resultEntity.setMsg(bizException.getMsg());

@@ -9,10 +9,12 @@ import cc.larryzeta.manager.dao.XrayServerInfoDAO;
 import cc.larryzeta.manager.entity.TUserBaseInfo;
 import cc.larryzeta.manager.entity.TXrayAccountInfo;
 import cc.larryzeta.manager.entity.TXrayServerInfo;
+import cc.larryzeta.manager.enumeration.ReturnCodeEnum;
 import cc.larryzeta.manager.enumeration.StatusEnum;
 import cc.larryzeta.manager.external.FlaskApi;
 import cc.larryzeta.manager.external.model.Client;
 import cc.larryzeta.manager.service.XrayService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Slf4j
 @Service
 public class XrayServiceImpl implements XrayService {
 
@@ -36,7 +39,7 @@ public class XrayServiceImpl implements XrayService {
     private XrayBiz xrayBiz;
 
     @Override
-    public void syncClient() {
+    public List<TXrayServerInfo> syncClient() {
 
         TXrayAccountInfo query = new TXrayAccountInfo();
         query.setAccountStatus(StatusEnum.VALID.code);
@@ -58,10 +61,15 @@ public class XrayServiceImpl implements XrayService {
         List<TXrayServerInfo> xrayServerInfoList = xrayServerInfoDao.getAllXrayServerInfo();;
 
         for (TXrayServerInfo xrayServerInfo : xrayServerInfoList) {
-            if("TEST".equals(xrayServerInfo.getServerName())) {
+            try {
                 xrayBiz.syncClient(clientList, xrayServerInfo);
+                xrayServerInfo.setRemark(ReturnCodeEnum.SUCCESS.name());
+            } catch (Exception e) {
+                log.info("sync server [{}] e", xrayServerInfo.getServerName(), e);
+                xrayServerInfo.setRemark(ReturnCodeEnum.EXCEPTION.name());
             }
         }
 
+        return xrayServerInfoList;
     }
 }

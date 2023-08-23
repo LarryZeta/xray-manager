@@ -3,6 +3,7 @@ package cc.larryzeta.manager.api.account;
 import cc.larryzeta.manager.api.account.model.AddAccountRequest;
 import cc.larryzeta.manager.api.model.ResultEntity;
 import cc.larryzeta.manager.entity.TXrayAccountInfo;
+import cc.larryzeta.manager.entity.TXrayServerInfo;
 import feign.RequestLine;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public interface AccountControllerApi {
     ResultEntity<List<TXrayAccountInfo>> getAccounts(TXrayAccountInfo xrayAccountInfo);
 
     @RequestLine("GET /accounts/sync")
-    ResultEntity<String> syncAccount();
+    ResultEntity<List<TXrayServerInfo>> syncAccount();
 
 }

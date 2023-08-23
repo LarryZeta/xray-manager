@@ -47,8 +47,11 @@ public class OrderServiceImpl implements OrderService {
 
         log.info("getOrders service START orderDTO: [{}]", JsonUtils.toJSONString(orderDTO));
 
-        TOrderRecord query = new TOrderRecord();
-        BeanUtils.copyProperties(orderDTO, query);
+        TOrderRecord query = null;
+        if (orderDTO != null) {
+            query = new TOrderRecord();
+            BeanUtils.copyProperties(orderDTO, query);
+        }
 
         List<TOrderRecord> orderRecordList = orderRecordDAO.queryTOrderRecord(query);
 
@@ -110,8 +113,8 @@ public class OrderServiceImpl implements OrderService {
 
         log.info("addOrder service START orderDTO: [{}]", JsonUtils.toJSONString(orderDTO));
 
-        Integer orderDays = Integer.getInteger(orderDTO.getOrderDays());
-        Integer orderPrice = Integer.getInteger(orderDTO.getOrderPrice());
+        Integer orderDays = Integer.parseInt(orderDTO.getOrderDays());
+        Integer orderPrice = Integer.parseInt(orderDTO.getOrderPrice());
 
         String orderId = UUID.randomUUID().toString();
 

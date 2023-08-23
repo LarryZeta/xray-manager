@@ -19,7 +19,7 @@ import java.util.List;
 
 
 @Slf4j
-@Controller
+@RestController
 public class OrderController implements OrderControllerApi {
 
     @Autowired
@@ -51,7 +51,6 @@ public class OrderController implements OrderControllerApi {
     }
 
     @PostMapping("/order")
-    @ResponseBody
     @Override
     public ResultEntity<String> addOrder(@RequestBody @Validated OrderDTO orderDTO) {
 
@@ -78,7 +77,6 @@ public class OrderController implements OrderControllerApi {
 
     @RequiresRoles("ADMIN")
     @DeleteMapping("/order/{orderId}")
-    @ResponseBody
     @Override
     public ResultEntity<String> deleteOrder(@PathVariable String orderId) {
 
@@ -105,7 +103,6 @@ public class OrderController implements OrderControllerApi {
     }
 
     @GetMapping("/order/{orderId}")
-    @ResponseBody
     @Override
     public ResultEntity<OrderDTO> queryOrder(@PathVariable String orderId) {
 
@@ -132,7 +129,6 @@ public class OrderController implements OrderControllerApi {
 
 
     @RequiresRoles("ADMIN")
-    @ResponseBody
     @GetMapping("/orders")
     @Override
     public ResultEntity<List<OrderDTO>> queryOrders(@RequestBody @Nullable OrderDTO orderDTO) {
@@ -160,7 +156,6 @@ public class OrderController implements OrderControllerApi {
 
     @RequiresRoles("ADMIN")
     @PutMapping("/order/{orderId}")
-    @ResponseBody
     @Override
     public ResultEntity<String> activeOrder(@PathVariable String orderId) {
 
