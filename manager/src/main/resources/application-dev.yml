@@ -14,9 +14,6 @@ spring:
       poolName: hikari
       registerMbeans: true
 
-  thymeleaf:
-    cache: false
-
   mail:
     host:
     username:

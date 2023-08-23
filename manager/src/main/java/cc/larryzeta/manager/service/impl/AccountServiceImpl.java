@@ -76,6 +76,8 @@ public class AccountServiceImpl implements AccountService {
 
         noticeService.sentNotice(userId, "账号删除提醒", "您的账号已被删除。");
 
+        noticeService.sentNotice(userId, "账号到期提醒", "您的账号已到期\n，因系统故障未提醒\n 所以保存账号及功能到10月3日 未续期将删除，请及时续费\n" );
+
         xrayService.syncClient();
 
         log.info("deleteAccount Service END");
@@ -94,7 +96,11 @@ public class AccountServiceImpl implements AccountService {
         log.info("refreshAccounts expired xrayAccountInfoList: [{}]", JsonUtils.toJSONString(xrayAccountInfoList));
 
         for (TXrayAccountInfo xrayAccountInfo : xrayAccountInfoList) {
-            this.deleteAccount(xrayAccountInfo.getUserId());
+            try {
+                this.deleteAccount(xrayAccountInfo.getUserId());
+            } catch (Exception e) {
+                log.error("deleteAccount userId: [{}] error", xrayAccountInfo.getUserId(), e);
+            }
         }
 
         Date warnedDate = TimeUtil.getTimeAfter(accountConfig.getNoticeBeforeDays());
@@ -104,7 +110,11 @@ public class AccountServiceImpl implements AccountService {
         log.info("refreshAccounts send warn notice xrayAccountInfoList: [{}]", JsonUtils.toJSONString(xrayAccountInfoList));
 
         for (TXrayAccountInfo xrayAccountInfo : xrayAccountInfoList) {
-            noticeService.sentNotice(xrayAccountInfo.getUserId(), "账号到期提醒", "您的账号有效期已不足" + accountConfig.getNoticeBeforeDays() + "天, 到期时间： " + xrayAccountInfo.getExpireTime() + "\n 过期将删除（配置文件）。\n\n详情 https://v.larryzeta.cc/account。");
+            try {
+                noticeService.sentNotice(xrayAccountInfo.getUserId(), "账号到期提醒", "您的账号有效期已不足" + accountConfig.getNoticeBeforeDays() + "天, 到期时间： " + xrayAccountInfo.getExpireTime() + "\n 过期将删除（配置文件）。\n\n详情 https://v.larryzeta.cc/account。");
+            } catch (Exception e) {
+                log.error("noticeAccount userId: [{}] error", xrayAccountInfo.getUserId(), e);
+            }
         }
 
         log.info("refreshAccounts END");
