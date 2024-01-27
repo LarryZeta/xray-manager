@@ -187,30 +187,37 @@ public class OrderServiceImpl implements OrderService {
         }
 
         int orderDays = Integer.parseInt(orderRecord.getOrderDays());
+
+        orderRecord.setOrderStatus(StatusEnum.ACTIVATED.code);
+        TOrderRecord updateOrderRecord = new TOrderRecord();
+        updateOrderRecord.setId(orderRecord.getId());
+        updateOrderRecord.setOrderStatus(orderRecord.getOrderStatus());
+
         if (accountInfo == null) {
             accountInfo = new TXrayAccountInfo();
             accountInfo.setUuid(UUID.randomUUID().toString());
             accountInfo.setUserId(orderRecord.getUserId());
             accountInfo.setEffectiveTime(TimeUtil.getCurrentTime());
-
             Date expireTime = TimeUtil.getTimeAfter(accountInfo.getEffectiveTime(), orderDays);
             accountInfo.setExpireTime(expireTime);
             accountInfo.setAccountStatus(StatusEnum.VALID.code);
-            xrayAccountInfoDAO.saveXrayAccountInfo(accountInfo);
+            accountBiz.doActiveSave(accountInfo, updateOrderRecord);
         } else {
-            TXrayAccountInfo update = new TXrayAccountInfo();
-            Date expireTime = TimeUtil.getTimeAfter(accountInfo.getExpireTime(), orderDays);
-            update.setId(accountInfo.getId());
-            update.setExpireTime(expireTime);
-            update.setAccountStatus(StatusEnum.VALID.code);
-            xrayAccountInfoDAO.updateTXrayAccountInfo(accountInfo);
-        }
 
-        orderRecord.setOrderStatus(StatusEnum.ACTIVATED.code);
-        TOrderRecord update = new TOrderRecord();
-        update.setId(orderRecord.getId());
-        update.setOrderStatus(orderRecord.getOrderStatus());
-        orderRecordDAO.updateTOrderRecord(update);
+            TXrayAccountInfo updateXrayAccountInfo = new TXrayAccountInfo();
+
+            if (StatusEnum.VALID.code.equals(accountInfo.getAccountStatus())) {
+                Date expireTime = TimeUtil.getTimeAfter(accountInfo.getExpireTime(), orderDays);
+                updateXrayAccountInfo.setId(accountInfo.getId());
+                updateXrayAccountInfo.setExpireTime(expireTime);
+            } else {
+                accountInfo.setEffectiveTime(TimeUtil.getCurrentTime());
+                Date expireTime = TimeUtil.getTimeAfter(accountInfo.getEffectiveTime(), orderDays);
+                updateXrayAccountInfo.setId(accountInfo.getId());
+                updateXrayAccountInfo.setExpireTime(expireTime);
+            }
+            accountBiz.doActiveUpdate(updateXrayAccountInfo, updateOrderRecord);
+        }
 
         xrayService.syncClient();
 
